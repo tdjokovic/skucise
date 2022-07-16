@@ -1,3 +1,5 @@
+package com.example.skucise.repositories;
+
 import java.sql.*;
 
 public class KonekcijaDemo {
