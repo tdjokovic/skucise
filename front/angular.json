@@ -27,9 +27,24 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.css"
+              "src/styles.css",
+              "src/assets/css/aos.css",
+              "src/assets/css/bootstrap-grid.css",
+              "src/assets/css/bootstrap-reboot.css",
+              "src/assets/css/bootstrap-utilities.css",
+              "src/assets/css/bootstrap.css",
+              "src/assets/css/tiny-slider.css",
+              "src/assets/css/bootstrap/mixins/_text-truncate.css"
+
             ],
-            "scripts": []
+            "scripts": [
+              "src/assets/js/bootstrap.bundle.min.js",
+              "src/assets/js/tiny-slider.js",
+              "src/assets/js/aos.js",
+              "src/assets/js/navbar.js",
+              "src/assets/js/counter.js",
+              "src/assets/js/custom.js"
+            ]
           },
           "configurations": {
             "production": {
@@ -94,9 +109,24 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.css"
+              "src/styles.css",
+              "src/assets/css/aos.css",
+              "src/assets/css/bootstrap-grid.css",
+              "src/assets/css/bootstrap-reboot.css",
+              "src/assets/css/bootstrap-utilities.css",
+              "src/assets/css/bootstrap.css",
+              "src/assets/css/tiny-slider.css",
+              "src/assets/css/bootstrap/mixins/_text-truncate.css"
+
             ],
-            "scripts": []
+            "scripts": [
+              "src/assets/js/bootstrap.bundle.min.js",
+              "src/assets/js/tiny-slider.js",
+              "src/assets/js/aos.js",
+              "src/assets/js/navbar.js",
+              "src/assets/js/counter.js",
+              "src/assets/js/custom.js"
+            ]
           }
         }
       }
