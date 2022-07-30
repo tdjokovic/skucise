@@ -10013,7 +10013,7 @@ textarea {
     content: "";
     width: 412px;
     height: 220px;
-    background: url("/images/dots.png") no-repeat; }
+    background: url("assets/images/dots.png") no-repeat; }
 
 .social a {
   text-decoration: none;
