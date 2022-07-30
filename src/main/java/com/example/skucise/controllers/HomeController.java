@@ -11,7 +11,7 @@ public class HomeController {
     //moze valjda da pise i /home umesto samo /
     @GetMapping("/")
     public String hello(){
-        return "Hello!";
+        return "Hello Tijanino blabla!";
     }
 
     @GetMapping("/hello2")
