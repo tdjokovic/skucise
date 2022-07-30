@@ -38,12 +38,6 @@
 
             ],
             "scripts": [
-              "src/assets/js/bootstrap.bundle.min.js",
-              "src/assets/js/tiny-slider.js",
-              "src/assets/js/aos.js",
-              "src/assets/js/navbar.js",
-              "src/assets/js/counter.js",
-              "src/assets/js/custom.js"
             ]
           },
           "configurations": {
@@ -120,12 +114,6 @@
 
             ],
             "scripts": [
-              "src/assets/js/bootstrap.bundle.min.js",
-              "src/assets/js/tiny-slider.js",
-              "src/assets/js/aos.js",
-              "src/assets/js/navbar.js",
-              "src/assets/js/counter.js",
-              "src/assets/js/custom.js"
             ]
           }
         }

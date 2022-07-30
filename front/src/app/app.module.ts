@@ -18,6 +18,8 @@ import { ContactformComponent } from './contact/contactform/contactform.componen
 import { PropertiesComponent } from './properties/properties.component';
 import { PropertybgComponent } from './properties/propertybg/propertybg.component';
 import { PropertiesgridComponent } from './properties/propertiesgrid/propertiesgrid.component';
+import { PropertyComponent } from './properties/property/property.component';
+import { TestimonyComponent } from './home/testimonials/testimony/testimony.component';
 
 @NgModule({
   declarations: [
@@ -36,7 +38,9 @@ import { PropertiesgridComponent } from './properties/propertiesgrid/propertiesg
     ContactformComponent,
     PropertiesComponent,
     PropertybgComponent,
-    PropertiesgridComponent
+    PropertiesgridComponent,
+    PropertyComponent,
+    TestimonyComponent
   ],
   imports: [
     BrowserModule,
