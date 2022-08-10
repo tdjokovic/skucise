@@ -20,6 +20,7 @@ import { PropertybgComponent } from './properties/propertybg/propertybg.componen
 import { PropertiesgridComponent } from './properties/propertiesgrid/propertiesgrid.component';
 import { PropertyComponent } from './properties/property/property.component';
 import { TestimonyComponent } from './home/testimonials/testimony/testimony.component';
+import { AboutusComponent } from './aboutus/aboutus.component';
 
 @NgModule({
   declarations: [
@@ -40,7 +41,8 @@ import { TestimonyComponent } from './home/testimonials/testimony/testimony.comp
     PropertybgComponent,
     PropertiesgridComponent,
     PropertyComponent,
-    TestimonyComponent
+    TestimonyComponent,
+    AboutusComponent
   ],
   imports: [
     BrowserModule,

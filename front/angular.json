@@ -27,15 +27,7 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.css",
-              "src/assets/css/aos.css",
-              "src/assets/css/bootstrap-grid.css",
-              "src/assets/css/bootstrap-reboot.css",
-              "src/assets/css/bootstrap-utilities.css",
-              "src/assets/css/bootstrap.css",
-              "src/assets/css/tiny-slider.css",
-              "src/assets/css/bootstrap/mixins/_text-truncate.css"
-
+              "src/styles.css"
             ],
             "scripts": [
             ]
@@ -103,15 +95,7 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.css",
-              "src/assets/css/aos.css",
-              "src/assets/css/bootstrap-grid.css",
-              "src/assets/css/bootstrap-reboot.css",
-              "src/assets/css/bootstrap-utilities.css",
-              "src/assets/css/bootstrap.css",
-              "src/assets/css/tiny-slider.css",
-              "src/assets/css/bootstrap/mixins/_text-truncate.css"
-
+              "src/styles.css"
             ],
             "scripts": [
             ]
