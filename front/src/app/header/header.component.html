@@ -24,7 +24,8 @@
                     </li>
                     <li [class.active]="isActive === '/about'"><a [routerLink]="['/about']">About Us</a></li>
                     <li [class.active]="isActive === '/contactus'"><a [routerLink]="['/contactus']">Contact Us</a></li>
-
+                    
+                    <!-- deo za prijavu i odjavu korisnika! -->
                     <li><a  *ngIf="check('login')" (click)="login()">LOGIN</a></li>
                     <li><a *ngIf="check('logout')" (click)="logout()">LOGOUT</a></li>
                 </ul>
