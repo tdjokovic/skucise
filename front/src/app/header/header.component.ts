@@ -12,7 +12,9 @@ export class HeaderComponent implements OnInit {
 
    }
 
+  
   public isActive: string = "";
+   private userLoggedIn:boolean = false;
 
   ngOnInit(): void {
     this.routeChanged();
@@ -22,6 +24,26 @@ export class HeaderComponent implements OnInit {
     this.isActive = this.router.url;
   }
 
+  check(userAuthor:string){
+    if(userAuthor == 'login'){
+      //ako nije ulogovan moze da se uloguje
+      if(!this.userLoggedIn) return true;
+      else return false;
+    }
+    else if(userAuthor == 'logout'){
+      //ako je ulogovan moze da se izloguje
+      if(this.userLoggedIn)return true;
+      else return false;
+    }
+    return false;
+  }
 
+  login(){
+    this.userLoggedIn = true;
+  }
+
+  logout(){
+    this.userLoggedIn = false;
+  }
 
 }
