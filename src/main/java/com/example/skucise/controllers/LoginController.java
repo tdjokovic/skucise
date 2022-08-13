@@ -40,7 +40,7 @@ public class LoginController {
      * 5) podaci koje je korisnik uneo su ispravni, vraca se kod 200, biva mu dodeljen jwt i smesta se u HTTP header
      */
     public ResponseEntity<?> login(@RequestHeader(JWT_CUSTOM_HTTP_HEADER) String jwt, @Valid @RequestBody LoginCredentials loginCredentials){
-        HttpStatus httpStatus =checkAccess(jwt, Role.VISITOR ).getHttpStatus()l;
+        HttpStatus httpStatus =checkAccess(jwt, Role.VISITOR ).getHttpStatus();
 
         HttpHeaders responseHeaders = new HttpHeaders();
         responseHeaders.set(JWT_CUSTOM_HTTP_HEADER, jwt);
