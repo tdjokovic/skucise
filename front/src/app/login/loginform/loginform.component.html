@@ -33,27 +33,32 @@
 
                 </div>
             </div>
+
             <div class="col-lg-8">
-                <form action="#">
+                <form>
                     <div class="row">
                         <div class="col-6 mb-3">
-                            <input type="text" class="form-control" placeholder="Your Name">
+                            <input [(ngModel)]="email" name="email" type="email" id="formEmail" class="form-control" placeholder="Enter your email address">
+                            <p *ngIf="wrongCredentials" class="small fw-bold mt-2 pt-1 mb-0 text-danger">The mail you've entered is not accurate!!</p>
+                            <br>
+                            <input [(ngModel)]="password" name="password" type="password" id="formPassword" class="form-control" placeholder="Enter your password">
+                            <p *ngIf="accessNotApproved" class="small fw-bold mt-2 pt-1 mb-0 text-danger">Your registration is still not approved.</p>
                         </div>
+
                         <div class="col-6 mb-3">
-                            <input type="email" class="form-control" placeholder="Your Email">
-                        </div>
-                        <div class="col-12 mb-3">
-                            <input type="text" class="form-control" placeholder="Subject">
-                        </div>
-                        <div class="col-12 mb-3">
-                            <textarea name="" id="" cols="30" rows="7" class="form-control" placeholder="Message"></textarea>
+                            Neki tekst
                         </div>
 
                         <div class="col-12">
-                            <input type="submit" value="Send Message" class="btn btn-primary">
+                            <input type="button" value="Login" (click)="onSubmit()" class="btn btn-primary">
                         </div>
+
                     </div>
                 </form>
+
+                <br>
+
+                <p>You don't have a profile? <a href="/" class="link-danger">REGISTER NOW!</a></p>
             </div>
         </div>
     </div>
