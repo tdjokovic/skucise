@@ -21,6 +21,8 @@ import { PropertiesgridComponent } from './properties/propertiesgrid/propertiesg
 import { PropertyComponent } from './properties/property/property.component';
 import { TestimonyComponent } from './home/testimonials/testimony/testimony.component';
 import { AboutusComponent } from './aboutus/aboutus.component';
+import { LoginComponent } from './login/login.component';
+import { LoginformComponent } from './login/loginform/loginform.component';
 
 @NgModule({
   declarations: [
@@ -42,7 +44,9 @@ import { AboutusComponent } from './aboutus/aboutus.component';
     PropertiesgridComponent,
     PropertyComponent,
     TestimonyComponent,
-    AboutusComponent
+    AboutusComponent,
+    LoginComponent,
+    LoginformComponent
   ],
   imports: [
     BrowserModule,

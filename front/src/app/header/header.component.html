@@ -26,8 +26,8 @@
                     <li [class.active]="isActive === '/contactus'"><a [routerLink]="['/contactus']">Contact Us</a></li>
                     
                     <!-- deo za prijavu i odjavu korisnika! -->
-                    <li><a  *ngIf="check('login')" (click)="login()">LOGIN</a></li>
-                    <li><a *ngIf="check('logout')" (click)="logout()">LOGOUT</a></li>
+                    <li><a  *ngIf="isVisitor()" [routerLink] = "['/login']">LOGIN</a></li>
+                    <li><a *ngIf="!isVisitor()">LOGOUT</a></li>
                 </ul>
 
                 <a href="#" class="burger light me-auto float-end mt-1 site-menu-toggle js-menu-toggle d-inline-block d-lg-none" data-toggle="collapse" data-target="#main-navbar">
