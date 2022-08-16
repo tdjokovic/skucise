@@ -70,3 +70,7 @@ export class LoginformComponent implements OnInit {
 //mika@gmail.com
 //mikamikic
 //62b2bfe5969be53b8cff215c0b9fd2a226fe676185239c35f3cdbf04866c4db273a5d00e5ba0505cedb285bd28bd48041d5d519f8daaa5aaecf63d3d08db4b1e
+
+//pera@gmail.com
+//peraperic
+//6deba4ff5e1fc7285faa0c01433fec7574f854cc7878df6220f3565bc105da2013bffe5b6df608cdabadbab8eaa98f63857dcd774839ee6ae8132597c2788cd2

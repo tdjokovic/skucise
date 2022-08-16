@@ -28,6 +28,7 @@ import { LoginComponent } from './login/login.component';
 import { LoginformComponent } from './login/loginform/loginform.component';
 import { AlertComponent } from './_pages/alert/alert.component';
 import { SessionexpiredComponent } from './_pages/sessionexpired/sessionexpired.component';
+import { LogoutComponent } from './_pages/logout/logout.component';
 
 @NgModule({
   declarations: [
@@ -53,7 +54,8 @@ import { SessionexpiredComponent } from './_pages/sessionexpired/sessionexpired.
     LoginComponent,
     LoginformComponent,
     AlertComponent,
-    SessionexpiredComponent
+    SessionexpiredComponent,
+    LogoutComponent
   ],
   imports: [
     BrowserModule,
