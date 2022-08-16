@@ -50,6 +50,7 @@ public class SecurityConfiguration implements ApplicationContextAware {
         Role role;
 
         try{
+            LOGGER.warn("TRYING TO CHECK ACCESS...");
             //proveravamo da li korisnik ima autentifikaciju
             if (jwt == null || jwt == ""){
                 role = Role.VISITOR;
@@ -74,7 +75,7 @@ public class SecurityConfiguration implements ApplicationContextAware {
                     role = Role.valueOf(roleString.toUpperCase());
                     LOGGER.info("Role inside JWT is {}", role);
                 }catch (IllegalArgumentException | NullPointerException e){
-                    LOGGER.error("Errow while trying to read role from token!");
+                    LOGGER.error("Error while trying to read role from token!");
                     throw e;
                 }
 
@@ -90,12 +91,14 @@ public class SecurityConfiguration implements ApplicationContextAware {
                 int user_id = -1;
                 try {
                     user_id = (int)(double)user_idClaim;
-                    LOGGER.info("Found User_id inside token is {]",user_id);
+                    LOGGER.info("Found User_id inside token is {}",user_id);
                 }
                 catch (IllegalArgumentException | NullPointerException e){
                     LOGGER.error("Error while trying to get User_id from token!");
                     throw e;
                 }
+
+                LOGGER.info("EVERYTHINGS RIGHT");
 
                 //sada kada smo nabavili sve sto nam je potrebno, trazimo tog korisnika!
                 UserRepository userRepository = applicationContext.getBean(UserRepository.class);
@@ -104,7 +107,7 @@ public class SecurityConfiguration implements ApplicationContextAware {
 
                 //sada proveravamo da li je pronadjen korisnik sa tim id-jem
                 if(user == null){
-                    throw new UserNotFoundException("User with id "+ user_id +" is not found!!!");
+                    //throw new UserNotFoundException("User with id "+ user_id +" is not found!!!"); // da li je ovo potrebno tj da li treba da se implementira getUser gore?
                 }
 
                 resultPair.setClaims(claims);
@@ -120,10 +123,12 @@ public class SecurityConfiguration implements ApplicationContextAware {
         }
         catch (MalformedJsonException | MalformedJwtException | JsonSyntaxException | IllegalArgumentException | UnsupportedJwtException e){
             LOGGER.warn("Error while parsing JWT!");
+            e.printStackTrace();
             resultPair.setHttpStatus(HttpStatus.BAD_REQUEST);
         }
         catch (Exception e){
             LOGGER.error("SOMETHING IS WRONG!");
+            e.printStackTrace();
             resultPair.setHttpStatus(HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
@@ -176,12 +181,15 @@ public class SecurityConfiguration implements ApplicationContextAware {
      * JsonSyntaxException - JWT nije kako treba
      */
     public static Claims decodeJWT(String jwt) throws MalformedJwtException,MalformedJsonException, ExpiredJwtException,JsonSyntaxException {
-        return Jwts.parserBuilder()
+        LOGGER.warn("PARSING JWT...");
+        Claims cl = Jwts.parserBuilder()
                 .setSigningKey(DatatypeConverter
-                .parseBase64Binary(SECRET_KEY))
+                        .parseBase64Binary(SECRET_KEY))
                 .build()
-                .parseClaimsJwt(jwt)
+                .parseClaimsJws(jwt)
                 .getBody();
+        LOGGER.warn("JWT parsed");
+        return cl;
     }
 
     @Override
