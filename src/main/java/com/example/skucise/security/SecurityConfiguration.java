@@ -143,18 +143,27 @@ public class SecurityConfiguration implements ApplicationContextAware {
      * HS256 se koristi za sifrovanje jwt-a, a parseBase64Binary za header i payload
      * */
     public static String createJWT(int user_id, String issuer, long timeToLiveMilliseconds, String role){
+        LOGGER.info("Kreiranje JWT-a pocinje");
         SignatureAlgorithm signatureAlgorithm = SignatureAlgorithm.HS256;
 
+        LOGGER.info("Kreiran signature");
         byte[] apiKeySecretBytes = DatatypeConverter.parseBase64Binary(SECRET_KEY);
+        LOGGER.info("Kreiran api Key");
+
         Key signingKey = new SecretKeySpec(apiKeySecretBytes, signatureAlgorithm.getJcaName());
+        LOGGER.info("Kreiran signing key");
 
         JwtBuilder builder = Jwts.builder().claim(USER_ID_CLAIM_NAME, user_id)
                         .claim(ROLE_CLAIM_NAME, role)
                         .setExpiration(new Date(System.currentTimeMillis() + timeToLiveMilliseconds))
                         .setIssuer(issuer)
                         .signWith(signingKey, signatureAlgorithm);
+        LOGGER.info("Kreiran builder");
 
-        return builder.compact();
+        String createdJwt = builder.compact();
+        LOGGER.info("Izbildovan JWT");
+
+        return createdJwt;
     }
 
     /**
