@@ -1,5 +1,8 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { FormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
+import { RouterModule } from '@angular/router';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -21,6 +24,11 @@ import { PropertiesgridComponent } from './properties/propertiesgrid/propertiesg
 import { PropertyComponent } from './properties/property/property.component';
 import { TestimonyComponent } from './home/testimonials/testimony/testimony.component';
 import { AboutusComponent } from './aboutus/aboutus.component';
+import { LoginComponent } from './login/login.component';
+import { LoginformComponent } from './login/loginform/loginform.component';
+import { AlertComponent } from './_pages/alert/alert.component';
+import { SessionexpiredComponent } from './_pages/sessionexpired/sessionexpired.component';
+import { LogoutComponent } from './_pages/logout/logout.component';
 
 @NgModule({
   declarations: [
@@ -42,11 +50,19 @@ import { AboutusComponent } from './aboutus/aboutus.component';
     PropertiesgridComponent,
     PropertyComponent,
     TestimonyComponent,
-    AboutusComponent
+    AboutusComponent,
+    LoginComponent,
+    LoginformComponent,
+    AlertComponent,
+    SessionexpiredComponent,
+    LogoutComponent
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    FormsModule,
+    RouterModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]

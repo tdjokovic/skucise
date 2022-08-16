@@ -1,4 +1,6 @@
 package com.example.skucise.repositories.interfaces;
 
-public interface IUserRepository {
+import com.example.skucise.models.User;
+
+public interface IUserRepository extends CRUDRepository<User, Integer> {
 }
