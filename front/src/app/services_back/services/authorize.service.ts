@@ -47,11 +47,14 @@ export class AuthorizeService {
         //proveravamo da li je tom korisniku dozvoljen pristup
         if (allowed){
           //jeste
+          console.log("Succcess while loading page, user access granted");
           if(self && callbackSuccess) callbackSuccess(self);
         }
         else{
           //nije
-          if(self && callbackForbidden) callbackForbidden(self); //nije mu dozvoljen pristup
+          console.log("Not Succcess, user access not granted");
+          if(self && callbackForbidden) 
+            callbackForbidden(self); //nije mu dozvoljen pristup
           else{
             this.router.navigate([this.redirectRoute]);
           }

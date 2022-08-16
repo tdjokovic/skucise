@@ -29,16 +29,19 @@ export class LoginService {
 
     console.log("Kredencijali nakon hesiranja:\n "+body);
 
-
+    
     this.api.login(body).subscribe(
       //ako je login uspesan
+      
       (response: HttpResponse<null>) => {
+        //alert("odgovor od apija za login uspesan");
         JWTUtil.store(response.headers.get(JWT_HEADER_NAME));
         if(self && callbackSuccess) callbackSuccess(self);
       },
 
       //ako je doslo do neke greske
       (error: HttpErrorResponse) => {
+        //alert("odgovor od apija za login pogresan");
         this.authorizationService.redirectIfSessionExpired(error.status);
 
         switch(error.status){

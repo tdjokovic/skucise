@@ -14,10 +14,14 @@ export class LoginApiService {
   private url:string = apiProperties.url + '/api/login';
 
 
+
   constructor(private http:HttpClient) { }
 
   login(body:Credentials) : Observable<HttpResponse<null>>
   {
+    console.log("Trying to log in...");
+    //alert("Post metoda");
+    //alert(this.url);
     let response = this.http.post<null>(
       this.url,
       body,

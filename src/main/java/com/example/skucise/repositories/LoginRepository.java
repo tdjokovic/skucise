@@ -18,7 +18,7 @@ public class LoginRepository implements ILoginRepository {
     private static final Logger LOGGER = LoggerFactory.getLogger(LoginRepository.class);
     private static final String LOGIN_STORED_PROCEDURE_CALL = "{call check_credentials(?,?,?,?,?,?)}";
 
-    @Value("jdbc:mariadb://localhost:3306/skucise")
+    @Value("jdbc:mariadb://localhost:3307/skucise")
     private String databaseSourceUrl;
 
     @Value("root")
@@ -32,24 +32,27 @@ public class LoginRepository implements ILoginRepository {
     @Override
     public LoginResponse checkCredentials(LoginCredentials loginCredentials) {
         LoginResponse loginResponse = null;
+        LOGGER.info("Now trying to find the user...");
 
         try(Connection connection = DriverManager.getConnection(databaseSourceUrl,databaseUsername,databasePassword);
                 CallableStatement stmt = connection.prepareCall(LOGIN_STORED_PROCEDURE_CALL)){
 
-            stmt.setString("email",loginCredentials.getEmail());
-            stmt.setString("hashed_password",loginCredentials.getHashedPassword());
+            stmt.setString("email_in",loginCredentials.getEmail());
+            stmt.setString("hashed_password_in",loginCredentials.getHashedPassword());
 
-            stmt.registerOutParameter("user_id", Types.INTEGER);
-            stmt.registerOutParameter("valid_creds",Types.BOOLEAN);
-            stmt.registerOutParameter("approved",Types.BOOLEAN);
-            stmt.registerOutParameter("role",Types.VARCHAR);
+            stmt.registerOutParameter("uid", Types.INTEGER);
+            stmt.registerOutParameter("valid_cr",Types.BOOLEAN);
+            stmt.registerOutParameter("app",Types.BOOLEAN);
+            stmt.registerOutParameter("rl",Types.VARCHAR);
 
             stmt.executeUpdate();
 
-            loginResponse = new LoginResponse(stmt.getInt("user_id")
-                        ,stmt.getBoolean("valid_creds")
-                        ,stmt.getBoolean("approved")
-                        ,stmt.getString("role"));
+            LOGGER.info("Now finding who the user is...");
+            LOGGER.info("The user we found has uid {}",stmt.getInt("uid"));
+            loginResponse = new LoginResponse(stmt.getInt("uid")
+                        ,stmt.getBoolean("valid_cr")
+                        ,stmt.getBoolean("app")
+                        ,stmt.getString("rl"));
         }catch (SQLException e){
             LOGGER.error("Error while communicating with database");
             e.printStackTrace();

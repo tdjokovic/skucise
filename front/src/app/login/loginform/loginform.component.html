@@ -42,6 +42,7 @@
                             <p *ngIf="wrongCredentials" class="small fw-bold mt-2 pt-1 mb-0 text-danger">The mail you've entered is not accurate!!</p>
                             <br>
                             <input [(ngModel)]="password" name="password" type="password" id="formPassword" class="form-control" placeholder="Enter your password">
+                            <p *ngIf="passwordNotEntered" class="small fw-bold mt-2 pt-1 mb-0 text-danger">Your must enter the password!</p>
                             <p *ngIf="accessNotApproved" class="small fw-bold mt-2 pt-1 mb-0 text-danger">Your registration is still not approved.</p>
                         </div>
 

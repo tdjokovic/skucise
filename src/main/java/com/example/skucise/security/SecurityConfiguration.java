@@ -17,10 +17,8 @@ import com.google.gson.stream.MalformedJsonException;
 
 import javax.crypto.spec.SecretKeySpec;
 import javax.xml.bind.DatatypeConverter;
-import javax.xml.datatype.DatatypeFactory;
 import java.security.Key;
 import java.util.Date;
-import java.util.Locale;
 
 @Component
 public class SecurityConfiguration implements ApplicationContextAware {

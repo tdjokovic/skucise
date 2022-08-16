@@ -26,6 +26,8 @@ import { TestimonyComponent } from './home/testimonials/testimony/testimony.comp
 import { AboutusComponent } from './aboutus/aboutus.component';
 import { LoginComponent } from './login/login.component';
 import { LoginformComponent } from './login/loginform/loginform.component';
+import { AlertComponent } from './_pages/alert/alert.component';
+import { SessionexpiredComponent } from './_pages/sessionexpired/sessionexpired.component';
 
 @NgModule({
   declarations: [
@@ -49,7 +51,9 @@ import { LoginformComponent } from './login/loginform/loginform.component';
     TestimonyComponent,
     AboutusComponent,
     LoginComponent,
-    LoginformComponent
+    LoginformComponent,
+    AlertComponent,
+    SessionexpiredComponent
   ],
   imports: [
     BrowserModule,
