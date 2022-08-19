@@ -15,6 +15,8 @@ public class LoginCredentials {
     @Pattern(regexp = "^[0-9a-f]{128}$")
     private String hashedPassword;
 
+    public LoginCredentials(){}
+
     public LoginCredentials(String email, String hashedPassword) {
         this.email = email;
         this.hashedPassword = hashedPassword;

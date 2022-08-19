@@ -16,6 +16,7 @@ export class LoginformComponent implements OnInit {
 
   public wrongCredentials: boolean = false;
   public accessNotApproved: boolean = false;
+  public wrongMail : boolean = false;
   public passwordNotEntered: boolean = false;
   
   ngOnInit(): void {
@@ -26,6 +27,7 @@ export class LoginformComponent implements OnInit {
     this.accessNotApproved = false;
     this.wrongCredentials = false;
     this.passwordNotEntered = false;
+    this.wrongMail = false;
 
     if(this.emailPattern.test(this.email)){
       //email koji je unet ima dobar pattern
@@ -40,7 +42,7 @@ export class LoginformComponent implements OnInit {
     }
     else{
       //nisu dobri kredencijali tj email
-      this.wrongCredentials = true;
+      this.wrongMail = true;
     }
   }
 
@@ -48,6 +50,7 @@ export class LoginformComponent implements OnInit {
   callbackSuccess(self:any){
     self.wrongCredentials=false;
     self.accessNotApproved = false;
+    self.wrongMail = false;
     self.passwordNotEntered = false;
     self.router.navigate(['']);  
   }
