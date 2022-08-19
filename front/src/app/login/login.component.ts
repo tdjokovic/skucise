@@ -20,7 +20,7 @@ export class LoginComponent implements OnInit {
   checkIsUserAuthorized(){
     this.authorizationService.checkAccess(this.activatedRoute, this, 
       (self: any) =>{
-        self.pageLoaded = true;
+        self. pageLoaded = true;
       }
     )
   }
