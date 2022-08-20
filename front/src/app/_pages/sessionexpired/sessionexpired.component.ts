@@ -10,6 +10,7 @@ export class SessionexpiredComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
+    alert("session expired page");
   }
 
 }
