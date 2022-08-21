@@ -16,14 +16,15 @@
                 <ul class="js-clone-nav d-none d-lg-inline-block text-start site-menu float-end">
                     <li [class.active]="isActive === '/home' || isActive === '/'"><a [routerLink]="['/home']">Home</a></li>
                     <li [class.active]="isActive === '/properties'" class="has-children">
-                        <a [routerLink]="['/properties']">Properties</a>
+                        <a [routerLink]="['/properties']">Nekretnine</a>
+                        <!--ovo ne treba da bude hardcoded... takodje namestiti da radi,  tj da vodi na stranice odgovarajuce-->
                         <ul class="dropdown">
-                            <li><a href="#">Buy Property</a></li>
-                            <li><a href="#">Sell Property</a></li>
+                            <li><a href="#">Prodaja</a></li>
+                            <li><a href="#">Izdavanje</a></li>
                         </ul>
                     </li>
-                    <li [class.active]="isActive === '/about'"><a [routerLink]="['/about']">About Us</a></li>
-                    <li [class.active]="isActive === '/contactus'"><a [routerLink]="['/contactus']">Contact Us</a></li>
+                    <li [class.active]="isActive === '/about'"><a [routerLink]="['/about']">O nama</a></li>
+                    <li [class.active]="isActive === '/contactus'"><a [routerLink]="['/contactus']">Kontakt</a></li>
                     
                     <!-- deo za prijavu i odjavu korisnika! -->
                     <li><a  *ngIf="isVisitor()" [routerLink] = "['/login']">LOGIN</a></li>
