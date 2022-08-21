@@ -1,7 +1,6 @@
 package com.example.skucise.repositories;
 
-import com.example.skucise.models.BuyerUser;
-import com.example.skucise.models.Property;
+import com.example.skucise.models.*;
 import com.example.skucise.repositories.interfaces.IBuyerRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -9,6 +8,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
 
 import java.sql.*;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -86,12 +86,75 @@ public class BuyerRepository implements IBuyerRepository {
 
     @Override
     public boolean create(BuyerUser buyerUser) {
-        return false;
+        boolean successfullyCreatedUser = false;
+
+        try(Connection conn = DriverManager.getConnection(databaseSourceUrl,databaseUsername,databasePassword);
+        CallableStatement stmt = conn.prepareCall(REGISTER_BUYER_PROCEDURE_CALL)){
+
+            stmt.setString("p_email",buyerUser.getEmail());
+            stmt.setString("p_hashed_password",buyerUser.getHashedPassword());
+            stmt.setString("p_first_name",buyerUser.getFirstName());
+            stmt.setString("p_last_name",buyerUser.getLastName());
+            stmt.setString("p_picture",buyerUser.getPicture());
+            stmt.setString("p_phone_number",buyerUser.getPhoneNumber());
+
+            stmt.registerOutParameter("p_is_added", Types.BOOLEAN);
+            stmt.registerOutParameter("p_already_exists", Types.BOOLEAN);
+
+            stmt.execute();
+
+            successfullyCreatedUser = stmt.getBoolean("p_is_added");
+            boolean alreadyExists = stmt.getBoolean("p_already_exists");
+
+            if(!successfullyCreatedUser && !alreadyExists){
+                throw new Exception("Creating buyerUser failed!");
+            }
+
+
+        }catch (Exception e){
+            LOGGER.error("Error while trying to communicate with the database - create");
+            LOGGER.error("{}",e.getMessage());
+            e.printStackTrace();
+        }
+
+        return successfullyCreatedUser;
     }
 
     @Override
-    public BuyerUser get(Integer integer) {
-        return null;
+    public BuyerUser get(Integer id) {
+        BuyerUser buyerUser = null;
+
+        try(Connection conn = DriverManager.getConnection(databaseSourceUrl,databaseUsername,databasePassword);
+            CallableStatement stmtApproved = conn.prepareCall(APPROVE_STORED_PROCEDURE);
+            CallableStatement stmtBuyer = conn.prepareCall(GET_BUYER_STORED_PROCEDURE)){
+
+            //immamo dve procedure
+            ResultSet resultSet;
+            boolean approved;
+
+            stmtApproved.setInt("p_id",id);
+            resultSet = stmtApproved.executeQuery();
+
+            if(resultSet.first()){
+                //uspesno odradjena procedura
+                approved = resultSet.getBoolean("approved");
+
+                if(approved){
+                    //samo tada se prikazuje
+                    stmtBuyer.setInt("p_id",id);
+                    resultSet = stmtBuyer.executeQuery();
+
+                    resultSet.first();
+                    buyerUser = createNewBuyer(resultSet);
+                }
+            }
+
+        }catch (SQLException e){
+            LOGGER.error("Error while trying to communicate with the database - get");
+            e.printStackTrace();
+        }
+
+        return  buyerUser;
     }
 
     @Override
@@ -100,19 +163,159 @@ public class BuyerRepository implements IBuyerRepository {
     }
 
     @Override
-    public boolean delete(Integer integer) {
-        return false;
+    public boolean delete(Integer id) {
+
+        boolean deletedSuccess  = false;
+
+        try(Connection conn = DriverManager.getConnection(databaseSourceUrl, databaseUsername, databasePassword);
+        CallableStatement stmt = conn.prepareCall(DELETE_STORED_PROCEDURE)){
+
+            stmt.setInt("p_id", id);
+            stmt.registerOutParameter("p_deleted_successfully", Types.BOOLEAN);
+
+            stmt.executeUpdate();
+
+            deletedSuccess = stmt.getBoolean("p_deleted_successfully");
+
+        }
+        catch (SQLException e){
+            LOGGER.error("Error while trying to communicate with the database - delete");
+            e.printStackTrace();
+        }
+
+        return deletedSuccess;
+
     }
-
-
 
     @Override
     public boolean approve(int id) {
-        return false;
+
+        boolean approvalSuccess = false;
+
+        try(Connection conn = DriverManager.getConnection(databaseSourceUrl, databaseUsername, databasePassword);
+            CallableStatement stmt = conn.prepareCall(APPROVE_STORED_PROCEDURE)){
+
+            stmt.setInt("p_id",id);
+            stmt.registerOutParameter("p_approved_successfully", Types.BOOLEAN);
+
+            stmt.executeUpdate();
+
+            approvalSuccess = stmt.getBoolean("p_approved_successfully");
+
+
+        }catch(SQLException e){
+            LOGGER.error("Error while trying to communicate with the database - approve");
+            e.printStackTrace();
+        }
+
+        return approvalSuccess;
+
     }
 
     @Override
     public List<Property> getAppliedProperties(int id) {
-        return null;
+
+        List<Property> properties = null;
+
+        try(Connection conn = DriverManager.getConnection(databaseSourceUrl, databaseUsername, databasePassword);
+        CallableStatement stmt = conn.prepareCall(PROPERTIES_BUYER_APPLIED_STORED_PROCEDURE);
+        CallableStatement stmtTag = conn.prepareCall(TAG_STORED_PROCEDURE)){
+
+            stmt.setInt("p_id", id);
+            ResultSet resultSet = stmt.executeQuery();
+
+            if(resultSet.first()){
+                properties = new ArrayList<>();
+
+                resultSet.beforeFirst();
+                while(resultSet.next()){
+                    Property property;
+                    property = setProperty(resultSet, stmtTag);
+
+                    properties.add(property);
+                }
+            }
+        }catch (SQLException e){
+            LOGGER.error("Error while trying to communicate with the database - getAppliedProperties");
+            e.printStackTrace();
+        }
+
+        return properties;
+    }
+
+    public boolean isApplied(int sellerId, int buyerId){
+        boolean isApplied = false;
+
+        try(Connection conn = DriverManager.getConnection(databaseSourceUrl, databaseUsername, databasePassword);
+        CallableStatement stmt = conn.prepareCall(APPLICATION_STORED_PROCEDURE)){
+
+            stmt.setInt("p_seller_id", sellerId);
+            stmt.setInt("p_buyer_id", buyerId);
+
+            ResultSet resultSet = stmt.executeQuery();
+
+            resultSet.first();
+            //ako je broj pronadjenih poslova veci od nule
+            if(resultSet.getInt("count") != 0){
+                isApplied = true;
+            }
+
+        }catch(SQLException e){
+            LOGGER.error("Error while trying to communicate with the database - isApplied");
+            e.printStackTrace();
+        }
+
+        return isApplied;
+    }
+
+    public Property setProperty(ResultSet resultSet,  CallableStatement stmt) throws SQLException{
+        Property property = new Property();
+
+        SellerUser seller = new SellerUser();
+        seller.setId(resultSet.getInt("seller_id"));
+        seller.setFirstName(resultSet.getString("seller_first_name"));
+        seller.setLastName(resultSet.getString("seller_last_name"));
+        seller.setTin(resultSet.getString("tin"));
+        seller.setPicture(resultSet.getString("picture"));
+        seller.setPhoneNumber(resultSet.getString("phone_number"));
+        seller.setEmail(resultSet.getString("email"));
+
+        City city = new City();
+        city.setId(resultSet.getInt("c_id"));
+        city.setName(resultSet.getString("c_name"));
+
+        AdCategory adCategory = new AdCategory();
+        adCategory.setId(resultSet.getInt("ad_id"));
+        adCategory.setName(resultSet.getString("ad_name"));
+
+        Type type = new Type();
+        type.setId(resultSet.getInt("t_id"));
+        type.setName(resultSet.getString("t_name"));
+
+        property.setId(resultSet.getInt("id"));
+        property.setDescription(resultSet.getString("description"));
+        property.setPostingDate(resultSet.getObject("post_date", LocalDateTime.class));
+        property.setPrice(resultSet.getString("price"));
+        property.setArea(resultSet.getString("area"));
+        property.setNewConstruction(resultSet.getBoolean("new_construction"));
+        property.setAdCategory(adCategory);
+        property.setCity(city);
+        property.setType(type);
+        property.setSellerUser(seller);
+
+        /*
+        stmt.setInt("p_prop_id",property.getId());
+        ResultSet rsTag = stmt.executeQuery();
+        if(rsTag != null){
+            //ima tagova za property
+            rsTag.beforeFirst();
+            //Tag tag;
+            while (rsTag.next()){
+                //ovo za tagove jos uvek ne!
+            }
+        }
+        */
+
+        return property;
     }
 }
