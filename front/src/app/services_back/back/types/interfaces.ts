@@ -94,3 +94,27 @@ export interface Likes{
     totalLikes:number;
     liked:boolean; //ako je lajkovano da ne moze opet
 }
+
+export interface Rating{
+    id:number;
+    name:string;
+}
+
+export interface NewSeller{
+    firstName:String;
+    lastName:string;
+    email:string;
+    hashedPassword:string;
+    picture:string;
+    phoneNumber:string;
+    tin:string;
+}
+
+export interface NewBuyer{
+    firstName:String;
+    lastName:string;
+    email:string;
+    hashedPassword:string;
+    picture:string;
+    phoneNumber:string;
+}
