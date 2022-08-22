@@ -16,18 +16,22 @@
                 <ul class="js-clone-nav d-none d-lg-inline-block text-start site-menu float-end">
                     <li [class.active]="isActive === '/home' || isActive === '/'"><a [routerLink]="['/home']">Home</a></li>
                     <li [class.active]="isActive === '/properties'" class="has-children">
-                        <a [routerLink]="['/properties']">Properties</a>
+                        <a [routerLink]="['/properties']">Nekretnine</a>
+                        <!--ovo ne treba da bude hardcoded... takodje namestiti da radi,  tj da vodi na stranice odgovarajuce-->
                         <ul class="dropdown">
-                            <li><a href="#">Buy Property</a></li>
-                            <li><a href="#">Sell Property</a></li>
+                            <li><a href="#">Prodaja</a></li>
+                            <li><a href="#">Izdavanje</a></li>
                         </ul>
                     </li>
-                    <li [class.active]="isActive === '/about'"><a [routerLink]="['/about']">About Us</a></li>
-                    <li [class.active]="isActive === '/contactus'"><a [routerLink]="['/contactus']">Contact Us</a></li>
-                    
+                    <li *ngIf="isVisitor()" [class.active]="isActive === '/about'"><a [routerLink]="['/about']">O nama</a></li>
+                    <li [class.active]="isActive === '/contactus'"><a [routerLink]="['/contactus']">Kontakt</a></li>
+                    <li *ngIf="isSeller()"><a [routerLink]="['/']">My_props</a></li>
+                    <li *ngIf="isBuyer()"><a [routerLink]="['/']">Props</a></li>
+                    <li *ngIf="isAdmin()"><a [routerLink]="['/']">Dashboard</a></li>
+
                     <!-- deo za prijavu i odjavu korisnika! -->
-                    <li><a  *ngIf="isVisitor()" [routerLink] = "['/login']">LOGIN</a></li>
-                    <li><a *ngIf="!isVisitor()" [routerLink]="['logout']">LOGOUT</a></li>
+                    <li [class.active]="isActive === '/login'"><a *ngIf="isVisitor()" [routerLink] = "['/login']">Prijava</a></li>
+                    <li><a *ngIf="!isVisitor()" [routerLink]="['/logout']">Odjavi se</a></li>
                 </ul>
 
                 <a href="#" class="burger light me-auto float-end mt-1 site-menu-toggle js-menu-toggle d-inline-block d-lg-none" data-toggle="collapse" data-target="#main-navbar">

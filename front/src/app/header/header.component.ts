@@ -27,4 +27,15 @@ export class HeaderComponent implements OnInit {
     return JWTUtil.getUserRole() == UserRoles.Visitor;
   }
 
+  isBuyer():boolean{
+    return JWTUtil.getUserRole() == UserRoles.Reg_buyer;
+  }
+
+  isSeller():boolean{
+    return JWTUtil.getUserRole() == UserRoles.Reg_seller;
+  }
+
+  isAdmin(): boolean{
+    return JWTUtil.getUserRole() == UserRoles.Admin;
+  }
 }

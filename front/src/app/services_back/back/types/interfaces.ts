@@ -43,18 +43,19 @@ export interface Property{
 
 export interface Seller{
     id:number;
-    name:string;
+    firstName:string;
+    lastName:string;
     email:string;
     hashedPassword:string;
     picture:string | null; //slika u Base64
-    address:string;
     phoneNumber:string;
-
+    tin:string;
 }
 
 export interface Buyer{
     id:number;
-    name:string;
+    firstName:string;
+    lastName:string;
     email:string;
     hashedPassword:string;
     picture:string | null; //slika u Base64
@@ -93,4 +94,28 @@ export interface PropertyComment{
 export interface Likes{
     totalLikes:number;
     liked:boolean; //ako je lajkovano da ne moze opet
+}
+
+export interface Rating{
+    id:number;
+    name:string;
+}
+
+export interface NewSeller{
+    firstName:String;
+    lastName:string;
+    email:string;
+    hashedPassword:string;
+    picture:string | null;
+    phoneNumber:string;
+    tin:string;
+}
+
+export interface NewBuyer{
+    firstName:String;
+    lastName:string;
+    email:string;
+    hashedPassword:string;
+    picture:string | null;
+    phoneNumber:string;
 }

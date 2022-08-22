@@ -11,6 +11,8 @@ import { AuthorizeService } from 'src/app/services_back/services/authorize.servi
 })
 export class LogoutComponent implements OnInit {
 
+  public pageLoaded :boolean = false;
+  
   constructor(private authorizationService : AuthorizeService, private activatedRoute : ActivatedRoute, private router : Router) { }
 
   ngOnInit(): void {

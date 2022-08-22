@@ -1,28 +1,29 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { AuthorizeService } from '../services_back/services/authorize.service';
+import { AuthorizeService } from 'src/app/services_back/services/authorize.service';
 
 @Component({
-  selector: 'app-contact',
-  templateUrl: './contact.component.html',
-  styleUrls: ['./contact.component.css']
+  selector: 'app-register',
+  templateUrl: './register.component.html',
+  styleUrls: ['./register.component.css']
 })
-export class ContactComponent implements OnInit {
-
-  public pageLoaded : boolean = false;
+export class RegisterComponent implements OnInit {
 
   constructor(private authorizationService : AuthorizeService, private activatedRoute : ActivatedRoute) { }
 
+  public pageLogaded:boolean = false;
+  
   ngOnInit(): void {
-    this.checkIsUserAuthorized(); 
+    this.checkIsUserAuthorized();
   }
 
   checkIsUserAuthorized(){
     this.authorizationService.checkAccess(this.activatedRoute, this, 
       (self: any) =>{
-        self.pageLoaded = true;
+        self. pageLoaded = true;
       }
     )
   }
+
 
 }

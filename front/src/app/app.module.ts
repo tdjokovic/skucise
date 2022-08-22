@@ -27,8 +27,15 @@ import { AboutusComponent } from './aboutus/aboutus.component';
 import { LoginComponent } from './login/login.component';
 import { LoginformComponent } from './login/loginform/loginform.component';
 import { AlertComponent } from './_pages/alert/alert.component';
-import { SessionexpiredComponent } from './_pages/sessionexpired/sessionexpired.component';
 import { LogoutComponent } from './_pages/logout/logout.component';
+import { SellersComponent } from './aboutus/sellers/sellers.component';
+import { SellerCardComponent } from './aboutus/sellers/seller-card/seller-card.component';
+import { SellerInfoComponent } from './_pages/seller-info/seller-info.component';
+import { BuyerInfoComponent } from './_pages/buyer-info/buyer-info.component';
+import { SellerInfoCardComponent } from './_pages/seller-info/seller-info-card/seller-info-card.component';
+import { RegisterComponent } from './_pages/register/register.component';
+import { RegisterFormComponent } from './_pages/register/register-form/register-form.component';
+import { BuyerInfoCardComponent } from './_pages/buyer-info/buyer-info-card/buyer-info-card.component';
 
 @NgModule({
   declarations: [
@@ -54,8 +61,15 @@ import { LogoutComponent } from './_pages/logout/logout.component';
     LoginComponent,
     LoginformComponent,
     AlertComponent,
-    SessionexpiredComponent,
-    LogoutComponent
+    LogoutComponent,
+    SellersComponent,
+    SellerCardComponent,
+    SellerInfoComponent,
+    BuyerInfoComponent,
+    SellerInfoCardComponent,
+    RegisterComponent,
+    RegisterFormComponent,
+    BuyerInfoCardComponent
   ],
   imports: [
     BrowserModule,

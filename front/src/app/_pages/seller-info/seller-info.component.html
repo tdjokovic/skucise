@@ -1,22 +1,21 @@
 <div class="hero">
-
-
     <div class="hero-slide">
         <div class="img overlay" style="background-image: url('../../../assets/images/hero_bg_3.jpg')"></div>
         <!--<div class="img overlay" style="background-image: url('../../../assets/images/hero_bg_2.jpg')"></div>
         <div class="img overlay" style="background-image: url('../../../assets/images/hero_bg_1.jpg')"></div>-->
     </div>
 
-    <div class="container">
+    <div class="container" *ngIf="seller">
         <div class="row justify-content-center align-items-center">
-            <div class="col-lg-9 text-center">
-                <h1 class="heading">Pronadjite Vas dom iz snova u samo par koraka!</h1>
-                <form action="#" class="narrow-w form-search d-flex align-items-stretch mb-3">
-                    <input type="text" class="form-control px-4" placeholder="Your ZIP code or City. e.g. New York">
-                    <button type="submit" class="btn btn-primary">Pretraga</button>
-                </form>
+            <div class="col-lg-9 text-center"  style="background-color:gray">
+                <app-seller-info-card [seller]="seller"></app-seller-info-card>
+
+                <br>
+
+                <h3 *ngIf="isMe()">Moji oglasi</h3>
+                <h3 *ngIf="!isMe()">Oglasi prodavca</h3>
+                ...
             </div>
         </div>
     </div>
-    
 </div>
