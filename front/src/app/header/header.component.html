@@ -30,8 +30,8 @@
                     <li *ngIf="isAdmin()"><a [routerLink]="['/']">Dashboard</a></li>
 
                     <!-- deo za prijavu i odjavu korisnika! -->
-                    <li><a  *ngIf="isVisitor()" [routerLink] = "['/login']">LOGIN</a></li>
-                    <li><a *ngIf="!isVisitor()" [routerLink]="['logout']">LOGOUT</a></li>
+                    <li [class.active]="isActive === '/login'"><a *ngIf="isVisitor()" [routerLink] = "['/login']">Prijava</a></li>
+                    <li><a *ngIf="!isVisitor()" [routerLink]="['/logout']">Odjavi se</a></li>
                 </ul>
 
                 <a href="#" class="burger light me-auto float-end mt-1 site-menu-toggle js-menu-toggle d-inline-block d-lg-none" data-toggle="collapse" data-target="#main-navbar">
