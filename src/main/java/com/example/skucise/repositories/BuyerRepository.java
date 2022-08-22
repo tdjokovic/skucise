@@ -19,7 +19,7 @@ public class BuyerRepository implements IBuyerRepository {
 
     //storne procedure
     private static final String REGISTER_BUYER_PROCEDURE_CALL = "{call register_buyer(?,?,?,?,?,?,?,?)}";
-    private static final String CHECK_IF_APPROVED_STORED_PROCEDURE = "{call check_if_approved(?)}";  //////?
+    private static final String CHECK_IF_APPROVED_STORED_PROCEDURE = "{call check_if_approved(?)}";
     private static final String GET_BUYER_STORED_PROCEDURE = "{call get_buyer(?)}";
     private static final String APPLICATION_STORED_PROCEDURE = "{call check_application(?,?)}"; ///////////////////////////???
     private static final String GET_ALL_BUYERS_STORED_PROCEDURE = "{call get_all_buyers(?)}";
@@ -88,6 +88,8 @@ public class BuyerRepository implements IBuyerRepository {
     public boolean create(BuyerUser buyerUser) {
         boolean successfullyCreatedUser = false;
 
+        LOGGER.info("EMAIL OF USER "+buyerUser.getEmail());
+
         try(Connection conn = DriverManager.getConnection(databaseSourceUrl,databaseUsername,databasePassword);
         CallableStatement stmt = conn.prepareCall(REGISTER_BUYER_PROCEDURE_CALL)){
 
@@ -109,6 +111,7 @@ public class BuyerRepository implements IBuyerRepository {
             if(!successfullyCreatedUser && !alreadyExists){
                 throw new Exception("Creating buyerUser failed!");
             }
+            LOGGER.info("Buyer user registered");
 
 
         }catch (Exception e){
@@ -125,7 +128,7 @@ public class BuyerRepository implements IBuyerRepository {
         BuyerUser buyerUser = null;
 
         try(Connection conn = DriverManager.getConnection(databaseSourceUrl,databaseUsername,databasePassword);
-            CallableStatement stmtApproved = conn.prepareCall(APPROVE_STORED_PROCEDURE);
+            CallableStatement stmtApproved = conn.prepareCall(CHECK_IF_APPROVED_STORED_PROCEDURE);
             CallableStatement stmtBuyer = conn.prepareCall(GET_BUYER_STORED_PROCEDURE)){
 
             //immamo dve procedure

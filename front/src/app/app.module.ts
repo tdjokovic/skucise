@@ -35,6 +35,7 @@ import { BuyerInfoComponent } from './_pages/buyer-info/buyer-info.component';
 import { SellerInfoCardComponent } from './_pages/seller-info/seller-info-card/seller-info-card.component';
 import { RegisterComponent } from './_pages/register/register.component';
 import { RegisterFormComponent } from './_pages/register/register-form/register-form.component';
+import { BuyerInfoCardComponent } from './_pages/buyer-info/buyer-info-card/buyer-info-card.component';
 
 @NgModule({
   declarations: [
@@ -67,7 +68,8 @@ import { RegisterFormComponent } from './_pages/register/register-form/register-
     BuyerInfoComponent,
     SellerInfoCardComponent,
     RegisterComponent,
-    RegisterFormComponent
+    RegisterFormComponent,
+    BuyerInfoCardComponent
   ],
   imports: [
     BrowserModule,

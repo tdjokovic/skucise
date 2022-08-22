@@ -194,7 +194,7 @@ export class RegisterFormComponent implements OnInit {
 
   sellerPictureValidation(){
     let reader = new FileReader();
-    let inputPicture = document.getElementById("sPicture") as HTMLInputElement;
+    let inputPicture = document.getElementById("sellerPicture") as HTMLInputElement;
 
     if(inputPicture == null || inputPicture.files == null || inputPicture.files.length == 0){
       console.log("Slika nije izabrana kako treba, ne postoji!");
@@ -324,8 +324,7 @@ export class RegisterFormComponent implements OnInit {
 
   buyerPictureValidation(){
     let reader = new FileReader();
-    let inputPicture = document.getElementById("bPicture") as HTMLInputElement;
-
+    let inputPicture = document.getElementById("buyerPicture") as HTMLInputElement;
     if(inputPicture == null || inputPicture.files == null || inputPicture.files.length == 0){
       console.log("Slika nije izabrana kako treba, ne postoji!");
       return;
@@ -337,10 +336,10 @@ export class RegisterFormComponent implements OnInit {
     reader.onload = function(){
       self.bPicture = reader.result as string;
       let len = self.bPicture.length;
-
       if(len < 5000 || len > 65000) // duzina tj velicina slike nije dobra
       {
-        (<HTMLSelectElement>document.getElementById('bPicture')).focus();
+        console.log("picture error");
+        (<HTMLSelectElement>document.getElementById('buyerPicture')).focus();
         self.bWrongPicture = true;
         return;
       }
@@ -366,14 +365,13 @@ export class RegisterFormComponent implements OnInit {
       this.bWrongPasswordOne || this.bWrongPasswordTwo)){
 
         //nije doslo ni do jedne greske
-
         let newBuyer : NewBuyer = {
-          firstName : this.sFirstName,
-          lastName : this.sLastName,
-          email : this.sEmail,
-          phoneNumber : this.sPhoneNumber,
-          picture : (this.sPicture == '')? null : this.sPicture,
-          hashedPassword : PasswdHash.encrypt(this.sPasswordOne)
+          firstName : this.bFirstName,
+          lastName : this.bLastName,
+          email : this.bEmail,
+          phoneNumber : this.bPhoneNumber,
+          picture : (this.bPicture == '')? null : this.bPicture,
+          hashedPassword : PasswdHash.encrypt(this.bPasswordOne)
         }
 
         this.buyerService.createBuyer(newBuyer, this, this.cbSuccess, this.cbConflict);

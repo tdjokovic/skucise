@@ -11,8 +11,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.HttpStatusCodeException;
-import org.w3c.dom.html.HTMLTableCaptionElement;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Max;

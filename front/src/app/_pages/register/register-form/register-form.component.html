@@ -72,7 +72,7 @@
                         <input [(ngModel)]="sPicture" type="file" id="sellerPicture" name="sellerPicture" class="form-control" (input)="sellerPictureValidation()">
                         <p *ngIf="sWrongPicture" class="small fw-bold text-danger">Slika je prevelika. Dozvoljen opseg je 4kB - 45kB</p>
                         <br>
-                        <input [(ngModel)]="sPIB" type="text" id="sellerPIB" name="sellerPIB" placeholder="Unesite PIB Vase firme">
+                        <input [(ngModel)]="sPIB" type="text" id="sellerPIB" name="sellerPIB" class="form-control" placeholder="Unesite PIB Vase firme">
                         <p *ngIf="sWrongPIB" class="small fw-bold text-danger">PIB se sastoji od 9 cifara.</p>
                     </div>
 
