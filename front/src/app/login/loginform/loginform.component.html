@@ -39,16 +39,16 @@
                     <div class="row">
                         <div class="col-6 mb-3">
                             <input [(ngModel)]="email" name="email" type="email" id="formEmail" class="form-control" placeholder="Enter your email address">
-                            <p *ngIf="wrongMail" class="small fw-bold mt-2 pt-1 mb-0 text-danger">The mail you've entered is not accurate!!</p>
+                            <p *ngIf="wrongMail" class="small fw-bold mt-2 pt-1 mb-0 text-danger">Mejl koji ste uneli nije ispravan!!</p>
                             <br>
                             <input [(ngModel)]="password" name="password" type="password" id="formPassword" class="form-control" placeholder="Enter your password">
-                            <p *ngIf="passwordNotEntered" class="small fw-bold mt-2 pt-1 mb-0 text-danger">Your must enter the password!</p>
-                            <p *ngIf="wrongCredentials" class="small fw-bold mt-2 pt-1 mb-0 text-danger">Your email or password are not correct.</p>
-                            <p *ngIf="accessNotApproved" class="small fw-bold mt-2 pt-1 mb-0 text-danger">Your registration is still not approved.</p>
+                            <p *ngIf="passwordNotEntered" class="small fw-bold mt-2 pt-1 mb-0 text-danger">Morate uneti lozinku!</p>
+                            <p *ngIf="wrongCredentials" class="small fw-bold mt-2 pt-1 mb-0 text-danger">Email ili lozinka nisu ispravni.</p>
+                            <p *ngIf="accessNotApproved" class="small fw-bold mt-2 pt-1 mb-0 text-danger">Vasa registracija jos uvek nije odobrena.</p>
                         </div>
 
                         <div class="col-6 mb-3">
-                            Neki tekst
+                            <p>Jos uvek nemate profil?<br> <a [routerLink] = "['/register']" class="link-danger">REGISTRUJ SE SADA!</a></p>
                         </div>
 
                         <div class="col-12">
@@ -58,9 +58,6 @@
                     </div>
                 </form>
 
-                <br>
-
-                <p>You don't have a profile? <a href="/" class="link-danger">REGISTER NOW!</a></p>
             </div>
         </div>
     </div>

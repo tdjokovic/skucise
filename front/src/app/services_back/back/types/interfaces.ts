@@ -106,7 +106,7 @@ export interface NewSeller{
     lastName:string;
     email:string;
     hashedPassword:string;
-    picture:string;
+    picture:string | null;
     phoneNumber:string;
     tin:string;
 }
@@ -116,6 +116,6 @@ export interface NewBuyer{
     lastName:string;
     email:string;
     hashedPassword:string;
-    picture:string;
+    picture:string | null;
     phoneNumber:string;
 }
