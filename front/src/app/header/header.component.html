@@ -23,9 +23,12 @@
                             <li><a href="#">Izdavanje</a></li>
                         </ul>
                     </li>
-                    <li [class.active]="isActive === '/about'"><a [routerLink]="['/about']">O nama</a></li>
+                    <li *ngIf="isVisitor()" [class.active]="isActive === '/about'"><a [routerLink]="['/about']">O nama</a></li>
                     <li [class.active]="isActive === '/contactus'"><a [routerLink]="['/contactus']">Kontakt</a></li>
-                    
+                    <li *ngIf="isSeller()"><a [routerLink]="['/']">My_props</a></li>
+                    <li *ngIf="isBuyer()"><a [routerLink]="['/']">Props</a></li>
+                    <li *ngIf="isAdmin()"><a [routerLink]="['/']">Dashboard</a></li>
+
                     <!-- deo za prijavu i odjavu korisnika! -->
                     <li><a  *ngIf="isVisitor()" [routerLink] = "['/login']">LOGIN</a></li>
                     <li><a *ngIf="!isVisitor()" [routerLink]="['logout']">LOGOUT</a></li>
