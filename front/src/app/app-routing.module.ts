@@ -10,6 +10,8 @@ import { LoginComponent } from './login/login.component';
 import { AlertComponent } from './_pages/alert/alert.component';
 import { SessionexpiredComponent } from './_pages/sessionexpired/sessionexpired.component';
 import { LogoutComponent } from './_pages/logout/logout.component';
+import { BuyerInfoComponent } from './_pages/buyer-info/buyer-info.component';
+import { SellerInfoComponent } from './_pages/seller-info/seller-info.component';
 
 
 // data - Niz uloga koje imaju pristup ruti/stranici, prazan niz daje dozvolu svim ulogama  
@@ -18,7 +20,12 @@ const routes: Routes = [
   {path:'home', component:HomeComponent,             data: { allowedRoles: [] }},
   {path:'contactus', component:ContactComponent,     data: { allowedRoles: [] }},
   {path:'properties', component:PropertiesComponent, data: { allowedRoles: [] }},
-  {path:'about', component:AboutusComponent,         data: { allowedRoles: [UserRoles.Admin] }},
+  {path:'about', component:AboutusComponent,         data: { allowedRoles: [] }},
+  
+  { path: 'buyer/:id', component: BuyerInfoComponent, data: { allowedRoles: [UserRoles.Admin, UserRoles.Reg_seller, UserRoles.Reg_buyer] }},
+  //{ path: 'buyers', component: ApplicantsPageComponent,       data: { allowedRoles: [UserRoles.Admin] }},
+  { path: 'seller/:id', component: SellerInfoComponent,   data: { allowedRoles: [] }},
+  //{ path: 'sellers', component: EmployersPageComponent,         data: { allowedRoles: [] }},
   
   {path:'login', component:LoginComponent,           data: { allowedRoles: [UserRoles.Visitor]}}, //samo on moze da se loguje
   {path:'logout', component:LogoutComponent,           data: { allowedRoles: [UserRoles.Admin, UserRoles.Reg_buyer, UserRoles.Reg_seller]}}, //treba da se kreira komponenta Logout

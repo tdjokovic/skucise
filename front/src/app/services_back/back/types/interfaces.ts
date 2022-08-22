@@ -43,18 +43,19 @@ export interface Property{
 
 export interface Seller{
     id:number;
-    name:string;
+    firstName:string;
+    lastName:string;
     email:string;
     hashedPassword:string;
     picture:string | null; //slika u Base64
-    address:string;
     phoneNumber:string;
-
+    tin:string;
 }
 
 export interface Buyer{
     id:number;
-    name:string;
+    firstName:string;
+    lastName:string;
     email:string;
     hashedPassword:string;
     picture:string | null; //slika u Base64

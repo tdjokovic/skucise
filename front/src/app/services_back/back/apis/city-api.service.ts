@@ -10,7 +10,7 @@ import { HeaderUtil } from "../../helpers/http_helper";
 })
 
 export class CityApiService{
-    private url : string = apiProperties.url + 'api/cities'
+    private url : string = apiProperties.url + '/api/cities'
 
     constructor(private http : HttpClient) {   }
 

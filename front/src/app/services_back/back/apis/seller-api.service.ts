@@ -10,7 +10,7 @@ import { NewSeller, Property, Rating, Seller } from "../types/interfaces";
 })
 
 export class SellerApiService{
-    private url : string = apiProperties.url + 'api/sellers'
+    private url : string = apiProperties.url + '/api/sellers'
 
     constructor(private http : HttpClient) {   }
 

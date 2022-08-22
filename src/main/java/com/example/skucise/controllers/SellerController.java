@@ -8,6 +8,8 @@ import com.example.skucise.security.ResultPair;
 import com.example.skucise.security.Role;
 import com.example.skucise.services.SellerService;
 import io.jsonwebtoken.Claims;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -26,6 +28,7 @@ import static com.example.skucise.security.SecurityConfiguration.*;
 @RequestMapping("api/sellers")
 public class SellerController {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(SellerController.class);
     private final SellerService sellerService;
 
     @Autowired
@@ -34,6 +37,9 @@ public class SellerController {
     @GetMapping
     public ResponseEntity<List<SellerUser>> getSellerList(@RequestHeader(JWT_CUSTOM_HTTP_HEADER) String jwt,
                                                           @RequestParam(value="notApprovedRequested", required = false) boolean notApprovedRequested){
+
+        LOGGER.info("GETTING ALL SELLERS");
+
         ResultPair resultPair = checkAccess(jwt, Role.VISITOR, Role.ADMIN, Role.REG_BUYER, Role.REG_SELLER);
         HttpStatus httpStatus = resultPair.getHttpStatus();
 
@@ -54,6 +60,7 @@ public class SellerController {
 
         //if user is not admin, and isnt approved user
         if( !Role.ADMIN.equalsTo(role) &&  notApprovedRequested){
+            LOGGER.warn("User is not admin and is not approved");
             return ResponseEntity.status(HttpStatus.FORBIDDEN).headers(responseHeaders).body(null);
         }
 
