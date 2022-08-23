@@ -19,10 +19,11 @@
                         <a [routerLink]="['/properties']">Nekretnine</a>
                         <!--ovo ne treba da bude hardcoded... takodje namestiti da radi,  tj da vodi na stranice odgovarajuce-->
                         <ul class="dropdown">
-                            <li><a href="#">Prodaja</a></li>
-                            <li><a href="#">Izdavanje</a></li>
+                            <li><a routerLink="/properties/prodaja">Prodaja</a></li>
+                            <li><a routerLink="/properties/izdavanje">Izdavanje</a></li>
                         </ul>
                     </li>
+                    
                     <li *ngIf="isVisitor()" [class.active]="isActive === '/about'"><a [routerLink]="['/about']">O nama</a></li>
                     <li [class.active]="isActive === '/contactus'"><a [routerLink]="['/contactus']">Kontakt</a></li>
                     <li *ngIf="isSeller()"><a [routerLink]="['/']">My_props</a></li>

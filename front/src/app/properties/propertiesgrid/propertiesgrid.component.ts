@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { Property } from 'src/app/services_back/back/types/interfaces';
 
 @Component({
   selector: 'app-propertiesgrid',
@@ -7,6 +8,8 @@ import { Component, OnInit } from '@angular/core';
 })
 export class PropertiesgridComponent implements OnInit {
 
+  @Input() properties  : Property | null = null;
+  
   constructor() { }
 
   ngOnInit(): void {

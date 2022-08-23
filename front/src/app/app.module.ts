@@ -69,7 +69,7 @@ import { BuyerInfoCardComponent } from './_pages/buyer-info/buyer-info-card/buye
     SellerInfoCardComponent,
     RegisterComponent,
     RegisterFormComponent,
-    BuyerInfoCardComponent
+    BuyerInfoCardComponent,
   ],
   imports: [
     BrowserModule,

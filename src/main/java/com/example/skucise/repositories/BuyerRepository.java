@@ -21,12 +21,12 @@ public class BuyerRepository implements IBuyerRepository {
     private static final String REGISTER_BUYER_PROCEDURE_CALL = "{call register_buyer(?,?,?,?,?,?,?,?)}";
     private static final String CHECK_IF_APPROVED_STORED_PROCEDURE = "{call check_if_approved(?)}";
     private static final String GET_BUYER_STORED_PROCEDURE = "{call get_buyer(?)}";
-    private static final String APPLICATION_STORED_PROCEDURE = "{call check_application(?,?)}"; ///////////////////////////???
+    private static final String APPLICATION_STORED_PROCEDURE = "{call check_application(?,?)}";
     private static final String GET_ALL_BUYERS_STORED_PROCEDURE = "{call get_all_buyers(?)}";
     private static final String APPROVE_STORED_PROCEDURE = "{call approve_user(?,?)}";
     private static final String DELETE_STORED_PROCEDURE = "{call delete_user(?,?)}";
-    private static final String PROPERTIES_BUYER_APPLIED_STORED_PROCEDURE = "{call get_properties_buyer_applied_on(?)}";
-    private static final String TAG_STORED_PROCEDURE = "{call get_tags_for_a_property(?)}"; //////////////////????
+    private static final String PROPERTIES_BUYER_APPLIED_STORED_PROCEDURE = "{call get_properties_buyer_applied_on(?)}"; //////////////////nije provereno
+    private static final String TAG_STORED_PROCEDURE = "{call get_tags_for_a_property(?)}"; //////////////////nije provereno
 
 
     @Value("jdbc:mariadb://localhost:3307/skucise")
@@ -258,7 +258,7 @@ public class BuyerRepository implements IBuyerRepository {
             ResultSet resultSet = stmt.executeQuery();
 
             resultSet.first();
-            //ako je broj pronadjenih poslova veci od nule
+            //ako je broj pronadjenih nekretnina veci od nule
             if(resultSet.getInt("count") != 0){
                 isApplied = true;
             }

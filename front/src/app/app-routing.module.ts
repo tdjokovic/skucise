@@ -20,6 +20,7 @@ const routes: Routes = [
   {path:'home', component:HomeComponent,             data: { allowedRoles: [] }},
   {path:'contactus', component:ContactComponent,     data: { allowedRoles: [] }},
   {path:'properties', component:PropertiesComponent, data: { allowedRoles: [] }},
+  {path:'properties/:adCategory', component:PropertiesComponent, data: { allowedRoles: [] }},
   {path:'about', component:AboutusComponent,         data: { allowedRoles: [] }},
   
   { path: 'buyer/:id', component: BuyerInfoComponent, data: { allowedRoles: [UserRoles.Admin, UserRoles.Reg_seller, UserRoles.Reg_buyer] }},

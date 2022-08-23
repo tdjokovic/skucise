@@ -22,13 +22,13 @@ public class SellerRepository implements ISellerRepository {
     private static final String GET_SELLER_PROCEDURE_CALL = "{call get_seller(?)}";
     private static final String APPROVE_SELLER_PROCEDURE_CALL = "{call approve_user(?,?)}";
     private static final String DELETE_SELLER_PROCEDURE_CALL = "{call delete_user(?,?)}";
-    private static final String GET_FEEDBACK_VALUES_STORED_PROCEDURE = "{call get_feedback_values(?)}";
+    private static final String GET_FEEDBACK_VALUES_STORED_PROCEDURE = "{call get_feedback_values(?)}"; ///////nije provereno
     private static final String APPLICATION_STORED_PROCEDURE = "{call check_application(?,?)}";
-    private static final String RATE_SELLER_STORED_PROCEDURE = "{call rate_seller(?,?,?,?)}";
-    private static final String IS_RATED_STORED_PROCEDURE = "{call check_if_rated(?,?)}";
+    private static final String RATE_SELLER_STORED_PROCEDURE = "{call rate_seller(?,?,?,?)}";///nije provereno
+    private static final String IS_RATED_STORED_PROCEDURE = "{call check_if_rated(?,?)}";//nije provereno
 
-    private static final String SELLER_GET_POSTS_PROCEDURE_CALL = "{call seller_get_posts_without_tags(?)}";
-    private static final String GET_TAGS_A_PROPERTY_PROCEDURE_CALL = "{call get_tags_for_a_property(?)}";
+    private static final String SELLER_GET_POSTS_PROCEDURE_CALL = "{call seller_get_posts_without_tags(?)}";//nije provereno
+    private static final String GET_TAGS_A_PROPERTY_PROCEDURE_CALL = "{call get_tags_for_a_property(?)}";//nije provereno
 
     @Value("jdbc:mariadb://localhost:3307/skucise")
     private String databaseSourceUrl;
