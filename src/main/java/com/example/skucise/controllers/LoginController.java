@@ -2,7 +2,6 @@ package com.example.skucise.controllers;
 
 import com.example.skucise.models.LoginCredentials;
 import com.example.skucise.models.LoginResponse;
-import com.example.skucise.repositories.LoginRepository;
 import com.example.skucise.security.Role;
 import com.example.skucise.services.LoginService;
 import org.slf4j.LoggerFactory;
