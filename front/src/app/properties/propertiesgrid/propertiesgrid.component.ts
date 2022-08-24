@@ -8,7 +8,7 @@ import { Property } from 'src/app/services_back/back/types/interfaces';
 })
 export class PropertiesgridComponent implements OnInit {
 
-  @Input() properties  : Property | null = null;
+  @Input() properties  : Property [] = [];
   
   constructor() { }
 

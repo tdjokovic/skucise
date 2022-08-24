@@ -16,8 +16,8 @@ export interface Filters{
 
     sellerId:number;
     cityId:number;
-    adCategory:number; // koji je tip oglasa
-    type: number; //koji je tip nekretnine
+    adCategoryId:number; // koji je tip oglasa
+    typeId: number; //koji je tip nekretnine
 
     pageNumber:number;
     propertiesPerPage:number;

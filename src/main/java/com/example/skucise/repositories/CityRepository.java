@@ -36,8 +36,8 @@ public class CityRepository implements ICityRepository {
 
             while(resultSet.next()){
                 oneCity = new City();
-                oneCity.setId(resultSet.getInt("id"));
-                oneCity.setName(resultSet.getString("name"));
+                oneCity.setId(resultSet.getInt("city_id"));
+                oneCity.setName(resultSet.getString("city_name"));
 
                 cityList.add(oneCity);
             }

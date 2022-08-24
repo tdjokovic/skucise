@@ -22,14 +22,24 @@ export class PropertyService{
     //property
 
     getFilteredProperties(filters: Filters, self?: any, cbSuccess?: Function){
+        console.log("Getting filtered properties");
         this.api.getProperties(filters).subscribe(
             (response) => {
                 if(response.body != null && response.body.properties != null){
+                    console.log("PROPERTIES");
+                    console.log(response.body);
+                    console.log(response.body.properties);
                     //dobili smo nekretnine
                     this.properties = response.body.properties;
                     this.totalProperties = response.body.totalProperties;
 
-                    if(self && cbSuccess) cbSuccess(self);
+                    if(self && cbSuccess) {
+                        console.log("cbsuccess");
+                        cbSuccess(self,this.properties, this.totalProperties);
+                    }
+                    else{
+                        console.log("notcbsuccess");
+                    }
 
                     console.log("Properties found");
                 }
@@ -48,14 +58,14 @@ export class PropertyService{
             newConstruction:false,
             sellerId:0,
             cityId:0,
-            adCategory:0, // koji je tip oglasa
-            type: 0, //koji je tip nekretnine
+            adCategoryId:0, // koji je tip oglasa
+            typeId: 0, //koji je tip nekretnine
 
             pageNumber:1,
-            propertiesPerPage:5,
+            propertiesPerPage:6,
             ascendingOrder:false
         }
-
+        console.log("Getting properties");
         this.getFilteredProperties(filters, self, cbSuccess);
     }
 

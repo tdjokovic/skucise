@@ -137,6 +137,9 @@ public class PropertyRepository implements IPropertyRepository {
 
     public Property setNewProperty(ResultSet resultSet, CallableStatement stmtTag) throws SQLException {
 
+        LOGGER.warn("FOUND PROPERTY");
+        LOGGER.warn("PROPERTY ID IS {}", resultSet.getInt("id"));
+
         SellerUser seller = new SellerUser();
         seller.setId(resultSet.getInt("seller_id"));
         seller.setFirstName(resultSet.getString("first_name"));
@@ -287,17 +290,25 @@ public class PropertyRepository implements IPropertyRepository {
 
             //rastuce sortiraj
             int pointerPosition = (propertiesFilter.getPageNumber() - 1) * propertiesFilter.getPropertiesPerPage();
+            LOGGER.info("pointer position is {}", pointerPosition);
             int flagPage = propertiesFilter.getPropertiesPerPage();
             int tempId;
             Property prop;
             if(propertiesFilter.isAscendingOrder()){
+                LOGGER.info("sort rastuce");
                 resultSet.afterLast();
                 while(pointerPosition != 0){
                     resultSet.previous();
 
                     tempId = resultSet.getInt("id");
 
-                    if (tags == null || listId.contains(tempId)){ //ako je filter tagova prazan ILI ako je tag za ovaj property pronadjen
+                    if (tags == null || listId.contains(tempId)) pointerPosition--;
+                }
+
+                while(resultSet.previous()){
+                    tempId = resultSet.getInt("id");
+
+                    if(tags == null || listId.contains(tempId)){
                         prop = setNewProperty(resultSet,stmtTag);
                         properties.add(prop);
 
@@ -308,13 +319,21 @@ public class PropertyRepository implements IPropertyRepository {
             }
             else{
                 //opadajuce sortiraj
+                LOGGER.info("sort opadajuce");
                 resultSet.beforeFirst();
                 while(pointerPosition != 0){
                     resultSet.next();
 
                     tempId= resultSet.getInt("id");
 
-                    if (tags == null || listId.contains(tempId)){ //ako je filter tagova prazan ILI ako je tag za ovaj property pronadjen
+                    if (tags == null || listId.contains(tempId)) pointerPosition--;
+                }
+
+                while(resultSet.next()){
+                    tempId = resultSet.getInt("id");
+
+                    if(tags == null || listId.contains(tempId)){
+
                         prop = setNewProperty(resultSet,stmtTag);
                         properties.add(prop);
 
@@ -328,11 +347,16 @@ public class PropertyRepository implements IPropertyRepository {
             //gotovo sortiranje
             resultSet.beforeFirst();
             while(resultSet.next()) { //trazimo koliko ima ukupno nekretnina koje smo pronasli
+                LOGGER.error("usli smo u resultset");
+                LOGGER.error("ID je {}", resultSet.getInt("id"));
                 tempId = resultSet.getInt("id");
                 if(tags == null || listId.contains(tempId))
                     count++;
             }
 
+            LOGGER.info("PROPERTIES GETFILTERED ENDED");
+            LOGGER.info("FOUND PROPERTIES:");
+            LOGGER.info("Number of properties is {}",count);
             propertyFeed.setProperties(properties);
             propertyFeed.setTotalProperties(count);
 
