@@ -4,13 +4,6 @@ import com.example.skucise.models.*;
 import com.example.skucise.security.ResultPair;
 import com.example.skucise.security.Role;
 import com.example.skucise.services.PropertyService;
-import com.fasterxml.jackson.core.JsonGenerator;
-import com.fasterxml.jackson.databind.JsonMappingException;
-import com.fasterxml.jackson.databind.SerializerProvider;
-import com.fasterxml.jackson.databind.jsonFormatVisitors.JsonObjectFormatVisitor;
-import com.fasterxml.jackson.databind.node.ObjectNode;
-import com.fasterxml.jackson.databind.ser.PropertyFilter;
-import com.fasterxml.jackson.databind.ser.PropertyWriter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +18,6 @@ import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.regex.Pattern;
 
 import static com.example.skucise.security.SecurityConfiguration.*;
 
@@ -40,6 +32,7 @@ public class PropertyController {
     @Autowired
     public PropertyController(PropertyService propertyService){this.propertyService = propertyService;}
 
+    @GetMapping
     public ResponseEntity<PropertyFeed> getFilteredProperties(@RequestHeader(JWT_CUSTOM_HTTP_HEADER) String jwt,
                                                               @RequestParam(required = false) List<Integer> tagList,
                                                               @RequestParam @Min(0) @Max(Integer.MAX_VALUE) int sellerId,
@@ -217,7 +210,7 @@ public class PropertyController {
     }
 
 
-    @PostMapping
+    @PostMapping("{propertyId}/applicants")
     public ResponseEntity<?> applyForProperty( @RequestHeader(JWT_CUSTOM_HTTP_HEADER) String jwt,
                                               @PathVariable("propertyId")
                                               @Min( 1 )
@@ -271,6 +264,203 @@ public class PropertyController {
 
         return ResponseEntity.status(httpStatus).headers(responseHeaders).body(property);
     }
+
+
+    @DeleteMapping
+    public ResponseEntity<?> deleteProperty(@RequestHeader(JWT_CUSTOM_HTTP_HEADER) String jwt,
+                                            @PathVariable("id")
+                                            @Min( 1 )
+                                            @Max( Integer.MAX_VALUE ) int id)
+    {
+        ResultPair resultPair = checkAccess(jwt,Role.REG_SELLER, Role.ADMIN);
+        HttpStatus httpStatus = resultPair.getHttpStatus();
+        HttpHeaders responseHeaders = new HttpHeaders();
+        responseHeaders.set(JWT_CUSTOM_HTTP_HEADER, jwt);
+
+        if(httpStatus != HttpStatus.OK){
+            return ResponseEntity.status(httpStatus).headers(responseHeaders).body(null);
+        }
+
+        int userId = (int) (double) resultPair.getClaims().get(USER_ID_CLAIM_NAME);
+        String role = (String) resultPair.getClaims().get(ROLE_CLAIM_NAME);
+
+        int sellerId = propertyService.getProperty(id).getSellerUser().getId();
+
+        if(Role.REG_SELLER.equalsTo(role) && userId != sellerId) {
+            //ako je prodavac, ali to nije njegova nekretnina
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).headers(responseHeaders).body(null);
+        }
+
+        boolean deleted = propertyService.deleteProperty(id);
+
+        if(deleted){
+            httpStatus = HttpStatus.NO_CONTENT;
+        }
+        else{
+            httpStatus = HttpStatus.CONFLICT;
+        }
+
+        return ResponseEntity.status(httpStatus).headers(responseHeaders).body(null);
+    }
+
+    @GetMapping("{propertyId}/comments")
+    public ResponseEntity<List<Comment>> getAllComments(@RequestHeader(JWT_CUSTOM_HTTP_HEADER) String jwt,
+                                                        @PathVariable("propertyId")
+                                                        @Min(1)
+                                                        @Max(Integer.MAX_VALUE) int propertyId)
+    {
+        ResultPair resultPair = checkAccess(jwt,Role.VISITOR, Role.REG_BUYER, Role.REG_SELLER, Role.ADMIN);
+        HttpStatus httpStatus = resultPair.getHttpStatus();
+        HttpHeaders responseHeaders = new HttpHeaders();
+        responseHeaders.set(JWT_CUSTOM_HTTP_HEADER, jwt);
+
+        if(httpStatus != HttpStatus.OK){
+            return ResponseEntity.status(httpStatus).headers(responseHeaders).body(null);
+        }
+
+        return ResponseEntity.status(httpStatus).headers(responseHeaders).body(propertyService.getAllComments(propertyId));
+    }
+
+    @PostMapping("{propertyId}/comments")
+    public ResponseEntity<?> postComment(@RequestHeader(JWT_CUSTOM_HTTP_HEADER) String jwt,
+                                         @PathVariable("propertyId")
+                                         @Min(1)
+                                         @Max(Integer.MAX_VALUE) int propertyId,
+                                         @Valid @RequestBody Comment comment)
+    {
+        ResultPair resultPair = checkAccess(jwt, Role.REG_BUYER, Role.REG_SELLER);
+        HttpStatus httpStatus = resultPair.getHttpStatus();
+        HttpHeaders responseHeaders = new HttpHeaders();
+        responseHeaders.set(JWT_CUSTOM_HTTP_HEADER, jwt);
+
+        if(httpStatus != HttpStatus.OK){
+            return ResponseEntity.status(httpStatus).headers(responseHeaders).body(null);
+        }
+
+        int userId = (int) (double) resultPair.getClaims().get(USER_ID_CLAIM_NAME);
+        String role = (String) resultPair.getClaims().get(ROLE_CLAIM_NAME);
+
+        boolean postedSuccess = false;
+
+        if(Role.REG_BUYER.equalsTo(role) && comment.getParentId() == 0){
+            //kupac je i zeli da postavi prvi komentar (a ne odgovor)
+            postedSuccess = propertyService.postComment(comment, propertyId, userId, true);
+        }
+
+        else if (Role.REG_SELLER.equalsTo(role) && comment.getParentId() != 0){
+            postedSuccess = propertyService.postComment(comment, propertyId, userId, false);
+        }
+
+
+        if(postedSuccess) httpStatus = HttpStatus.CREATED;
+        else httpStatus = HttpStatus.CONFLICT;
+        return ResponseEntity.status(httpStatus).headers(responseHeaders).body(null);
+    }
+
+    @DeleteMapping("{propertyId}/comments/{id}")
+    public ResponseEntity<?> deleteComment(@RequestHeader(JWT_CUSTOM_HTTP_HEADER) String jwt,
+                                           @PathVariable("id")
+                                           @Min(1)
+                                           @Max(Integer.MAX_VALUE) int id)
+    {
+        ResultPair resultPair = checkAccess(jwt, Role.ADMIN);
+        HttpStatus httpStatus = resultPair.getHttpStatus();
+        HttpHeaders responseHeaders = new HttpHeaders();
+        responseHeaders.set(JWT_CUSTOM_HTTP_HEADER, jwt);
+
+        if(httpStatus != HttpStatus.OK){
+            return ResponseEntity.status(httpStatus).headers(responseHeaders).body(null);
+        }
+
+        boolean deletedSuccess = propertyService.deleteComment(id);
+
+        if(deletedSuccess) httpStatus = HttpStatus.NO_CONTENT;
+        else httpStatus = HttpStatus.CONFLICT;
+
+        return ResponseEntity.status(httpStatus).headers(responseHeaders).body(null);
+    }
+
+
+    @GetMapping("{propertyId}/likes")
+    public ResponseEntity<LikeResponse> getPropertyLikes(@RequestHeader(JWT_CUSTOM_HTTP_HEADER) String jwt,
+                                                         @PathVariable("propertyId")
+                                                         @Min(1)
+                                                         @Max(Integer.MAX_VALUE) int propertyId)
+    {
+        ResultPair resultPair = checkAccess(jwt, Role.ADMIN, Role.VISITOR, Role.REG_BUYER, Role.REG_SELLER);
+        HttpStatus httpStatus = resultPair.getHttpStatus();
+        HttpHeaders responseHeaders = new HttpHeaders();
+        responseHeaders.set(JWT_CUSTOM_HTTP_HEADER, jwt);
+
+        if(httpStatus != HttpStatus.OK){
+            return ResponseEntity.status(httpStatus).headers(responseHeaders).body(null);
+        }
+
+        int buyerId = 0;
+        boolean isApplicant= false;
+
+        if(resultPair.getClaims() != null){
+            //prijavljen je
+            buyerId = (int) (double) resultPair.getClaims().get(USER_ID_CLAIM_NAME);
+            String role = (String) resultPair.getClaims().get(ROLE_CLAIM_NAME);
+
+            if(Role.REG_BUYER.equalsTo(role)) isApplicant = true;
+        }
+
+        return ResponseEntity.status(httpStatus).headers(responseHeaders).body(propertyService.getPropertyLikes(propertyId, buyerId, isApplicant));
+    }
+
+    @PostMapping("{propertyId}/likes")
+    public ResponseEntity<?> likeProperty(@RequestHeader(JWT_CUSTOM_HTTP_HEADER) String jwt,
+                                          @PathVariable("propertyId")
+                                          @Min(1)
+                                          @Max(Integer.MAX_VALUE) int propertyId)
+    {
+        ResultPair resultPair = checkAccess(jwt,Role.REG_BUYER);
+        HttpStatus httpStatus = resultPair.getHttpStatus();
+        HttpHeaders responseHeaders = new HttpHeaders();
+        responseHeaders.set(JWT_CUSTOM_HTTP_HEADER, jwt);
+
+        if(httpStatus != HttpStatus.OK){
+            return ResponseEntity.status(httpStatus).headers(responseHeaders).body(null);
+        }
+
+        int buyerId = (int) (double) resultPair.getClaims().get(USER_ID_CLAIM_NAME);
+        boolean likeSuccess = propertyService.likeProperty(propertyId, buyerId);
+
+        if(likeSuccess) httpStatus = HttpStatus.CREATED;
+        else httpStatus = HttpStatus.CONFLICT;
+
+        return ResponseEntity.status(httpStatus).headers(responseHeaders).body(null);
+
+    }
+
+    @DeleteMapping("{propertyId}/likes")
+    public ResponseEntity<?> recallLike(@RequestHeader(JWT_CUSTOM_HTTP_HEADER) String jwt,
+                                        @PathVariable("propertyId")
+                                        @Min(1)
+                                        @Max(Integer.MAX_VALUE) int propertyId)
+    {
+        ResultPair resultPair = checkAccess(jwt, Role.REG_BUYER);
+        HttpStatus httpStatus = resultPair.getHttpStatus();
+        HttpHeaders responseHeaders = new HttpHeaders();
+        responseHeaders.set(JWT_CUSTOM_HTTP_HEADER, jwt);
+
+        if(httpStatus != HttpStatus.OK){
+            return ResponseEntity.status(httpStatus).headers(responseHeaders).body(null);
+        }
+
+        int buyerId = (int) (double) resultPair.getClaims().get(USER_ID_CLAIM_NAME);
+        boolean recallLikeSuccess = propertyService.recallLike(propertyId, buyerId);
+
+        if(recallLikeSuccess) httpStatus = HttpStatus.NO_CONTENT;
+        else httpStatus = HttpStatus.CONFLICT;
+
+        return ResponseEntity.status(httpStatus).headers(responseHeaders).body(null);
+
+    }
+
+
 
 
 
