@@ -4,6 +4,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.validation.constraints.*;
 import java.time.LocalDateTime;
+import java.util.List;
 
 public class Property {
     @Min(0)
@@ -14,7 +15,7 @@ public class Property {
     private AdCategory adCategory;
     private Type type;
     private City city;
-    //lista tagova????
+    private List<Tag> tags;
 
     @DateTimeFormat
     @PastOrPresent
@@ -35,12 +36,13 @@ public class Property {
 
     public Property(){}
 
-    public Property(int id, SellerUser sellerUser, AdCategory adCategory, Type type, City city, LocalDateTime postingDate, String description, String price, String area, boolean newConstruction) {
+    public Property(int id, SellerUser sellerUser, AdCategory adCategory, List<Tag> tags, Type type, City city, LocalDateTime postingDate, String description, String price, String area, boolean newConstruction) {
         this.id = id;
         this.sellerUser = sellerUser;
         this.adCategory = adCategory;
         this.type = type;
         this.city = city;
+        this.tags = tags;
         this.postingDate = postingDate;
         this.description = description;
         this.price = price;
@@ -126,5 +128,13 @@ public class Property {
 
     public void setNewConstruction(boolean newConstruction) {
         this.newConstruction = newConstruction;
+    }
+
+    public List<Tag> getTags() {
+        return tags;
+    }
+
+    public void setTags(List<Tag> tags) {
+        this.tags = tags;
     }
 }

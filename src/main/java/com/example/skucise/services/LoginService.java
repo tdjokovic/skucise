@@ -1,6 +1,5 @@
 package com.example.skucise.services;
 
-import com.example.skucise.controllers.LoginController;
 import com.example.skucise.models.LoginCredentials;
 import com.example.skucise.models.LoginResponse;
 import com.example.skucise.repositories.LoginRepository;

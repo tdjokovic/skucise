@@ -11,34 +11,33 @@ export interface Credentials{
 
 //za filter oglasa
 export interface Filters{
-    title:string;
     tagList?:number[];
+    newConstruction:boolean;
+
     sellerId:number;
     cityId:number;
+    adCategoryId:number; // koji je tip oglasa
+    typeId: number; //koji je tip nekretnine
+
     pageNumber:number;
     propertiesPerPage:number;
-    categoryId:number; // koji je tip objekta
-    propertySize:number; //kvadratura stana
-
-    //ovo bi mogli da bude i 
-    //sellingTypeId:number; gde ce da se 0 uparuje sa izdavanjem a 1 sa prodajom
-    sellingProperty:boolean;
     ascendingOrder:boolean;
 }
 
 //model oglasa za stan
 export interface Property{
-    title:string;
-    description:string;
-    seller:Seller;
-    type:propertyType;
+    sellerUser:Seller;
     city:City;
+    adCategory:AdCategory; //prodaja ili izdavanje
+    type:AdType; //da li je stan,kuca...
     tags:Tag[];
-    price:number;
-    adType:AdType;
 
     id:number;
+    description:string;
+    price:number;
     postingDate:Date;
+    area:string; //kvadratura
+    newConstruction:boolean;
 }
 
 export interface Seller{
@@ -73,12 +72,12 @@ export interface Tag{//tagovi oglasa (kao kljucne reci)
     name:string;
 }
 
-export interface propertyType{ //da li je stan,kuca,plac...
+export interface AdType{ //da li je stan,kuca,plac...
     id:number;
     name:string;
 }
 
-export interface AdType{//da li se prodaje ili se izdaje...
+export interface AdCategory{//da li se prodaje ili se izdaje...
     id:number;
     name:string;
 }
@@ -97,8 +96,8 @@ export interface Likes{
 }
 
 export interface Rating{
-    id:number;
-    name:string;
+    totalRating:number;
+    alreadyRated:boolean;//ako je ocenjeno da ne moze opet
 }
 
 export interface NewSeller{
@@ -118,4 +117,28 @@ export interface NewBuyer{
     hashedPassword:string;
     picture:string | null;
     phoneNumber:string;
+}
+
+export interface PagedProperty{
+    totalProperties:number;
+    properties:Property[];
+}
+
+export interface NewProperty{
+    // Obavezni podaci. Regularni format
+    description: string;
+    area:string;
+    workFromHome: boolean;
+    price:string;
+
+    // Format: Objekat, name = '', bitan samo id
+    adCategory : AdCategory;
+    adType: AdType;
+    city: City;    
+    
+    tags: Tag[];            // [], ako nema tagova
+
+    // Uvek null
+    postDate: null;
+    employer: null;
 }

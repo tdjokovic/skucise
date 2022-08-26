@@ -1,5 +1,73 @@
-<app-propertybg></app-propertybg>
+<app-propertybg [adCategory]="adCategory"></app-propertybg>
 
-<app-carousel></app-carousel>
+<br>
+<div class="container">
+    <div class="row justify-content-center align-items-center">
+        <div class="col-lg-12 text-center">
+            <form action="#" class="form-search d-flex align-items-stretch mb-3 home-search-form">
+                <div *ngIf="adCategory == null" class="home-form-group form-control">
+                
+                    <div class="form-check radio-form" >
+                        <div *ngFor="let c of adCategories">
+                            <!--ako je izdavanje ili prodaja selektovano na stranici, ovo trebva da bude disabled-->
+                            <label class="form-check-label" for="{{c.name}}Radio">{{c.name}}</label>
+                            <input [disabled]="adCategory!=null && selectedAdCategoryId!=c.id"  class="form-check-input" type="radio" name="adCategory" value="{{c.id}}" id="{{c.name}}Radio" (change)="setAdCategory(c.id)">
+                        </div>
+                        <br>
+                    </div>
 
-<app-propertiesgrid></app-propertiesgrid>
+                </div>
+                
+                <div class="home-form-group form-control place-multi">
+                    Vrsta nekretnine
+                    <select [(ngModel)]="selectedAdTypeId" class="form-select" name="adTypeSelect">
+                        <option value="0" selected>Sve vrste</option>
+                        <option  *ngFor="let c of adTypes" name="adType" [ngValue]="c.id">{{c.name}}</option>
+                    </select>
+                </div>
+
+                <div class="home-form-group form-control place-multi">
+                    Grad
+                    <select [(ngModel)]="selectedCityId" class="form-select" name="citySelect">
+                        <option value="0" selected>Svi gradovi</option>
+                        <option *ngFor="let c of cities" [ngValue]="c.id" name="city">{{c.name}}</option>
+                    </select>
+                </div>
+
+                <div class="home-form-group">
+                    <input (click)="toggleNewConstruction()" class="form-check-input" type="checkbox" id="novogradnjaCheckbox"> &nbsp;
+                    <label class="form-check-label" for="novogradnjaCheckbox">Novogradnja</label>
+                </div>
+                <!--<input type="text" class="form-control px-4" placeholder="Your ZIP code or City. e.g. New York">-->
+                <button type="submit" class="btn btn-primary" (click)="onSubmit()">Pretraga</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!--ovo su sve nekretnine-->
+<div class="section section-properties">
+    <div *ngIf="properties.length>0" class="container">
+        <div class="row">
+
+            <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4" *ngFor="let p of properties">
+                <app-property [property]="p"></app-property>
+            </div>
+            
+        </div>
+        <div class="row align-items-center py-5">
+            <div class="col-lg-3">
+                Pagination ({{currentPage}} of {{totalPagesNum}})
+            </div>
+            <div class="col-lg-6 text-center">
+                <div class="custom-pagination">
+                    <a *ngFor="let p of totalPagesArray" [class]="(currentPage == p) ? 'active' : ''" (click)="changePage(p)" style="margin:2px">{{p}}</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div *ngIf="properties.length==0" class="container">
+        Trenutno u nasoj bazi nema takvih nekretnina! Pokusajte sa malo drugacijom pretragom.
+    </div>
+</div>

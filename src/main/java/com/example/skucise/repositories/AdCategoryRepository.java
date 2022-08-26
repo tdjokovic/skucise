@@ -1,7 +1,8 @@
 package com.example.skucise.repositories;
 
+import com.example.skucise.models.AdCategory;
 import com.example.skucise.models.City;
-import com.example.skucise.repositories.interfaces.ICityRepository;
+import com.example.skucise.repositories.interfaces.IAdCategoryRepository;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
 
@@ -10,9 +11,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Repository
-public class CityRepository implements ICityRepository {
+public class AdCategoryRepository implements IAdCategoryRepository {
 
-    private static final String CITY_STORED_PROCEDURE_CALL = "{call get_all_cities()}";
+    private static final String AD_CATEGORY_STORED_PROCEDURE_CALL = "{call get_all_ad_categories()}";
 
     @Value("jdbc:mariadb://localhost:3307/skucise")
     private String databaseSourceUrl;
@@ -24,22 +25,22 @@ public class CityRepository implements ICityRepository {
     private String databasePassword;
 
     @Override
-    public List<City> getAll() {
+    public List<AdCategory> getAll() {
 
-        List<City> cityList = new ArrayList<>();
-        City oneCity;
+        List<AdCategory> adCategoryList = new ArrayList<>();
+        AdCategory adCategory;
 
         try(Connection conn = DriverManager.getConnection(databaseSourceUrl, databaseUsername, databasePassword);
-            CallableStatement stmt = conn.prepareCall( CITY_STORED_PROCEDURE_CALL )){
+            CallableStatement stmt = conn.prepareCall( AD_CATEGORY_STORED_PROCEDURE_CALL )){
 
             ResultSet resultSet = stmt.executeQuery();
 
             while(resultSet.next()){
-                oneCity = new City();
-                oneCity.setId(resultSet.getInt("city_id"));
-                oneCity.setName(resultSet.getString("city_name"));
+                adCategory = new AdCategory();
+                adCategory.setId(resultSet.getInt("ad_category_id"));
+                adCategory.setName(resultSet.getString("ad_category_name"));
 
-                cityList.add(oneCity);
+                adCategoryList.add(adCategory);
             }
 
         }
@@ -47,21 +48,21 @@ public class CityRepository implements ICityRepository {
             e.printStackTrace();
         }
 
-        return cityList;
+        return adCategoryList;
     }
 
     @Override
-    public boolean create(City city) {
+    public boolean create(AdCategory adCategory) {
         return false;
     }
 
     @Override
-    public City get(Integer integer) {
+    public AdCategory get(Integer integer) {
         return null;
     }
 
     @Override
-    public boolean update(City city, Integer integer) {
+    public boolean update(AdCategory adCategory, Integer integer) {
         return false;
     }
 

@@ -198,10 +198,9 @@ public class SellerRepository implements ISellerRepository {
             stmt.setInt("p_seller_id", id);
             ResultSet resultSet = stmt.executeQuery();
 
-            int propertyId;
             Property property;
-            //tag
-            //taglist
+            Tag tag;
+            List<Tag> tags ;
 
             properties = new ArrayList<>();
 
@@ -238,7 +237,21 @@ public class SellerRepository implements ISellerRepository {
                 adCategory.setName(resultSet.getString("ad_name"));
                 property.setAdCategory(adCategory);
 
-                //deo za tagove!
+                stmtTag.setInt("p_property_id", property.getId());
+                ResultSet rs = stmtTag.executeQuery();
+
+                tags = new ArrayList<>();
+
+                while(rs.next()){
+                    tag = new Tag();
+                    tag.setId(rs.getInt("id"));
+                    tag.setPropertyTypeId(rs.getInt("property_type_id"));
+                    tag.setName(rs.getString("name"));
+
+                    tags.add(tag);
+                }
+
+                property.setTags(tags);
 
                 properties.add(property);
             }
@@ -275,7 +288,7 @@ public class SellerRepository implements ISellerRepository {
                     sum = sum + resultSet.getByte("feedback_value");
                 }
 
-                rating.setRating(sum);
+                rating.setRating(sum / counter);
                 rating.setAlreadyRated(false);
 
                 //posmatramo da li je vec ocenio prodavca

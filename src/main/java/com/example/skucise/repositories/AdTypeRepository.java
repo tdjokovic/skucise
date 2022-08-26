@@ -1,7 +1,8 @@
 package com.example.skucise.repositories;
 
-import com.example.skucise.models.City;
-import com.example.skucise.repositories.interfaces.ICityRepository;
+import com.example.skucise.models.AdCategory;
+import com.example.skucise.models.Type;
+import com.example.skucise.repositories.interfaces.IAdTypeRepository;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
 
@@ -10,9 +11,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Repository
-public class CityRepository implements ICityRepository {
+public class AdTypeRepository implements IAdTypeRepository {
 
-    private static final String CITY_STORED_PROCEDURE_CALL = "{call get_all_cities()}";
+    private static final String AD_TYPE_STORED_PROCEDURE_CALL = "{call get_all_ad_types()}";
 
     @Value("jdbc:mariadb://localhost:3307/skucise")
     private String databaseSourceUrl;
@@ -24,22 +25,21 @@ public class CityRepository implements ICityRepository {
     private String databasePassword;
 
     @Override
-    public List<City> getAll() {
-
-        List<City> cityList = new ArrayList<>();
-        City oneCity;
+    public List<Type> getAll() {
+        List<Type> adTypeList = new ArrayList<>();
+        Type type;
 
         try(Connection conn = DriverManager.getConnection(databaseSourceUrl, databaseUsername, databasePassword);
-            CallableStatement stmt = conn.prepareCall( CITY_STORED_PROCEDURE_CALL )){
+            CallableStatement stmt = conn.prepareCall( AD_TYPE_STORED_PROCEDURE_CALL )){
 
             ResultSet resultSet = stmt.executeQuery();
 
             while(resultSet.next()){
-                oneCity = new City();
-                oneCity.setId(resultSet.getInt("city_id"));
-                oneCity.setName(resultSet.getString("city_name"));
+                type = new Type();
+                type.setId(resultSet.getInt("type_id"));
+                type.setName(resultSet.getString("type_name"));
 
-                cityList.add(oneCity);
+                adTypeList.add(type);
             }
 
         }
@@ -47,21 +47,21 @@ public class CityRepository implements ICityRepository {
             e.printStackTrace();
         }
 
-        return cityList;
+        return adTypeList;
     }
 
     @Override
-    public boolean create(City city) {
+    public boolean create(Type type) {
         return false;
     }
 
     @Override
-    public City get(Integer integer) {
+    public Type get(Integer integer) {
         return null;
     }
 
     @Override
-    public boolean update(City city, Integer integer) {
+    public boolean update(Type type, Integer integer) {
         return false;
     }
 

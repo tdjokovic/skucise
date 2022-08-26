@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { PropertiesgridComponent } from './propertiesgrid.component';
+import { PropertySingleComponent } from './property-single.component';
 
-describe('PropertiesgridComponent', () => {
-  let component: PropertiesgridComponent;
-  let fixture: ComponentFixture<PropertiesgridComponent>;
+describe('PropertySingleComponent', () => {
+  let component: PropertySingleComponent;
+  let fixture: ComponentFixture<PropertySingleComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ PropertiesgridComponent ]
+      declarations: [ PropertySingleComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(PropertiesgridComponent);
+    fixture = TestBed.createComponent(PropertySingleComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

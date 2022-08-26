@@ -22,6 +22,7 @@ export class RegisterFormComponent implements OnInit {
 
   showMeBuyerFormBool : boolean = true;
   showMeSellerFormBool : boolean = false;
+  isActive : string = "buyer";
 
   //polja za kupca
   bFirstName : string = '';
@@ -79,6 +80,10 @@ export class RegisterFormComponent implements OnInit {
     if(!this.showMeBuyerFormBool){
       this.showMeBuyerFormBool =  true;
       this.showMeSellerFormBool = false;
+
+      this.isActive = "buyer";
+
+      alert(this.isActive);
     }
   }
 
@@ -87,6 +92,10 @@ export class RegisterFormComponent implements OnInit {
     if(!this.showMeSellerFormBool){
       this.showMeSellerFormBool =  true;
       this.showMeBuyerFormBool = false;
+
+      this.isActive = "seller";
+
+      alert(this.isActive);
     }
   }
 
@@ -346,6 +355,7 @@ export class RegisterFormComponent implements OnInit {
 
       //sve je ok
       self.bWrongPicture = false;
+      console.log("Picture len is ", self.bPicture.length);
     }
   }
 

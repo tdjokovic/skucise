@@ -3,12 +3,15 @@
     <div class="container">
         <div class="row justify-content-center align-items-center">
             <div class="col-lg-9 text-center mt-5">
-                <h1 class="heading">Properties</h1>
+                <h1 *ngIf="adCategory == null" class="heading">Sve nekretnine</h1>
+                <h1 *ngIf="adCategory == 'prodaja'" class="heading">Nekrenine na prodaju</h1>
+                <h1 *ngIf="adCategory == 'izdavanje'" class="heading">Nekretnine za izdavanje</h1>
+                
 
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb text-center justify-content-center">
                         <li class="breadcrumb-item "><a href="index.html">Home</a></li>
-                        <li class="breadcrumb-item active text-white-50" aria-current="page">Properties</li>
+                        <li class="breadcrumb-item active text-white-50" aria-current="page">Nekretnine</li>
                     </ol>
                 </nav>
             </div>
