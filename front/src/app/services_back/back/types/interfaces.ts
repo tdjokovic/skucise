@@ -26,7 +26,7 @@ export interface Filters{
 
 //model oglasa za stan
 export interface Property{
-    seller:Seller;
+    sellerUser:Seller;
     city:City;
     adCategory:AdCategory; //prodaja ili izdavanje
     type:AdType; //da li je stan,kuca...

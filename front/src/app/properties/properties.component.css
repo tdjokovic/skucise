@@ -1,0 +1,24 @@
+.home-search-form{
+    background:white; 
+    display: grid; 
+    grid-template-columns: .75fr .75fr 2fr 1fr .5fr;
+    min-height: 100px;
+    border-radius: 8px;
+    box-shadow: 0 3px 5px -1px #0003, 0 5px 8px #00000024, 0 1px 14px #0000001f;
+}
+
+.home-form-group{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 1rem;
+}
+
+.place-multi{
+    justify-content: start;
+    padding: 0;
+}
+
+.radio-form{
+    display: flex;
+}

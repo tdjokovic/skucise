@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { AdCategory, AdType, City, Filters, Property, Seller, Tag } from '../services_back/back/types/interfaces';
+import { AdCategoryService } from '../services_back/services/adcategory.service';
+import { AdTypesService } from '../services_back/services/adtype.service';
 import { AuthorizeService } from '../services_back/services/authorize.service';
 import { CityService } from '../services_back/services/city.service';
 import { PropertyService } from '../services_back/services/property.service';
@@ -24,7 +26,8 @@ export class PropertiesComponent implements OnInit {
 
   public currentPage: number = 1;
   public totalPropertiesNum: number = 0
-  public totalPagesNum: number = 0 
+  public totalPagesNum: number = 0 ;
+  public totalPagesArray : number [] = [];
   public propertiesPerPage: number = 6;
   public sortDateAscending: boolean = false;
 
@@ -39,6 +42,9 @@ export class PropertiesComponent implements OnInit {
     this.newConstruction = !this.newConstruction;
   }
   
+  setAdCategory(id:number){
+    this.selectedAdCategoryId = id;
+  }
 
   selectedCityId: number = 0;
   selectedAdCategoryId: number = 0;
@@ -46,6 +52,13 @@ export class PropertiesComponent implements OnInit {
   selectedSellerId: number = 0;
   public showMoreBool: boolean = false;
 
+  counterPages(){
+    this.totalPagesArray = [];
+    for(let i = 1; i<=this.totalPagesNum ; i ++ ){
+      this.totalPagesArray.push(i);
+    }
+
+  }
  
   
   // Dropdown Tags List
@@ -57,6 +70,8 @@ export class PropertiesComponent implements OnInit {
   constructor(private authorizationService : AuthorizeService,
     private activatedRoute : ActivatedRoute,
     private propertyService : PropertyService,
+    private adCategoryService : AdCategoryService,
+    private adTypeService : AdTypesService,
     private cityService : CityService,
     private sellerService : SellerService) { }
 
@@ -75,6 +90,23 @@ export class PropertiesComponent implements OnInit {
     this.authorizationService.checkAccess(this.activatedRoute, this, 
       (self: any) =>{
         self.pageLoaded = true;
+
+        
+      this.sellerService.getSellers(undefined, this, (self: any, data : Seller[]) => {
+        this.sellers = data;
+      });
+
+      this.cityService.getCities(this, (self: any, data : City[]) => {
+        this.cities = data;
+      });
+
+      this.adCategoryService.getCategories(this, (self: any, data : AdCategory[]) => {
+        this.adCategories = data;
+      });
+
+      this.adTypeService.getAdTypes(this, (self: any, data : AdType[]) => {
+        this.adTypes = data;
+      });
 
 
         let par = this.activatedRoute.snapshot.paramMap.get("adCategory");
@@ -98,13 +130,6 @@ export class PropertiesComponent implements OnInit {
 
   getAllProperties(category : string | null){
     if(category == null){
-      this.sellerService.getSellers(undefined, this, (self: any, data : Seller[]) => {
-        this.sellers = data;
-      });
-
-      this.cityService.getCities(this, (self: any, data : City[]) => {
-        this.cities = data;
-      });
 
       //servis za adCategories
       //servis za adTypes
@@ -112,11 +137,13 @@ export class PropertiesComponent implements OnInit {
       this.propertyService.getProperties(this, this.cbSuccessProperty);
     }
     else{
+      this.selectedAdCategoryId = 0;
 
       let filters! : Filters;
 
       if(category == 'prodaja'){
-        this.selectedAdCategoryId = 2;
+        this.selectedAdCategoryId = this.adCategories.find(s => s.name == 'Prodaja')?.id as unknown as number; 
+        console.log("selected category id is "+this.selectedAdCategoryId);
         //filter prodaja
         filters = {
           newConstruction:false,
@@ -132,7 +159,8 @@ export class PropertiesComponent implements OnInit {
 
       }
       else if (category == 'izdavanje'){
-        this.selectedAdCategoryId = 1;
+        this.selectedAdCategoryId  = this.adCategories.find(s => s.name == 'Izdavanje')?.id as unknown as number; 
+        console.log("selected category id is "+this.selectedAdCategoryId);
         //filter izdavanje
         filters = {
           newConstruction:false,
@@ -153,6 +181,24 @@ export class PropertiesComponent implements OnInit {
 
 
   //paginacija
+
+  changePage(p:number){
+    
+    let res : number;
+    if(p>this.currentPage){
+      res = p-this.currentPage;
+      for(let i = 0; i< res; i++){
+        this.nextPage();
+      }
+    }
+    else if(p<this.currentPage){
+      res = this.currentPage - p;
+      for(let i = 0; i< res; i++){
+        this.previousPage();
+      }
+    }
+  }
+
   nextPage(){
     if(this.currentPage >= this.totalPagesNum){
       this.currentPage = this.totalPagesNum;
@@ -189,6 +235,9 @@ export class PropertiesComponent implements OnInit {
       ascendingOrder : this.sortDateAscending
     }
 
+    console.log("FILTERS ARE");
+    console.log(`City id ${this.filtersFromPage.cityId}, adCategoryId ${this.filtersFromPage.adCategoryId}, adTypeId ${this.filtersFromPage.typeId}, newConstruction ${this.filtersFromPage.newConstruction}`)
+
     if (this.checkedTags.length > 0) //ako su selektonani tagovi
       this.filtersFromPage.tagList = this.checkedTags;
 
@@ -209,9 +258,6 @@ export class PropertiesComponent implements OnInit {
     this.showMoreBool = ! this.showMoreBool;
   }
 
-  onSearch(){
-    //treba da se odradi da se filtrira po descriptionu to sto je korisnik uneo 
-  }
 
   //tagovi
   getNewTages(){
@@ -247,6 +293,11 @@ export class PropertiesComponent implements OnInit {
     }
   }
 
+  onSubmit(){
+    this.packFilters(undefined);
+
+    this.propertyService.getFilteredProperties(this.filtersFromPage, this, this.cbSuccessProperty);
+  }
 
 
   //callbacks
@@ -260,6 +311,8 @@ export class PropertiesComponent implements OnInit {
     self.currentPage = 1;
     self.totalPropertiesNum = propertiesNumber;
     self.totalPagesNum = Math.ceil(self.totalPropertiesNum / self.propertiesPerPage);
+    self.counterPages();
+
 
     console.log(`After fetching properties, total pages is ${self.totalPagesNum}, jobs per page is ${self.propertiesPerPage}, and total properties is ${self.totalPropertiesNum}.`);
   }

@@ -107,6 +107,7 @@ public class PropertyRepository implements IPropertyRepository {
         stmt.setInt("p_ad_category_id", property.getAdCategory().getId());
         stmt.setInt("p_city_id", property.getCity().getId());
         stmt.setString("p_description", property.getDescription());
+        stmt.setString("p_area", property.getArea());
         stmt.setString("p_price", property.getPrice());
         stmt.setBoolean("p_new_construction", property.isNewConstruction());
 
@@ -115,6 +116,8 @@ public class PropertyRepository implements IPropertyRepository {
     @Override
     public Property get(Integer id) {
         Property property = null;
+
+        LOGGER.info("Trying to find property with id {}", id);
 
         try(Connection conn = DriverManager.getConnection(databaseSourceUrl, databaseUsername, databasePassword);
         CallableStatement stmt = conn.prepareCall(GET_PROPERTY_STORED_PROCEDURE);
@@ -125,7 +128,8 @@ public class PropertyRepository implements IPropertyRepository {
 
             if(resultSet.first()){
                 property = new Property();
-                setNewProperty(resultSet, stmtTag);
+                property = setNewProperty(resultSet, stmtTag);
+                LOGGER.info("Property id {}, seller id {}, city id {}, price {}", property.getId(), property.getSellerUser().getId(), property.getCity().getId(), property.getPrice());
             }
         }catch (SQLException e){
             LOGGER.error("Error while trying to communicate with the database - get");
@@ -139,6 +143,7 @@ public class PropertyRepository implements IPropertyRepository {
 
         LOGGER.warn("FOUND PROPERTY");
         LOGGER.warn("PROPERTY ID IS {}", resultSet.getInt("id"));
+        LOGGER.info("Seller id is {}", resultSet.getInt("seller_id"));
 
         SellerUser seller = new SellerUser();
         seller.setId(resultSet.getInt("seller_id"));

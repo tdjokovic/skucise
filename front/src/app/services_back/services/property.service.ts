@@ -72,11 +72,10 @@ export class PropertyService{
     getProperty(id: number, self?: any, cbSuccess?: Function, cbNotFound?:Function){
         this.api.getProperty(id).subscribe(
             (response) => {
-                this.property = response.body!;
-                console.log("Property found : ");
-                console.log(this.property);
+                console.log("Property found!!!!!! :");
+                console.log(response.body);
 
-                if(self && cbSuccess) cbSuccess(self);
+                if(self && cbSuccess) cbSuccess(self, response.body);
             },
             (error : HttpErrorResponse) => {
                 this.authService.redirectIfSessionExpired(error.status);

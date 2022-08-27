@@ -25,9 +25,8 @@ public class BuyerRepository implements IBuyerRepository {
     private static final String GET_ALL_BUYERS_STORED_PROCEDURE = "{call get_all_buyers(?)}";
     private static final String APPROVE_STORED_PROCEDURE = "{call approve_user(?,?)}";
     private static final String DELETE_STORED_PROCEDURE = "{call delete_user(?,?)}";
-    private static final String PROPERTIES_BUYER_APPLIED_STORED_PROCEDURE = "{call get_properties_buyer_applied_on(?)}"; //////////////////nije provereno
-    private static final String TAG_STORED_PROCEDURE = "{call get_tags_for_a_property(?)}"; //////////////////nije provereno
-
+    private static final String PROPERTIES_BUYER_APPLIED_STORED_PROCEDURE = "{call get_properties_buyer_applied_on(?)}";
+    private static final String TAG_STORED_PROCEDURE = "{call get_tags_for_a_property(?)}";
 
     @Value("jdbc:mariadb://localhost:3307/skucise")
     private String databaseSourceUrl;
@@ -306,18 +305,26 @@ public class BuyerRepository implements IBuyerRepository {
         property.setType(type);
         property.setSellerUser(seller);
 
-        /*
-        stmt.setInt("p_prop_id",property.getId());
+
+        stmt.setInt("p_property_id",property.getId());
         ResultSet rsTag = stmt.executeQuery();
+        List<Tag> tags = new ArrayList<>();
         if(rsTag != null){
             //ima tagova za property
             rsTag.beforeFirst();
-            //Tag tag;
+            Tag tag;
             while (rsTag.next()){
-                //ovo za tagove jos uvek ne!
+                tag = new Tag();
+                tag.setId(resultSet.getInt("id"));
+                tag.setName(resultSet.getString("name"));
+                tag.setPropertyTypeId(resultSet.getInt("property_type_id"));
+
+                tags.add(tag);
             }
+
+            property.setTags(tags);
         }
-        */
+
 
         return property;
     }

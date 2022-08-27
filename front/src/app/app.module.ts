@@ -20,7 +20,6 @@ import { ContactbgComponent } from './contact/contactbg/contactbg.component';
 import { ContactformComponent } from './contact/contactform/contactform.component';
 import { PropertiesComponent } from './properties/properties.component';
 import { PropertybgComponent } from './properties/propertybg/propertybg.component';
-import { PropertiesgridComponent } from './properties/propertiesgrid/propertiesgrid.component';
 import { PropertyComponent } from './properties/property/property.component';
 import { TestimonyComponent } from './home/testimonials/testimony/testimony.component';
 import { AboutusComponent } from './aboutus/aboutus.component';
@@ -36,6 +35,7 @@ import { SellerInfoCardComponent } from './_pages/seller-info/seller-info-card/s
 import { RegisterComponent } from './_pages/register/register.component';
 import { RegisterFormComponent } from './_pages/register/register-form/register-form.component';
 import { BuyerInfoCardComponent } from './_pages/buyer-info/buyer-info-card/buyer-info-card.component';
+import { PropertySingleComponent } from './_pages/property-single/property-single.component';
 
 @NgModule({
   declarations: [
@@ -54,7 +54,6 @@ import { BuyerInfoCardComponent } from './_pages/buyer-info/buyer-info-card/buye
     ContactformComponent,
     PropertiesComponent,
     PropertybgComponent,
-    PropertiesgridComponent,
     PropertyComponent,
     TestimonyComponent,
     AboutusComponent,
@@ -70,6 +69,7 @@ import { BuyerInfoCardComponent } from './_pages/buyer-info/buyer-info-card/buye
     RegisterComponent,
     RegisterFormComponent,
     BuyerInfoCardComponent,
+    PropertySingleComponent,
   ],
   imports: [
     BrowserModule,

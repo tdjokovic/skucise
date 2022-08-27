@@ -1,0 +1,61 @@
+<div class="hero page-inner overlay" style="background-image: url('../../../assets/images/hero_bg_1.jpg');">
+
+    <div class="container">
+        <div class="row justify-content-center align-items-center">
+            <div class="col-lg-9 text-center mt-5">
+                <h1 class="heading">Nekretnina</h1>
+                
+
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb text-center justify-content-center">
+                        <li class="breadcrumb-item "><a [routerLink]="['/']">Home</a></li>
+                        <li class="breadcrumb-item active text-white-50" aria-current="page">Nekretnina</li>
+                        <li class="breadcrumb-item active text-white-50" aria-current="page">Ime</li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--property single-->
+
+
+
+
+
+<div class="section" *ngIf="property">
+    <div class="container">
+        <div class="row justify-content-between">
+            <div class="col-lg-7">
+                <div class="">
+                    <div class="" style="width:calc(500%)">
+                        <img src="../../../assets/images/img_1.jpg" alt="Image" class="img-fluid" style="width:calc(20%)">
+                        <!--
+                        <img src="../../../assets/images/img_2.jpg" alt="Image" class="img-fluid">
+                        <img src="../../../assets/images/img_3.jpg" alt="Image" class="img-fluid">
+                        -->
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <h2 class="heading text-primary">{{property.city.name}}</h2>
+                <p class="meta">{{property.adCategory.name}} / {{property.type.name}}</p>
+                <p class="text-black-50">{{property.description}}</p>
+                
+                <div class="d-block agent-box p-5">
+                    <h3>Podaci o prodavcu</h3>
+                    <div class="img mb-4">
+                        <img src="{{property.sellerUser.picture}}" alt="Image" class="img-fluid">
+                    </div>
+                    <div class="text">
+                        <h3 class="mb-3">{{property.sellerUser.firstName}}  {{[property.sellerUser.lastName]}}</h3>
+                        <div class="meta mb-2">Email adresa: {{property.sellerUser.email}}</div>
+                        <div class="meta mb-2">Kontakt telefon: {{property.sellerUser.phoneNumber}}</div>
+                                                
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

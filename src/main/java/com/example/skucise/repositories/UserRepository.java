@@ -42,14 +42,14 @@ public class UserRepository implements IUserRepository {
         try(Connection conn = DriverManager.getConnection(databaseSourceUrl, databaseUsername, databasePassword);
             CallableStatement stmt = conn.prepareCall(GET_USER_PROCEDURE_CALL)){
 
-                stmt.setInt("id", integer);
+                stmt.setInt("p_id", integer);
                 ResultSet resultSet = stmt.executeQuery();
 
                 if(resultSet.first()){
                     user = new User();
-                    int id = resultSet.getInt("id");
+                    int id = resultSet.getInt("user_id");
                     String email = resultSet.getString("email");
-                    String hashedPassword = resultSet.getString("hashedPassword");
+                    String hashedPassword = resultSet.getString("hashed_password");
 
                     user.setId(id);
                     user.setEmail(email);

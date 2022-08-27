@@ -22,13 +22,13 @@ public class SellerRepository implements ISellerRepository {
     private static final String GET_SELLER_PROCEDURE_CALL = "{call get_seller(?)}";
     private static final String APPROVE_SELLER_PROCEDURE_CALL = "{call approve_user(?,?)}";
     private static final String DELETE_SELLER_PROCEDURE_CALL = "{call delete_user(?,?)}";
-    private static final String GET_FEEDBACK_VALUES_STORED_PROCEDURE = "{call get_feedback_values(?)}"; ///////nije provereno
+    private static final String GET_FEEDBACK_VALUES_STORED_PROCEDURE = "{call get_feedback_values(?)}";
     private static final String APPLICATION_STORED_PROCEDURE = "{call check_application(?,?)}";
-    private static final String RATE_SELLER_STORED_PROCEDURE = "{call rate_seller(?,?,?,?)}";///nije provereno
-    private static final String IS_RATED_STORED_PROCEDURE = "{call check_if_rated(?,?)}";//nije provereno
+    private static final String RATE_SELLER_STORED_PROCEDURE = "{call rate_seller(?,?,?,?)}";
+    private static final String IS_RATED_STORED_PROCEDURE = "{call check_if_rated(?,?)}";
 
-    private static final String SELLER_GET_POSTS_PROCEDURE_CALL = "{call seller_get_posts_without_tags(?)}";//nije provereno
-    private static final String GET_TAGS_A_PROPERTY_PROCEDURE_CALL = "{call get_tags_for_a_property(?)}";//nije provereno
+    private static final String SELLER_GET_POSTS_PROCEDURE_CALL = "{call seller_get_posts_without_tags(?)}";
+    private static final String GET_TAGS_A_PROPERTY_PROCEDURE_CALL = "{call get_tags_for_a_property(?)}";
 
     @Value("jdbc:mariadb://localhost:3307/skucise")
     private String databaseSourceUrl;
@@ -198,10 +198,9 @@ public class SellerRepository implements ISellerRepository {
             stmt.setInt("p_seller_id", id);
             ResultSet resultSet = stmt.executeQuery();
 
-            int propertyId;
             Property property;
-            //tag
-            //taglist
+            Tag tag;
+            List<Tag> tags ;
 
             properties = new ArrayList<>();
 
@@ -238,7 +237,21 @@ public class SellerRepository implements ISellerRepository {
                 adCategory.setName(resultSet.getString("ad_name"));
                 property.setAdCategory(adCategory);
 
-                //deo za tagove!
+                stmtTag.setInt("p_property_id", property.getId());
+                ResultSet rs = stmtTag.executeQuery();
+
+                tags = new ArrayList<>();
+
+                while(rs.next()){
+                    tag = new Tag();
+                    tag.setId(rs.getInt("id"));
+                    tag.setPropertyTypeId(rs.getInt("property_type_id"));
+                    tag.setName(rs.getString("name"));
+
+                    tags.add(tag);
+                }
+
+                property.setTags(tags);
 
                 properties.add(property);
             }
@@ -275,7 +288,7 @@ public class SellerRepository implements ISellerRepository {
                     sum = sum + resultSet.getByte("feedback_value");
                 }
 
-                rating.setRating(sum);
+                rating.setRating(sum / counter);
                 rating.setAlreadyRated(false);
 
                 //posmatramo da li je vec ocenio prodavca
