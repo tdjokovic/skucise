@@ -71,13 +71,13 @@
                     <!-- Seller -->
                     <app-seller-info-card class=""
                         [dissableDelete]="true"
-                        *ngIf="activeEmp" [emp]="activeEmp">
+                        *ngIf="activeSeller" [seller]="activeSeller">
                     </app-seller-info-card>
                     
                     <!-- Buyer -->
                     <app-buyer-info-card class="" 
                         [dissableDelete]="true"
-                        *ngIf="activeApp" [app]="activeApp">
+                        *ngIf="activeBuyer" [buyer]="activeBuyer">
                     </app-buyer-info-card>
                     
                     <!-- Approve / Reject -->
