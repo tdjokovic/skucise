@@ -13,6 +13,7 @@ import { BuyerInfoComponent } from './_pages/buyer-info/buyer-info.component';
 import { SellerInfoComponent } from './_pages/seller-info/seller-info.component';
 import { RegisterComponent } from './_pages/register/register.component';
 import { PropertySingleComponent } from './_pages/property-single/property-single.component';
+import { DashboardComponent } from './_pages/dashboard/dashboard.component';
 
 
 // data - Niz uloga koje imaju pristup ruti/stranici, prazan niz daje dozvolu svim ulogama  
@@ -33,6 +34,8 @@ const routes: Routes = [
   {path:'login', component:LoginComponent,           data: { allowedRoles: [UserRoles.Visitor]}}, //samo on moze da se loguje
   {path:'logout', component:LogoutComponent,           data: { allowedRoles: [UserRoles.Admin, UserRoles.Reg_buyer, UserRoles.Reg_seller]}}, //treba da se kreira komponenta Logout
   {path:'register', component:RegisterComponent,        data: { allowedRoles: [UserRoles.Visitor]}}, 
+
+  { path: 'dashboard', component: DashboardComponent,   data: { allowedRoles: [UserRoles.Admin] }},
 
   { path: 'alert/:cause/:param', component: AlertComponent,   data: { allowedRoles: [] }},
   { path: 'alert/:cause', component: AlertComponent,          data: { allowedRoles: [] }},

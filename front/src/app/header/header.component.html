@@ -28,7 +28,7 @@
                     <li [class.active]="isActive === '/contactus'"><a [routerLink]="['/contactus']">Kontakt</a></li>
                     <li *ngIf="isSeller()"><a [routerLink]="['/']">My_props</a></li>
                     <li *ngIf="isBuyer()"><a [routerLink]="['/']">Props</a></li>
-                    <li *ngIf="isAdmin()"><a [routerLink]="['/']">Dashboard</a></li>
+                    <li *ngIf="isAdmin()"><a [routerLink]="['/dashboard']">Dashboard</a></li>
 
                     <!-- deo za prijavu i odjavu korisnika! -->
                     <li [class.active]="isActive === '/login'"><a *ngIf="isVisitor()" [routerLink] = "['/login']">Prijava</a></li>

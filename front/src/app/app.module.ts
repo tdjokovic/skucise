@@ -36,6 +36,9 @@ import { RegisterComponent } from './_pages/register/register.component';
 import { RegisterFormComponent } from './_pages/register/register-form/register-form.component';
 import { BuyerInfoCardComponent } from './_pages/buyer-info/buyer-info-card/buyer-info-card.component';
 import { PropertySingleComponent } from './_pages/property-single/property-single.component';
+import { DashboardComponent } from './_pages/dashboard/dashboard.component';
+import { ApproveUsersComponent } from './_pages/dashboard/approve-users/approve-users.component';
+import { ApproveUsersCardComponent } from './_pages/dashboard/approve-users/approve-users-card/approve-users-card.component';
 
 @NgModule({
   declarations: [
@@ -70,6 +73,9 @@ import { PropertySingleComponent } from './_pages/property-single/property-singl
     RegisterFormComponent,
     BuyerInfoCardComponent,
     PropertySingleComponent,
+    DashboardComponent,
+    ApproveUsersComponent,
+    ApproveUsersCardComponent,
   ],
   imports: [
     BrowserModule,
