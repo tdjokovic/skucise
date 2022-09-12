@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-propertybg',
@@ -6,6 +6,8 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./propertybg.component.css']
 })
 export class PropertybgComponent implements OnInit {
+
+  @Input() adCategory : string | null = null;
 
   constructor() { }
 

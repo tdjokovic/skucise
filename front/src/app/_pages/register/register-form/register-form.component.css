@@ -1,0 +1,5 @@
+input[type="button"].active{
+    background-color: white;
+    color:#005555;
+    border: #005555 1px solid !important;
+}

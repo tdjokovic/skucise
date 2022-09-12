@@ -1,0 +1,13 @@
+<div *ngIf="sellers.length > 0">
+    <h2 class="heading text-center">Lista prodavaca</h2>
+    <div class="item">
+        <div class="col-12">
+            <!--prosledjujemo u seller card jednog po jednog prodavca-->
+            <div class="row">
+                <div class="col-4" *ngFor = "let s of sellers" style="margin-top:10px;">
+                    <app-seller-card [data] = "s"></app-seller-card>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,66 @@
+
+<div class="hero page-inner overlay" style="background-image: url('../../../assets/images/hero_bg_1.jpg');">
+
+    <div class="container">
+        <div class="row justify-content-center align-items-center">
+            <div class="col-lg-9 text-center mt-5">
+                <div *ngIf="checkSessionExpired()">
+                    <h1 class="heading">Vasa sesija je istekla!</h1>
+                    
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb text-center justify-content-center">
+                            <li class="breadcrumb-item "><a href="index.html">Home</a></li>
+                            <li class="breadcrumb-item active text-white-50" aria-current="page">Upozorenje!</li>
+                        </ol>
+                    </nav>
+
+                    <h3>Prijavite se ponovo!</h3>
+                    <a class="btn btn-success" routerLink ="/login">Prijava</a>
+                </div>
+
+                <div *ngIf="checkApplyToPropertySuccessfull()">
+                    <h1 class="heading">Uspesno ste se prijavili za razgledanje!</h1>
+
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb text-center justify-content-center">
+                            <li class="breadcrumb-item "><a href="index.html">Home</a></li>
+                            <li class="breadcrumb-item active text-white-50" aria-current="page">Obavestenje!</li>
+                        </ol>
+                    </nav>
+
+                    <h3>Posaljite dalju poruku prodavcu!</h3>
+                    <a class="btn btn-success">Prijava</a> <!--PORUKA POSLODAVCU-->
+                </div>
+
+                <div *ngIf="checkRegisterSuccessful()">
+                    <h1 class="heading">Uspesna registracija!</h1>
+
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb text-center justify-content-center">
+                            <li class="breadcrumb-item "><a href="index.html">Home</a></li>
+                            <li class="breadcrumb-item active text-white-50" aria-current="page">Obavestenje!</li>
+                        </ol>
+                    </nav>
+
+                    <h3>Moci cete da se prijavite nakon sto administrator odobri vasu registraciju!</h3>
+                    <a class="btn btn-success" routerLink ="/login">Prijava</a>
+                </div>
+
+                <div *ngIf="checkCreatePropertySuccessfull()">
+                    <h1 class="heading">Uspesno ste kreirali oglas!</h1>
+                    
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb text-center justify-content-center">
+                            <li class="breadcrumb-item "><a href="index.html">Home</a></li>
+                            <li class="breadcrumb-item active text-white-50" aria-current="page">Obavestenje!</li>
+                        </ol>
+                    </nav>
+
+                    <h3>Pregledajte Vase oglase!</h3>
+                    <a class="btn btn-success" routerLink ="/">Moji oglasi</a> <!--MOJI OGLASI-->
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>  

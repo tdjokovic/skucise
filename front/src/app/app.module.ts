@@ -1,5 +1,8 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { FormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
+import { RouterModule } from '@angular/router';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -17,10 +20,22 @@ import { ContactbgComponent } from './contact/contactbg/contactbg.component';
 import { ContactformComponent } from './contact/contactform/contactform.component';
 import { PropertiesComponent } from './properties/properties.component';
 import { PropertybgComponent } from './properties/propertybg/propertybg.component';
-import { PropertiesgridComponent } from './properties/propertiesgrid/propertiesgrid.component';
 import { PropertyComponent } from './properties/property/property.component';
 import { TestimonyComponent } from './home/testimonials/testimony/testimony.component';
 import { AboutusComponent } from './aboutus/aboutus.component';
+import { LoginComponent } from './login/login.component';
+import { LoginformComponent } from './login/loginform/loginform.component';
+import { AlertComponent } from './_pages/alert/alert.component';
+import { LogoutComponent } from './_pages/logout/logout.component';
+import { SellersComponent } from './aboutus/sellers/sellers.component';
+import { SellerCardComponent } from './aboutus/sellers/seller-card/seller-card.component';
+import { SellerInfoComponent } from './_pages/seller-info/seller-info.component';
+import { BuyerInfoComponent } from './_pages/buyer-info/buyer-info.component';
+import { SellerInfoCardComponent } from './_pages/seller-info/seller-info-card/seller-info-card.component';
+import { RegisterComponent } from './_pages/register/register.component';
+import { RegisterFormComponent } from './_pages/register/register-form/register-form.component';
+import { BuyerInfoCardComponent } from './_pages/buyer-info/buyer-info-card/buyer-info-card.component';
+import { PropertySingleComponent } from './_pages/property-single/property-single.component';
 
 @NgModule({
   declarations: [
@@ -39,14 +54,29 @@ import { AboutusComponent } from './aboutus/aboutus.component';
     ContactformComponent,
     PropertiesComponent,
     PropertybgComponent,
-    PropertiesgridComponent,
     PropertyComponent,
     TestimonyComponent,
-    AboutusComponent
+    AboutusComponent,
+    LoginComponent,
+    LoginformComponent,
+    AlertComponent,
+    LogoutComponent,
+    SellersComponent,
+    SellerCardComponent,
+    SellerInfoComponent,
+    BuyerInfoComponent,
+    SellerInfoCardComponent,
+    RegisterComponent,
+    RegisterFormComponent,
+    BuyerInfoCardComponent,
+    PropertySingleComponent,
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    FormsModule,
+    RouterModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]

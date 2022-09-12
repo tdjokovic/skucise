@@ -1,0 +1,96 @@
+<div class="section">
+    <div class="container">
+        <!--registracija kupca-->
+        <div *ngIf="showMeBuyerFormBool" class="row"> 
+            <form>
+                <div class="row">
+                    <div class="col-6 col-md-4 mb-3">
+                        <input id="showBuyerFormButton"  type="button" class="btn btn-primary" value="Registruj se kao kupac" (click)="showMeBuyerForm()" [class.active]="isActive === 'buyer'">
+                        <br>
+                        <br>
+                        <input id="showSellerFormButton" type="button" class="btn btn-primary" value="Registruj se kao prodavac" (click)="showMeSellerForm()" [class.active]="isActive === 'seller'">
+                        <br>
+                        <br>
+                        <p>Vec imate nalog? <a [routerLink] = "['/login']" class="link-danger">PRIJAVITE SE!</a></p>
+                    </div>
+
+                    <div class="col-6 col-md-4 mb-3">
+                        <input [(ngModel)]="bFirstName" name="buyerFirstName" type="text" id="buyerFirstName" class="form-control" placeholder="Usesite ime">
+                        <p *ngIf="bWrongFirstName" class="small fw-bold text-danger">Unesite ispravno ime. (minimum 1, maksimum 30 karaktera)</p>
+                        <br>
+                        <input [(ngModel)]="bEmail" name="buyerEmail" type="email" id="buyerEmail" class="form-control" placeholder="Unesite mejl">
+                        <p *ngIf="bWrongEmail" class="small fw-bold text-danger">Unesite ispravnu e-mail adresu.</p>
+                        <br>
+                        <input [(ngModel)]="bPasswordOne" name="buyerPasswordOne" type="password" id="buyerPasswordOne" class="form-control" placeholder="Unesite lozinku">
+                        <p *ngIf="bWrongPasswordOne" class="small fw-bold text-danger">Lozinka se mora sastojati od najmanje 6 karaktera.</p>
+                        <br>
+                        <input [(ngModel)]="bPicture" type="file" id="buyerPicture" name="buyerPicture" class="form-control" (input)="buyerPictureValidation()">
+                        <p *ngIf="bWrongPicture" class="small fw-bold text-danger">Slika je prevelika. Dozvoljen opseg je 4kB - 45kB</p>
+                    </div>
+
+                    <div class="col-6 col-md-4 mb-3">
+                        <input [(ngModel)]="bLastName" name="buyerLastName" type="text" id="buyerLastName" class="form-control" placeholder="Unesite prezime">
+                        <p *ngIf="bWrongLastName" class="small fw-bold text-danger">Unesite ispravno prezime. (minimum 1, maksimum 30 karaktera)</p>
+                        <br>
+                        <input [(ngModel)]="bPhoneNumber" name="buyerPhoneNumber" type="text" id="buyerPhoneNumber" class="form-control" placeholder="Unesite broj telefona">
+                        <p *ngIf="bWrongPhoneNumber" class="small fw-bold text-danger">Unesite ispravan broj telefona. (Format: +3817215898 ili 0617218598)</p>
+                        <br>
+                        <input [(ngModel)]="bPasswordTwo" name="buyerPasswordTwo" type="password" id="buyerPasswordTwo" class="form-control" placeholder="Potvrdite lozinku">
+                        <p *ngIf="bWrongPasswordTwo" class="small fw-bold text-danger">Lozinke se ne podudaraju.</p>
+                        <br>
+                        <input type="button" class="btn btn-primary move-right" value="Registruj se" (click)="buyerValidation()">
+                    </div>                
+                </div>
+            </form>
+        </div>
+        <!--kraj registracije kupca-->
+
+        <!--registracija prodavca-->
+        <div *ngIf="showMeSellerFormBool" class="row"> 
+            <form>
+                <div class="row">
+                    <div class="col-6 col-md-4 mb-3">
+                        <input  type="button" class="btn btn-primary" value="Registruj se kao kupac" (click)="showMeBuyerForm()">
+                        <br>
+                        <br>
+                        <input  type="button" class="btn btn-primary" value="Registruj se kao prodavac" (click)="showMeSellerForm()">
+                        <br>
+                        <br>
+                        <p>Vec imate nalog? <a [routerLink] = "['/login']" class="link-danger">PRIJAVITE SE!</a></p>
+                    </div>
+
+                    <div class="col-6 col-md-4 mb-3">
+                        <input [(ngModel)]="sFirstName" name="sellerFirstName" type="text" id="sellerFirstName" class="form-control" placeholder="Usesite ime">
+                        <p *ngIf="sWrongFirstName" class="small fw-bold text-danger">Unesite ispravno ime. (minimum 1, maksimum 30 karaktera)</p>
+                        <br>
+                        <input [(ngModel)]="sEmail" name="sellerEmail" type="email" id="sellerEmail" class="form-control" placeholder="Unesite mejl">
+                        <p *ngIf="sWrongEmail" class="small fw-bold text-danger">Unesite ispravnu e-mail adresu.</p>
+                        <br>
+                        <input [(ngModel)]="sPasswordOne" name="sellerPasswordOne" type="password" id="sellerPasswordOne" class="form-control" placeholder="Unesite lozinku">
+                        <p *ngIf="sWrongPasswordOne" class="small fw-bold text-danger">Lozinka se mora sastojati od najmanje 6 karaktera.</p>
+                        <br>
+                        <input [(ngModel)]="sPicture" type="file" id="sellerPicture" name="sellerPicture" class="form-control" (input)="sellerPictureValidation()">
+                        <p *ngIf="sWrongPicture" class="small fw-bold text-danger">Slika je prevelika. Dozvoljen opseg je 4kB - 45kB</p>
+                        <br>
+                        <input [(ngModel)]="sPIB" type="text" id="sellerPIB" name="sellerPIB" class="form-control" placeholder="Unesite PIB Vase firme">
+                        <p *ngIf="sWrongPIB" class="small fw-bold text-danger">PIB se sastoji od 9 cifara.</p>
+                    </div>
+
+                    <div class="col-6 col-md-4 mb-3">
+                        <input [(ngModel)]="sLastName" name="sellerLastName" type="text" id="sellerLastName" class="form-control" placeholder="Unesite prezime">
+                        <p *ngIf="sWrongLastName" class="small fw-bold text-danger">Unesite ispravno prezime. (minimum 1, maksimum 30 karaktera)</p>
+                        <br>
+                        <input [(ngModel)]="sPhoneNumber" name="sellerPhoneNumber" type="text" id="sellerPhoneNumber" class="form-control" placeholder="Unesite broj telefona">
+                        <p *ngIf="sWrongPhoneNumber" class="small fw-bold text-danger">Unesite ispravan broj telefona. (Format: +3817215898 ili 0617218598)</p>
+                        <br>
+                        <input [(ngModel)]="sPasswordTwo" name="sellerPasswordTwo" type="password" id="sellerPasswordTwo" class="form-control" placeholder="Potvrdite lozinku">
+                        <p *ngIf="sWrongPasswordTwo" class="small fw-bold text-danger">Lozinke se ne podudaraju.</p>
+                        <br>
+                        <input type="button" class="btn btn-primary move-right" value="Registruj se" (click)="sellerValidation()">
+                    </div>                
+                </div>
+            </form>
+        </div>
+        <!--kraj registracije prodavca-->
+    </div>
+</div>

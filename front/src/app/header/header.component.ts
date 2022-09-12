@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router'
+import { UserRoles } from '../services_back/back/types/enums';
+import { JWTUtil } from '../services_back/helpers/jwt_helper';
 
 @Component({
   selector: 'app-header',
@@ -8,13 +10,10 @@ import { Router, NavigationEnd } from '@angular/router'
 })
 export class HeaderComponent implements OnInit {
 
-  constructor(private router:Router) {
-
-   }
+  constructor(private router:Router) { }
 
   
   public isActive: string = "";
-   private userLoggedIn:boolean = false;
 
   ngOnInit(): void {
     this.routeChanged();
@@ -24,26 +23,19 @@ export class HeaderComponent implements OnInit {
     this.isActive = this.router.url;
   }
 
-  check(userAuthor:string){
-    if(userAuthor == 'login'){
-      //ako nije ulogovan moze da se uloguje
-      if(!this.userLoggedIn) return true;
-      else return false;
-    }
-    else if(userAuthor == 'logout'){
-      //ako je ulogovan moze da se izloguje
-      if(this.userLoggedIn)return true;
-      else return false;
-    }
-    return false;
+  isVisitor():boolean{
+    return JWTUtil.getUserRole() == UserRoles.Visitor;
   }
 
-  login(){
-    this.userLoggedIn = true;
+  isBuyer():boolean{
+    return JWTUtil.getUserRole() == UserRoles.Reg_buyer;
   }
 
-  logout(){
-    this.userLoggedIn = false;
+  isSeller():boolean{
+    return JWTUtil.getUserRole() == UserRoles.Reg_seller;
   }
 
+  isAdmin(): boolean{
+    return JWTUtil.getUserRole() == UserRoles.Admin;
+  }
 }
