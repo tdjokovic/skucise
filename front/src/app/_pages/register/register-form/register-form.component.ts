@@ -82,8 +82,6 @@ export class RegisterFormComponent implements OnInit {
       this.showMeSellerFormBool = false;
 
       this.isActive = "buyer";
-
-      alert(this.isActive);
     }
   }
 
@@ -94,8 +92,6 @@ export class RegisterFormComponent implements OnInit {
       this.showMeBuyerFormBool = false;
 
       this.isActive = "seller";
-
-      alert(this.isActive);
     }
   }
 

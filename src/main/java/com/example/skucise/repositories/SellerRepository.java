@@ -30,7 +30,7 @@ public class SellerRepository implements ISellerRepository {
     private static final String SELLER_GET_POSTS_PROCEDURE_CALL = "{call seller_get_posts_without_tags(?)}";
     private static final String GET_TAGS_A_PROPERTY_PROCEDURE_CALL = "{call get_tags_for_a_property(?)}";
 
-    @Value("jdbc:mariadb://localhost:3307/skucise")
+    @Value("jdbc:mariadb://localhost:3306/skucise")
     private String databaseSourceUrl;
 
     @Value("root")
