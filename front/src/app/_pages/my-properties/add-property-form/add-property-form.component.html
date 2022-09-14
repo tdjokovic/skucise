@@ -1,0 +1,41 @@
+<form>
+    <div class="row m-3">
+        <div class="col">
+            <input name="buyerFirstName" type="text" id="buyerFirstName" class="form-control" placeholder="Unesite ime">
+            <p class="small fw-bold text-danger">Unesite ispravno ime. (minimum 1, maksimum 30 karaktera)</p>
+        </div>
+        <div class="col">
+            <input name="buyerLastName" type="text" id="buyerLastName" class="form-control" placeholder="Unesite prezime">
+            <p class="small fw-bold text-danger">Unesite ispravno prezime. (minimum 1, maksimum 30 karaktera)</p>
+        </div>
+    </div>
+    <div class="row m-3">
+        <div class="col">
+            <input  name="buyerEmail" type="email" id="buyerEmail" class="form-control" placeholder="Unesite mejl">
+            <p class="small fw-bold text-danger">Unesite ispravnu e-mail adresu.</p>
+        </div>
+        <div class="col">
+            <input  name="buyerPhoneNumber" type="text" id="buyerPhoneNumber" class="form-control" placeholder="Unesite broj telefona">
+            <p class="small fw-bold text-danger">Unesite ispravan broj telefona. (Format: +3817215898 ili 0617218598)</p>
+        </div>
+    </div>
+    <div class="row m-3">
+        <div class="col">
+            <input  name="buyerPasswordOne" type="password" id="buyerPasswordOne" class="form-control" placeholder="Unesite lozinku">
+            <p  class="small fw-bold text-danger">Lozinka se mora sastojati od najmanje 6 karaktera.</p>
+        </div>
+        <div class="col">
+            <input name="buyerPasswordTwo" type="password" id="buyerPasswordTwo" class="form-control" placeholder="Potvrdite lozinku">
+            <p class="small fw-bold text-danger">Lozinke se ne podudaraju.</p>
+        </div>
+    </div>
+    <div class="row m-3">
+        <div class="col">
+            <input type="file" id="buyerPicture" name="buyerPicture" class="form-control">
+            <p class="small fw-bold text-danger">Slika je prevelika. Dozvoljen opseg je 4kB - 45kB</p>
+        </div>
+        <div class="col">
+            <input type="button" class="btn btn-primary move-right" value="Dodaj"> 
+        </div>
+    </div>
+</form>

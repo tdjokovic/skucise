@@ -36,6 +36,10 @@ import { RegisterComponent } from './_pages/register/register.component';
 import { RegisterFormComponent } from './_pages/register/register-form/register-form.component';
 import { BuyerInfoCardComponent } from './_pages/buyer-info/buyer-info-card/buyer-info-card.component';
 import { PropertySingleComponent } from './_pages/property-single/property-single.component';
+import { MyPropertiesComponent } from './_pages/my-properties/my-properties.component';
+import { BackgroundImageComponent } from './background-image/background-image.component';
+import { MyPropertyComponent } from './_pages/my-properties/my-property/my-property.component';
+import { AddPropertyFormComponent } from './_pages/my-properties/add-property-form/add-property-form.component';
 
 @NgModule({
   declarations: [
@@ -70,6 +74,10 @@ import { PropertySingleComponent } from './_pages/property-single/property-singl
     RegisterFormComponent,
     BuyerInfoCardComponent,
     PropertySingleComponent,
+    MyPropertiesComponent,
+    BackgroundImageComponent,
+    MyPropertyComponent,
+    AddPropertyFormComponent,
   ],
   imports: [
     BrowserModule,
