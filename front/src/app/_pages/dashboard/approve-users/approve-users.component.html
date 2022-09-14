@@ -18,77 +18,95 @@
 
 <div class="section">
     <div class="container">
-        <div class="row p-0">
                    
-            <div *ngIf="sellers.length+buyers.length>0" class="col-6 p-3">
-                <h1>Registracije koje cekaju odobrenje: {{sellers.length + buyers.length}}</h1>
+            <div class="row p-0" *ngIf="sellers.length+buyers.length>0">
 
-                <!--izbor liste-->
-                <div class="d-flex  rounded-3">
-                    <button class="btn btn-lg flex-fill
-                        {{(!sellersListActive)? 'btn-secondary' : 'btn-outline-secondary border-0'}}" 
-                        (click)="onBuyersListSelect()">
-                        Kupci
-                    </button>
-                    <button class="btn btn-lg flex-fill
-                        {{(sellersListActive)? 'btn-secondary' : 'btn-outline-secondary border-0'}}" 
-                        (click)="onSellersListSelect()">
-                        Prodavci
-                    </button>
+                <h1 class="text-center">Registracije koje čekaju odobrenje: {{sellers.length + buyers.length}}</h1>
+
+                <div class="col-6 p-3">
+                    
+    
+                    <!--izbor liste-->
+                    <div class="d-flex  rounded-3">
+                        <button class="btn btn-lg flex-fill
+                            {{(!sellersListActive)? 'btn-secondary' : 'btn-outline-secondary btn-border'}}" 
+                            (click)="onBuyersListSelect()">
+                            Kupci
+                        </button>
+                        <button class="btn btn-lg flex-fill
+                            {{(sellersListActive)? 'btn-secondary' : 'btn-outline-secondary btn-border'}}" 
+                            (click)="onSellersListSelect()" style="margin-left: 5px;">
+                            Prodavci
+                        </button>
+                    </div>
+    
+                    <div class="my-4 p-4 pe-2"> <!--ovde bi mogla da se ubaci paginacija kao za properties component-->
+                        <!--sellers-->
+                        <div *ngIf="sellersListActive">
+                            <div *ngIf="sellers.length > 0">
+                                <div class="d-flex flex-column" *ngFor="let s of sellers">
+                                    <app-approve-users-card [sellerData]="s" (cardClick)="showRegInfo(s.id)"></app-approve-users-card>
+                                </div>
+                            </div>
+                            <div *ngIf="sellers.length == 0">
+                                <h5 class="text-center">Nema prodavaca koji čekaju odobrenje registracije</h5>
+                            </div>
+                        </div>
+    
+                        <!--buyers-->
+                        <div *ngIf="!sellersListActive">
+                            <div *ngIf = "buyers.length > 0">
+                                <div class="d-flex flex-column" *ngFor="let b of buyers">
+                                    <app-approve-users-card [buyerData]="b" (cardClick)="showRegInfo(b.id)"></app-approve-users-card>
+                                </div>
+                            </div>
+                            <div *ngIf="buyers.length == 0">
+                                <h5 class="text-center">Nema kupaca koji čekaju odobrenje registracije</h5>
+                            </div>
+                        </div>
+                    </div>
+    
                 </div>
-
-                <div > <!--ovde bi mogla da se ubaci paginacija kao za properties component-->
-                    <!--sellers-->
-                    <div *ngIf="sellersListActive">
-                        <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4" *ngFor="let s of sellers">
-                            <app-approve-users-card [sellerData]="s" (cardClick)="showRegInfo(s.id)"></app-approve-users-card>
+    
+                <!--pun prikaz !-->
+                <div class="col-6 p-3">
+    
+                    <!-- Prazan prikaz -->
+                    <div *ngIf="!activeSeller && !activeBuyer">
+                        <div class="d-flex flex-column align-items-center">
+                            <h5 class="p-4">Nije izabrana nijedna registracija</h5>
                         </div>
                     </div>
-
-                    <!--buyers-->
-                    <div *ngIf="!sellersListActive">
-                        <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4" *ngFor="let b of buyers">
-                            <app-approve-users-card [buyerData]="b" (cardClick)="showRegInfo(b.id)"></app-approve-users-card>
+    
+                    <!-- Prikaz -->
+                    <div *ngIf="activeSeller || activeBuyer" class="text-center">
+                        
+                        <!-- Seller -->
+                        <app-seller-info-card class=""
+                            [dissableDelete]="true"
+                            *ngIf="activeSeller" [seller]="activeSeller">
+                        </app-seller-info-card>
+                        
+                        <!-- Buyer -->
+                        <app-buyer-info-card class="" 
+                            [dissableDelete]="true"
+                            *ngIf="activeBuyer" [buyer]="activeBuyer">
+                        </app-buyer-info-card>
+                        
+                        <!-- Approve / Reject -->
+                        <div class="my-4 d-flex">
+                            <button class="btn btn-lg btn-success flex-fill" (click)="onApprove()">Prihvati</button>
+                            <button class="btn btn-lg btn-danger flex-fill" style="margin-left: 5px;" (click)="onReject()">Odbij</button>
                         </div>
                     </div>
+    
                 </div>
 
             </div>
 
-            <!--pun prikaz !-->
-            <div class="col-6 p-3">
-
-                <!-- Prazan prikaz -->
-                <div *ngIf="!activeSeller && !activeBuyer" class="border border-secondary rounded-3">
-                    <div class="d-flex flex-column align-items-center">
-                        <h5 class="p-4">Nije izabrana nijedna registracija</h5>
-                    </div>
-                </div>
-
-                <!-- Prikaz -->
-                <div *ngIf="activeSeller || activeBuyer" class="">
-                    
-                    <!-- Seller -->
-                    <app-seller-info-card class=""
-                        [dissableDelete]="true"
-                        *ngIf="activeSeller" [seller]="activeSeller">
-                    </app-seller-info-card>
-                    
-                    <!-- Buyer -->
-                    <app-buyer-info-card class="" 
-                        [dissableDelete]="true"
-                        *ngIf="activeBuyer" [buyer]="activeBuyer">
-                    </app-buyer-info-card>
-                    
-                    <!-- Approve / Reject -->
-                    <div class="my-4 border border-secondary rounded-3 d-flex">
-                        <button class="btn btn-lg btn-success flex-fill rounded-0" (click)="onApprove()">Prihvati</button>
-                        <button class="btn btn-lg btn-danger flex-fill rounded-0" (click)="onReject()">Odbij</button>
-                    </div>
-                </div>
-
+            <div class="row p-0" *ngIf="sellers.length + buyers.length == 0">
+                <h2>Trenutno nema registracija koje čekaju odobrenje</h2>
             </div>
         
-        </div>
     </div>
 </div>
