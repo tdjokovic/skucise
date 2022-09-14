@@ -2117,6 +2117,7 @@ textarea.form-control-lg {
     -webkit-filter: none;
     filter: none;
     opacity: 0.65; }
+    
 
 .form-range {
   width: 100%;
@@ -10377,3 +10378,8 @@ nav[aria-label="breadcrumb"] li:before {
       .site-footer .social li a:hover {
         background: #00204a;
         color: #fff; }
+
+.btn-border{
+  border:1px solid #005555 !important;
+
+}
