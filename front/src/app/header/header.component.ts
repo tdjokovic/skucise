@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { Router, NavigationEnd } from '@angular/router'
+import { Router, NavigationEnd, ActivatedRoute } from '@angular/router'
 import { UserRoles } from '../services_back/back/types/enums';
+import { AdCategory } from '../services_back/back/types/interfaces';
 import { JWTUtil } from '../services_back/helpers/jwt_helper';
+import { AdCategoryService } from '../services_back/services/adcategory.service';
 
 @Component({
   selector: 'app-header',
@@ -10,17 +12,22 @@ import { JWTUtil } from '../services_back/helpers/jwt_helper';
 })
 export class HeaderComponent implements OnInit {
 
-  constructor(private router:Router) { }
+  constructor(private router:Router, private adCategoryService: AdCategoryService) { }
 
   
   public isActive: string = "";
+  public adCategories : AdCategory [] = [];
 
   ngOnInit(): void {
     this.routeChanged();
+    this.adCategoryService.getCategories(this, (self: any, data : AdCategory[]) => {
+      this.adCategories = data;
+    });
   }
 
   routeChanged(){
     this.isActive = this.router.url;
+    console.log(this.isActive);
   }
 
   isVisitor():boolean{

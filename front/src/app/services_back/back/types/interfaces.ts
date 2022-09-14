@@ -38,6 +38,7 @@ export interface Property{
     postingDate:Date;
     area:string; //kvadratura
     newConstruction:boolean;
+    picture:string | null; //slika u Base64
 }
 
 export interface Seller{

@@ -17,17 +17,18 @@
                     <li [class.active]="isActive === '/home' || isActive === '/'"><a [routerLink]="['/home']">Home</a></li>
                     <li [class.active]="isActive === '/properties'" class="has-children">
                         <a [routerLink]="['/properties']">Nekretnine</a>
-                        <!--ovo ne treba da bude hardcoded... takodje namestiti da radi,  tj da vodi na stranice odgovarajuce-->
+                        <!-- ISPRAVLJENO - nije vise hardcoded -->
                         <ul class="dropdown">
-                            <li><a routerLink="/properties/prodaja">Prodaja</a></li>
-                            <li><a routerLink="/properties/izdavanje">Izdavanje</a></li>
+                            <li *ngFor="let c of adCategories">
+                                <a [routerLink]="['/properties/' + c.name | lowercase ]">{{c.name}}</a>
+                            </li>
                         </ul>
                     </li>
                     
                     <li *ngIf="isVisitor()" [class.active]="isActive === '/about'"><a [routerLink]="['/about']">O nama</a></li>
                     <li [class.active]="isActive === '/contactus'"><a [routerLink]="['/contactus']">Kontakt</a></li>
-                    <li *ngIf="isSeller()"><a [routerLink]="['/']">My_props</a></li>
-                    <li *ngIf="isBuyer()"><a [routerLink]="['/']">Props</a></li>
+                    <li *ngIf="isSeller()"><a [routerLink]="['/']">Moji oglasi</a></li>
+                    <li *ngIf="isBuyer()"><a [routerLink]="['/']">Rezervacije razgledanja</a></li>
                     <li *ngIf="isAdmin()"><a [routerLink]="['/']">Dashboard</a></li>
 
                     <!-- deo za prijavu i odjavu korisnika! -->

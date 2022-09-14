@@ -100,14 +100,12 @@ export class PropertiesComponent implements OnInit {
         this.cities = data;
       });
 
-      this.adCategoryService.getCategories(this, (self: any, data : AdCategory[]) => {
-        this.adCategories = data;
-      });
-
       this.adTypeService.getAdTypes(this, (self: any, data : AdType[]) => {
         this.adTypes = data;
       });
 
+      this.adCategoryService.getCategories(this, (self: any, data : AdCategory[]) => {
+        this.adCategories = data;
 
         let par = this.activatedRoute.snapshot.paramMap.get("adCategory");
         if (par != null) this.adCategory = par as unknown as string;
@@ -124,6 +122,8 @@ export class PropertiesComponent implements OnInit {
         else{
           this.getAllProperties(this.adCategory);
         }
+      });
+
       } 
     )
   }
@@ -133,7 +133,6 @@ export class PropertiesComponent implements OnInit {
 
       //servis za adCategories
       //servis za adTypes
-
       this.propertyService.getProperties(this, this.cbSuccessProperty);
     }
     else{

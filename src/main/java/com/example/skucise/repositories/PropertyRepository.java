@@ -111,6 +111,7 @@ public class PropertyRepository implements IPropertyRepository {
         stmt.setString("p_price", property.getPrice());
         stmt.setBoolean("p_new_construction", property.isNewConstruction());
 
+
     }
 
     @Override
@@ -173,10 +174,12 @@ public class PropertyRepository implements IPropertyRepository {
         property.setPrice(resultSet.getString("price"));
         property.setArea(resultSet.getString("area"));
         property.setNewConstruction(resultSet.getBoolean("new_construction"));
+        property.setPicture(resultSet.getString("property_picture"));
         property.setCity(city);
         property.setAdCategory(adCategory);
         property.setType(type);
         property.setSellerUser(seller);
+
 
         //sada uzimamo tagove ako ih ima
         stmtTag.setInt("p_property_id", property.getId());

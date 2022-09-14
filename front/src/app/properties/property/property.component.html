@@ -1,7 +1,8 @@
 <div class="property-item">
 
-    <a href="property-single.html" class="img">
-        <img src="../../../assets/images/img_1.jpg" alt="Image" class="img-fluid">
+    <a [routerLink]="['/property/', property.id]" class="img">
+        <img *ngIf="property.picture != null" src="{{property.picture}}" alt="Image" class="img-fluid mx-auto d-block" style="width:80%">
+        <img *ngIf="property.picture == null" src="{{defPropertyPic}}" alt="defImage" class="img-fluid mx-auto d-block" style="width:80%">
     </a>
 
     <div class="property-content">
@@ -16,7 +17,7 @@
                     <span class="caption">{{property.area}}</span>
                 </span>
 
-                <a [routerLink]="['/property/', property.id]" class="btn btn-primary py-2 px-3 float-right">See details</a>
+                <a [routerLink]="['/property/', property.id]" class="btn btn-primary py-2 px-3 float-right">Vidi detalje</a>
             </div>
             
 

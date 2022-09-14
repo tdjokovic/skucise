@@ -34,9 +34,24 @@ public class Property {
 
     private boolean newConstruction; //da li je novogradnja
 
+    @Pattern(regexp = "^[a-zA-z0-9+/=:;,]+$")
+    @Size( min = 5000, max = 65000,
+            message = "The length for base64 encoded picture must be between 5000 and 65000 characters" )
+    private String picture;
+
     public Property(){}
 
-    public Property(int id, SellerUser sellerUser, AdCategory adCategory, List<Tag> tags, Type type, City city, LocalDateTime postingDate, String description, String price, String area, boolean newConstruction) {
+    public Property(int id, SellerUser sellerUser,
+                    AdCategory adCategory,
+                    List<Tag> tags,
+                    Type type,
+                    City city,
+                    LocalDateTime postingDate,
+                    String description,
+                    String price,
+                    String area,
+                    boolean newConstruction,
+                    String picture) {
         this.id = id;
         this.sellerUser = sellerUser;
         this.adCategory = adCategory;
@@ -48,6 +63,7 @@ public class Property {
         this.price = price;
         this.area = area;
         this.newConstruction = newConstruction;
+        this.picture = picture;
     }
 
     public int getId() {
@@ -136,5 +152,11 @@ public class Property {
 
     public void setTags(List<Tag> tags) {
         this.tags = tags;
+    }
+    public String getPicture() {
+        return picture;
+    }
+    public void setPicture(String picture) {
+        this.picture = picture;
     }
 }

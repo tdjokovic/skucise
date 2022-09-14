@@ -3,7 +3,7 @@
     <div class="container">
         <div class="row justify-content-center align-items-center">
             <div class="col-lg-9 text-center mt-5">
-                <h1 class="heading">Nekretnina</h1>
+                <a [routerLink]="['/properties']"><h1 class="heading">Nekretnina</h1></a>
                 
 
                 <nav aria-label="breadcrumb">
@@ -20,17 +20,14 @@
 
 <!--property single-->
 
-
-
-
-
 <div class="section" *ngIf="property">
     <div class="container">
         <div class="row justify-content-between">
-            <div class="col-lg-7">
+            <div class="col-lg-6">
                 <div class="">
-                    <div class="" style="width:calc(500%)">
-                        <img src="../../../assets/images/img_1.jpg" alt="Image" class="img-fluid" style="width:calc(20%)">
+                    <div class="" style="width:calc(400%)">
+                        <img *ngIf="property.picture != null" src="{{property.picture}}" alt="Image" class="img-fluid" style="width:calc(20%)">
+                        <img *ngIf="property.picture == null" src="{{defPropertyPic}}" alt="Image" class="img-fluid" style="width:calc(20%)">
                         <!--
                         <img src="../../../assets/images/img_2.jpg" alt="Image" class="img-fluid">
                         <img src="../../../assets/images/img_3.jpg" alt="Image" class="img-fluid">
@@ -38,15 +35,41 @@
                     </div>
                 </div>
             </div>
-            <div class="col-lg-4">
+            <div class="col-lg-6">
                 <h2 class="heading text-primary">{{property.city.name}}</h2>
-                <p class="meta">{{property.adCategory.name}} / {{property.type.name}}</p>
-                <p class="text-black-50">{{property.description}}</p>
+                <h5 class="meta">{{property.adCategory.name}} / {{property.type.name}}</h5>
+                
+                <p class="text-black-50"> {{property.description}}</p>
+                <table class="table" style="width:80%">
+                    <tr>
+                        <td><h6>Cena:</h6></td>
+                        <td><b>{{property.price}}</b></td>
+                    </tr>
+                    <tr>
+                        <td><h6>Kvadratura:</h6></td>
+                        <td><b>{{property.area}}</b></td>
+                    </tr>
+                    <tr>
+                        <td><h6>Vrsta nekretnine:</h6></td>
+                        <td><b>{{property.type.name}}</b></td>
+                    </tr>
+                    <tr *ngIf="property.newConstruction">
+                        <td><h6>Novogradnja</h6></td>
+                        <td><input class="form-check-input" disabled checked type="checkbox"></td>
+                    </tr>
+                </table>
+                <div class="row justify-content-center" *ngIf="isBuyer() && !isMe()">
+                    <div class="col-6">
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                            Zakaži razgledanje
+                        </button>
+                    </div>
+                </div>
                 
                 <div class="d-block agent-box p-5">
                     <h3>Podaci o prodavcu</h3>
                     <div class="img mb-4">
-                        <img src="{{property.sellerUser.picture}}" alt="Image" class="img-fluid">
+                        <img src="{{property.sellerUser.picture}}" alt="Image" class="img-thumbnail">
                     </div>
                     <div class="text">
                         <h3 class="mb-3">{{property.sellerUser.firstName}}  {{[property.sellerUser.lastName]}}</h3>
@@ -58,4 +81,75 @@
             </div>
         </div>
     </div>
+    <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="staticBackdropLabel">Zakaži razgledanje u željenom terminu</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <p>Unesite datum kada bi želeli da razgledate nekretninu i oglasivač će Vam u najkraćem roku odgovoriti na zahtev.</p>
+              <form>
+                <table>
+                    <tr>
+                        <td>Dan</td>
+                        <td>Mesec</td>
+                        <td>Godina</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <select class="form-select">
+                                <option *ngFor="let day of days" [selected]="thisDay == day">
+                                    {{day}}
+                                </option>
+                            </select>
+                        </td>
+                        <td>
+                            <select class="form-select">
+                                <option *ngFor="let month of months" [selected]="thisMonth == month.id">
+                                    {{month.name}}
+                                </option>
+                            </select>
+                        </td>
+                        <td>
+                            <select class="form-select">
+                                <option *ngFor="let year of years" [selected]="thisYear == year">
+                                    {{year}}
+                                </option>
+                            </select>
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td>Vreme</td>
+                        <td>&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <select class="form-select">
+                                <option *ngFor="let hour of hours" [selected]="hour == 14">
+                                    {{getHour(hour)}}
+                                </option>
+                            </select>
+                        </td>
+                        <td>
+                            <select class="form-select" style="width:auto;">
+                                <option *ngFor="let minute of minutes" [selected]="minute == 30">
+                                    {{getMinute(minute)}}
+                                </option>
+                            </select>
+                        </td>
+                    </tr>
+                </table>
+              </form>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Odustani</button>
+              <button type="button" class="btn btn-primary" (submit)="applyForPropery()">Zakaži</button>
+            </div>
+          </div>
+        </div>
+      </div>
 </div>
+
