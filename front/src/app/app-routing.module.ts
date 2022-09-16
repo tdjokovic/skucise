@@ -14,6 +14,7 @@ import { SellerInfoComponent } from './_pages/seller-info/seller-info.component'
 import { RegisterComponent } from './_pages/register/register.component';
 import { PropertySingleComponent } from './_pages/property-single/property-single.component';
 import { MyPropertiesComponent } from './_pages/my-properties/my-properties.component';
+import { ReservationsComponent } from './_pages/reservations/reservations.component';
 
 
 // data - Niz uloga koje imaju pristup ruti/stranici, prazan niz daje dozvolu svim ulogama  
@@ -26,6 +27,7 @@ const routes: Routes = [
   {path:'property/:id', component:PropertySingleComponent, data: { allowedRoles: [] }},
   {path:'about', component:AboutusComponent,         data: { allowedRoles: [] }},
   {path:'my-properties', component:MyPropertiesComponent, data:{ allowedRoles: [UserRoles.Admin, UserRoles.Reg_seller, UserRoles.Reg_buyer]}},
+  {path:'reservations', component:ReservationsComponent, data:{ allowedRoles: [UserRoles.Admin, UserRoles.Reg_seller, UserRoles.Reg_buyer]}},
 
   { path: 'buyer/:id', component: BuyerInfoComponent, data: { allowedRoles: [UserRoles.Admin, UserRoles.Reg_seller, UserRoles.Reg_buyer] }},
   //{ path: 'buyers', component: ApplicantsPageComponent,       data: { allowedRoles: [UserRoles.Admin] }},

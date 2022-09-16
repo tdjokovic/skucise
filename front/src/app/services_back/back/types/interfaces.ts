@@ -32,7 +32,7 @@ export interface Property{
     type:AdType; //da li je stan,kuca...
     tags:Tag[];
 
-    id:number;
+    id:number | null;
     description:string;
     price:number;
     postingDate:Date;

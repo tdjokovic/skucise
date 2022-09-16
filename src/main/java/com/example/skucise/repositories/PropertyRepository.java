@@ -20,7 +20,7 @@ public class PropertyRepository implements IPropertyRepository {
 
     private static final String GET_FILTERED_PROPERTIES_STORED_PROCEDURE = "{call get_filtered_properties(?,?,?,?,?)}";
     private static final String TAG_STORED_PROCEDURE = "{call get_tags_for_a_property(?)}";
-    private static final String POST_PROPERTY_STORED_PROCEDURE = "{call post_property(?,?,?,?,?,?,?,?)}";
+    private static final String POST_PROPERTY_STORED_PROCEDURE = "{call post_property(?,?,?,?,?,?,?,?,?)}";
     private static final String INSERT_TAG_STORED_PROCEDURE = "{call insert_tag(?,?,?)}";
     private static final String GET_PROPERTY_APPLICANTS_PROCEDURE_CALL = "{call get_property_applicants(?)}";
     private static final String PROPERTY_APPLY_PROCEDURE_CALL = "{call apply_for_a_property(?,?,?)}";
@@ -101,6 +101,15 @@ public class PropertyRepository implements IPropertyRepository {
     }
 
     public void setPropertyParameters(CallableStatement stmt, Property property) throws SQLException{
+        LOGGER.info("" + property.getSellerUser().getId());
+        LOGGER.info("" + property.getType().getId());
+        LOGGER.info("" + property.getAdCategory().getId());
+        LOGGER.info("" + property.getCity().getId());
+        LOGGER.info(property.getDescription());
+        LOGGER.info(property.getArea());
+        LOGGER.info(property.getPrice());
+        LOGGER.info("" + property.isNewConstruction());
+        LOGGER.info(property.getPicture());
 
         stmt.setInt("p_seller_id", property.getSellerUser().getId());
         stmt.setInt("p_type_id", property.getType().getId());
@@ -110,6 +119,7 @@ public class PropertyRepository implements IPropertyRepository {
         stmt.setString("p_area", property.getArea());
         stmt.setString("p_price", property.getPrice());
         stmt.setBoolean("p_new_construction", property.isNewConstruction());
+        stmt.setString("p_picture", property.getPicture());
 
 
     }

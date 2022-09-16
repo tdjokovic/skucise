@@ -50,7 +50,7 @@ export class PropertyApiService{
             }
         )
     }
-
+    
     getPropertyApplicants(id : number) : Observable<HttpResponse<Buyer[]>>{
         return this.http.get<Buyer[]>(
             this.url + `/${id}/applicants`,
@@ -61,7 +61,7 @@ export class PropertyApiService{
         )
     }
 
-    createProperty(propertyData : NewProperty) : Observable<HttpResponse<null>>{
+    createProperty(propertyData : Property) : Observable<HttpResponse<null>>{
         return this.http.post<null>(
             this.url,
             propertyData,

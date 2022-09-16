@@ -27,7 +27,6 @@ export class HeaderComponent implements OnInit {
 
   routeChanged(){
     this.isActive = this.router.url;
-    console.log(this.isActive);
   }
 
   isVisitor():boolean{

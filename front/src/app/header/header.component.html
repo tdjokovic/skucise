@@ -28,7 +28,7 @@
                     <li *ngIf="isVisitor()" [class.active]="isActive === '/about'"><a [routerLink]="['/about']">O nama</a></li>
                     <li [class.active]="isActive === '/contactus'"><a [routerLink]="['/contactus']">Kontakt</a></li>
                     <li *ngIf="isSeller()" [class.active]="isActive === '/my-properties'"><a [routerLink]="['/my-properties']">Moji oglasi</a></li>
-                    <li *ngIf="isBuyer()"><a [routerLink]="['/']">Rezervacije razgledanja</a></li>
+                    <li *ngIf="!isVisitor()"><a [routerLink]="['/reservations']">Rezervacije razgledanja</a></li>
                     <li *ngIf="isAdmin()"><a [routerLink]="['/']">Dashboard</a></li>
 
                     <!-- deo za prijavu i odjavu korisnika! -->

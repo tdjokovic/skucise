@@ -212,11 +212,12 @@ public class SellerRepository implements ISellerRepository {
                 property.setPostingDate(resultSet.getObject("post_date", LocalDateTime.class));
                 property.setArea(resultSet.getString("area"));
                 property.setDescription(resultSet.getString("description"));
+                property.setPicture(resultSet.getString("property_picture"));
 
                 SellerUser sellerUser = new SellerUser();
                 sellerUser.setId(resultSet.getInt("seller_id"));
-                sellerUser.setFirstName(resultSet.getString("seller_first_name"));
-                sellerUser.setLastName(resultSet.getString("seller_last_name"));
+                sellerUser.setFirstName(resultSet.getString("first_name"));
+                sellerUser.setLastName(resultSet.getString("last_name"));
                 sellerUser.setPicture(resultSet.getString("picture"));
                 sellerUser.setPhoneNumber(resultSet.getString("phone_number"));
                 sellerUser.setTin(resultSet.getString("tin"));
@@ -234,7 +235,7 @@ public class SellerRepository implements ISellerRepository {
 
                 AdCategory adCategory = new AdCategory();
                 adCategory.setId(resultSet.getInt("ad_id"));
-                adCategory.setName(resultSet.getString("ad_name"));
+                adCategory.setName(resultSet.getString("ad_category_name"));
                 property.setAdCategory(adCategory);
 
                 stmtTag.setInt("p_property_id", property.getId());

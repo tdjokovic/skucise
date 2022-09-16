@@ -23,8 +23,18 @@
 <div class="container">
     <h2>Lista okačenih oglasa</h2>
     <div class="card">
-        <div class="row">
-
+        <div *ngIf="propertiesBySeller.length>0" class="container">
+            <div class="row">
+    
+                <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4" *ngFor="let p of propertiesBySeller">
+                    <app-property [property]="p"></app-property>
+                </div>
+                
+            </div>
+        </div>
+    
+        <div *ngIf="propertiesBySeller.length==0" class="container">
+            Trenutno nema ni jedan okačen oglas.
         </div>
     </div>
 </div>

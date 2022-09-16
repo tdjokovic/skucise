@@ -85,7 +85,6 @@ export class PropertyService{
             }
         );
     }
-
     getPropertyApplicants(id:number, self?: any, cbSuccess?: Function){
         this.api.getPropertyApplicants(id).subscribe(
             (response) => {
@@ -105,7 +104,7 @@ export class PropertyService{
         );
     }
 
-    createProperty(propertyData : NewProperty, self?: any, cbSuccess?: Function){
+    createProperty(propertyData : Property, self?: any, cbSuccess?: Function){
         this.api.createProperty(propertyData).subscribe(
             (response) => {
                 console.log("Property created ", response.status);

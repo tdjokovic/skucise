@@ -40,6 +40,7 @@ import { MyPropertiesComponent } from './_pages/my-properties/my-properties.comp
 import { BackgroundImageComponent } from './background-image/background-image.component';
 import { MyPropertyComponent } from './_pages/my-properties/my-property/my-property.component';
 import { AddPropertyFormComponent } from './_pages/my-properties/add-property-form/add-property-form.component';
+import { ReservationsComponent } from './_pages/reservations/reservations.component';
 
 @NgModule({
   declarations: [
@@ -78,6 +79,7 @@ import { AddPropertyFormComponent } from './_pages/my-properties/add-property-fo
     BackgroundImageComponent,
     MyPropertyComponent,
     AddPropertyFormComponent,
+    ReservationsComponent,
   ],
   imports: [
     BrowserModule,
