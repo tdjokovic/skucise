@@ -20,7 +20,7 @@ public class PropertyRepository implements IPropertyRepository {
 
     private static final String GET_FILTERED_PROPERTIES_STORED_PROCEDURE = "{call get_filtered_properties(?,?,?,?,?)}";
     private static final String TAG_STORED_PROCEDURE = "{call get_tags_for_a_property(?)}";
-    private static final String POST_PROPERTY_STORED_PROCEDURE = "{call post_property(?,?,?,?,?,?,?,?,?)}";
+    private static final String POST_PROPERTY_STORED_PROCEDURE = "{call post_property2(?,?,?,?,?,?,?,?,?,?)}";
     private static final String INSERT_TAG_STORED_PROCEDURE = "{call insert_tag(?,?,?)}";
     private static final String GET_PROPERTY_APPLICANTS_PROCEDURE_CALL = "{call get_property_applicants(?)}";
     private static final String PROPERTY_APPLY_PROCEDURE_CALL = "{call apply_for_a_property(?,?,?)}";
@@ -61,16 +61,15 @@ public class PropertyRepository implements IPropertyRepository {
 
             setPropertyParameters(stmt, property);
             stmt.registerOutParameter("p_is_posted", Types.BOOLEAN);
-            ResultSet resultSet = stmt.executeQuery();
+            stmt.executeUpdate();
 
-            createSuccess = resultSet.getBoolean("p_is_posted");
+            createSuccess = stmt.getBoolean("p_is_posted");
 
             if(createSuccess && property.getTags() != null){ //objavljen je post, i imamo spisak tagova koje treba dodati
 
                 boolean inserted;
 
-                resultSet.first();
-                id = resultSet.getInt("id"); // id propertyja
+                id = property.getId(); // id propertyja
                 stmtTag.setInt("p_property_id", id);
                 stmtTag.registerOutParameter("p_is_added", Types.BOOLEAN);
 
@@ -120,8 +119,6 @@ public class PropertyRepository implements IPropertyRepository {
         stmt.setString("p_price", property.getPrice());
         stmt.setBoolean("p_new_construction", property.isNewConstruction());
         stmt.setString("p_picture", property.getPicture());
-
-
     }
 
     @Override

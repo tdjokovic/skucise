@@ -212,6 +212,7 @@ export class RegisterFormComponent implements OnInit {
     reader.onload = function(){
       self.sPicture = reader.result as string;
       let len = self.sPicture.length;
+      console.log(self.sPicture);
 
       if(len < 5000 || len > 65000) // duzina tj velicina slike nije dobra
       {

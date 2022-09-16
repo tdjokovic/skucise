@@ -84,4 +84,12 @@ export class AuthorizeService {
   redirectIfSessionExpired(status:HttpStatusCode){
 
   }
+
+  isBuyer():boolean{
+    return JWTUtil.getUserRole() == UserRoles.Reg_buyer;
+  }
+
+  isSeller():boolean{
+    return JWTUtil.getUserRole() == UserRoles.Reg_seller;
+  }
 }

@@ -25,15 +25,24 @@
                         </ul>
                     </li>
                     
-                    <li *ngIf="isVisitor()" [class.active]="isActive === '/about'"><a [routerLink]="['/about']">O nama</a></li>
-                    <li [class.active]="isActive === '/contactus'"><a [routerLink]="['/contactus']">Kontakt</a></li>
-                    <li *ngIf="isSeller()" [class.active]="isActive === '/my-properties'"><a [routerLink]="['/my-properties']">Moji oglasi</a></li>
+                    <li *ngIf="!isVisitor()" [class.active]="isActive === '/my-properties'"><a [routerLink]="['/my-properties']">Moji oglasi</a></li>
                     <li *ngIf="!isVisitor()"><a [routerLink]="['/reservations']">Rezervacije razgledanja</a></li>
                     <li *ngIf="isAdmin()"><a [routerLink]="['/']">Dashboard</a></li>
 
+                    <li *ngIf="isVisitor()" [class.active]="isActive === '/about'"><a [routerLink]="['/about']">O nama</a></li>
+                    <li [class.active]="isActive === '/contactus'"><a [routerLink]="['/contactus']">Kontakt</a></li>
+
                     <!-- deo za prijavu i odjavu korisnika! -->
                     <li [class.active]="isActive === '/login'"><a *ngIf="isVisitor()" [routerLink] = "['/login']">Prijava</a></li>
-                    <li><a *ngIf="!isVisitor()" [routerLink]="['/logout']">Odjavi se</a></li>
+                    <li class="has-children" *ngIf="!isVisitor()">
+                        <a [routerLink]="['/home']">{{ firstName + " " + lastName }}</a>
+                
+                        <ul class="dropdown">
+                            <li>
+                                <a [routerLink]="['/logout']">Odjavi se</a>
+                            </li>
+                        </ul>
+                    </li>
                 </ul>
 
                 <a href="#" class="burger light me-auto float-end mt-1 site-menu-toggle js-menu-toggle d-inline-block d-lg-none" data-toggle="collapse" data-target="#main-navbar">

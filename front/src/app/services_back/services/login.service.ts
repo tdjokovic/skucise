@@ -1,33 +1,43 @@
 import { HttpErrorResponse, HttpResponse, HttpStatusCode } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, Output } from '@angular/core';
 import { Router } from '@angular/router';
+import { Subject } from 'rxjs';
 import { LoginApiService } from '../back/apis/login-api.service';
-import { Credentials } from '../back/types/interfaces';
+import { Buyer, Credentials, Seller } from '../back/types/interfaces';
 import { JWT_HEADER_NAME } from '../back/types/vars';
 import { RedirectRoutes } from '../constants/routing.properties';
 import { PasswdHash } from '../helpers/hashing_helper';
 import { JWTUtil } from '../helpers/jwt_helper';
 import { AuthorizeService } from './authorize.service';
+import { BuyerService } from './buyer.service';
+import { SellerService } from './seller.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class LoginService {
 
+  private _newLogin = new Subject<void>();
+  get newLogin() {
+    return this._newLogin;
+  }
+
   constructor(private api : LoginApiService,
               private router : Router,
-              private authorizationService : AuthorizeService) { }
+              private authorizationService : AuthorizeService,
+              private buyerService : BuyerService,
+              private sellerService : SellerService) { }
 
   login(email:string, password:string, self?:any, callbackSuccess?:Function, callbackWrongCredentials?:Function, callbackNotApproved?:Function){
 
-    console.log("Kredencijali koji su uneseni:\n "+password);
+    //console.log("Kredencijali koji su uneseni:\n "+password);
 
     let body : Credentials = {
       email : email,
       hashedPassword: PasswdHash.encrypt(password)
     }
 
-    console.log("Kredencijali nakon hesiranja:\n "+body);
+    //console.log("Kredencijali nakon hesiranja:\n "+body);
 
     
     this.api.login(body).subscribe(
@@ -36,6 +46,15 @@ export class LoginService {
       (response: HttpResponse<null>) => {
         //alert("odgovor od apija za login uspesan");
         JWTUtil.store(response.headers.get(JWT_HEADER_NAME));
+        if (this.authorizationService.isBuyer())
+        {
+          this.buyerService.getBuyer(JWTUtil.getID(),this,this.cbSuccess,this.cbNotFound);
+        }
+        else if (this.authorizationService.isSeller())
+        {
+          this.sellerService.getSeller(JWTUtil.getID(),this,this.cbSuccess,this.cbNotFound);
+        }
+        
         if(self && callbackSuccess) callbackSuccess(self);
       },
 
@@ -70,5 +89,14 @@ export class LoginService {
         }
       }
     );
+  }
+
+  cbSuccess(self: any, user: Buyer | Seller) {
+    window.localStorage.setItem('first-name', (user == null)? '' : user.firstName);
+    window.localStorage.setItem('last-name', (user == null)? '' : user.lastName);
+    self._newLogin.next()
+  }
+  cbNotFound(self: any) {
+    self.router.navigate(RedirectRoutes.HOME);
   }
 }

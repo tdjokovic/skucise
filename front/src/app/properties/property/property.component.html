@@ -6,17 +6,27 @@
     </a>
 
     <div class="property-content">
-        <div class="price mb-2"><span>{{property.price}}</span></div>
+        <div class="row">
+            <div class="col-sm-9">
+                <div class="price mb-2">
+                    <span>{{property.price}}</span>
+                </div>
+            </div>
+            <div class="col-sm">
+                <span *ngIf="postingDate">{{postingDate.toLocaleDateString()}}</span>
+            </div>
+        </div>
         <div>
+            
             <span class="city d-block mb-3">{{property.city.name}}</span>
-
+            
             
             <div class="specs d-flex mb-4">
                 <span class="d-block d-flex align-items-center me-3">
                     <span class="icon-home me-2"></span>
                     <span class="caption">{{property.area}}</span>
                 </span>
-
+                <a *ngIf="additionalOptions" class="btn btn-danger py-2 px-3 float-right" data-bs-toggle="modal" data-bs-target="#deleteModal">Izbrisi</a>&nbsp;
                 <a [routerLink]="['/property/', property.id]" class="btn btn-primary py-2 px-3 float-right">Vidi detalje</a>
             </div>
             
@@ -25,3 +35,21 @@
         </div>
     </div>
 </div> <!-- .item -->
+
+<div class="modal fade" id="deleteModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="staticBackdropLabel">Obriši oglas</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <p>Da li ste sigurni da želite da obrišete oglas?</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Odustani</button>
+          <button type="button" class="btn btn-danger" data-bs-dismiss="modal" (click)="deleteProperty()">Obrisi</button>
+        </div>
+      </div>
+    </div>
+  </div>

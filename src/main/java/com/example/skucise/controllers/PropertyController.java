@@ -266,7 +266,7 @@ public class PropertyController {
     }
 
 
-    @DeleteMapping
+    @DeleteMapping("{id}")
     public ResponseEntity<?> deleteProperty(@RequestHeader(JWT_CUSTOM_HTTP_HEADER) String jwt,
                                             @PathVariable("id")
                                             @Min( 1 )

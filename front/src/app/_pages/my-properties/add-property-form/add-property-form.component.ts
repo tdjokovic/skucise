@@ -91,7 +91,7 @@ export class AddPropertyFormComponent implements OnInit {
     this.invalidCity = !this.validationCity();
     this.invalidAdCategory = !this.validationAdCategory();
     this.invalidType = !this.validationType();
-    this.validationPicture();
+    //this.validationPicture();
     this.invalidNewConstruction = !this.validationNewConstruction();
 
     if (!(this.invalidPrice || this.invalidArea || this.invalidCity || this.invalidAdCategory || 
@@ -113,7 +113,8 @@ export class AddPropertyFormComponent implements OnInit {
               newConstruction:(this.newConstruction == '1')? true : false,
               picture:(this.picture == '')? null : this.picture, //slika u Base64
             }
-            this.propertyService.createProperty(newProperty);
+
+            this.propertyService.createProperty(newProperty,this, this.cbSuccessAddProperty);
           }
     
   }
@@ -153,6 +154,7 @@ export class AddPropertyFormComponent implements OnInit {
     reader.readAsDataURL(inputPicture.files[0]);
     reader.onload = function(){
       self.picture = reader.result as string;
+      console.log(self.picture);
       let len = self.picture.length;
 
       if(len < 5000 || len > 65000) // duzina tj velicina slike nije dobra
@@ -175,6 +177,9 @@ export class AddPropertyFormComponent implements OnInit {
    //callbacks
   cbSuccess(self: any, seller: Seller | null) {
     self.this_seller = seller;
+  }
+  cbSuccessAddProperty(self: any) {
+    window.location.reload();
   }
 
   cbNotFound(self: any) {
