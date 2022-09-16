@@ -41,6 +41,9 @@ import { BackgroundImageComponent } from './background-image/background-image.co
 import { MyPropertyComponent } from './_pages/my-properties/my-property/my-property.component';
 import { AddPropertyFormComponent } from './_pages/my-properties/add-property-form/add-property-form.component';
 import { ReservationsComponent } from './_pages/reservations/reservations.component';
+import { DashboardComponent } from './_pages/dashboard/dashboard.component';
+import { ApproveUsersComponent } from './_pages/dashboard/approve-users/approve-users.component';
+import { ApproveUsersCardComponent } from './_pages/dashboard/approve-users/approve-users-card/approve-users-card.component';
 
 @NgModule({
   declarations: [
@@ -80,6 +83,9 @@ import { ReservationsComponent } from './_pages/reservations/reservations.compon
     MyPropertyComponent,
     AddPropertyFormComponent,
     ReservationsComponent,
+    DashboardComponent,
+    ApproveUsersComponent,
+    ApproveUsersCardComponent,
   ],
   imports: [
     BrowserModule,

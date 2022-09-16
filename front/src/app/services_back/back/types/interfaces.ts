@@ -101,6 +101,14 @@ export interface Rating{
     alreadyRated:boolean;//ako je ocenjeno da ne moze opet
 }
 
+export interface RegistrationBrief 
+{
+    id: number;
+    name: string;
+    email: string;
+    pictureBase64: string | null;
+}
+
 export interface NewSeller{
     firstName:String;
     lastName:string;

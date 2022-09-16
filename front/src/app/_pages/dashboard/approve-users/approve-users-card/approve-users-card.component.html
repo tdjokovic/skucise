@@ -1,0 +1,11 @@
+<div *ngIf="brief" class="py-1">
+    <button class="d-flex align-items-center text-start w-100 p-2 bg-white rounded-3 shadow-sm border border-1"
+    (click)="onClick()">
+        <img [src]="(brief.pictureBase64 != null)? brief.pictureBase64 : defaultPicture" 
+        alt="[image]" style="width: 65px;" class="border">
+        <div class="px-3">
+            <div><h5>{{brief.name}}</h5></div>
+            <div>{{brief.email}}</div>
+        </div>
+    </button>
+</div>
