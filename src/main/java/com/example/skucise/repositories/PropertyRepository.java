@@ -36,7 +36,7 @@ public class PropertyRepository implements IPropertyRepository {
     private static final String RECALL_LIKE_STORED_PROCEDURE = "{call recall_like(?,?,?)}";
 
 
-    @Value("jdbc:mariadb://localhost:3306/skucise")
+    @Value("jdbc:mariadb://localhost:3307/skucise")
     private String databaseSourceUrl;
 
     @Value("root")
