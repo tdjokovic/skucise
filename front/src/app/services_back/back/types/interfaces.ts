@@ -41,6 +41,20 @@ export interface Property{
     picture:string | null; //slika u Base64
 }
 
+export interface Reservation{
+    user:GeneralUser;
+    property:Property;
+    date:Date;
+    is_approved:boolean;
+}
+
+export interface GeneralUser{
+    id:number;
+    email:string | null;
+    hashedPassword:string | null;
+    picture:string | null; //slika u Base64
+    phoneNumber:string | null;
+}
 export interface Seller{
     id:number;
     firstName:string;

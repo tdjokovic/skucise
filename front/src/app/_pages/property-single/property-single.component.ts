@@ -72,9 +72,14 @@ export class PropertySingleComponent implements OnInit {
   isBuyer(){ //ako je registrovan kupac moze da aplicira
     return JWTUtil.getUserRole() == UserRoles.Reg_buyer;
   }
+  isVisitor()
+  {
+    return JWTUtil.getUserRole() == UserRoles.Visitor;
+  }
 
   applyForPropery()
   {
+    
 
   }
 

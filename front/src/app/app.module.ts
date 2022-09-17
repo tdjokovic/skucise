@@ -44,6 +44,7 @@ import { ReservationsComponent } from './_pages/reservations/reservations.compon
 import { DashboardComponent } from './_pages/dashboard/dashboard.component';
 import { ApproveUsersComponent } from './_pages/dashboard/approve-users/approve-users.component';
 import { ApproveUsersCardComponent } from './_pages/dashboard/approve-users/approve-users-card/approve-users-card.component';
+import { ReservationComponent } from './_pages/reservations/reservation/reservation.component';
 
 @NgModule({
   declarations: [
@@ -86,6 +87,7 @@ import { ApproveUsersCardComponent } from './_pages/dashboard/approve-users/appr
     DashboardComponent,
     ApproveUsersComponent,
     ApproveUsersCardComponent,
+    ReservationComponent
   ],
   imports: [
     BrowserModule,
