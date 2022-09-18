@@ -11,9 +11,15 @@ import { SellerService } from 'src/app/services_back/services/seller.service';
 export class MyPropertiesComponent implements OnInit {
 
   constructor(private sellerService: SellerService) { }
+  
+  newPropModal : boolean = false;
 
   ngOnInit(): void {
     this.sellerService.getSellersProperties(JWTUtil.getID(),this,this.cbSuccessProperty);
+  }
+
+  toggleNewProp(){
+    this.newPropModal = !this.newPropModal;
   }
 
   propertiesBySeller : Property[] = [];
