@@ -16,6 +16,7 @@ import { PropertySingleComponent } from './_pages/property-single/property-singl
 import { MyPropertiesComponent } from './_pages/my-properties/my-properties.component';
 import { ReservationsComponent } from './_pages/reservations/reservations.component';
 import { DashboardComponent } from './_pages/dashboard/dashboard.component';
+import { UserProfileComponent } from './_pages/user-profile/user-profile.component';
 
 
 // data - Niz uloga koje imaju pristup ruti/stranici, prazan niz daje dozvolu svim ulogama  
@@ -43,6 +44,7 @@ const routes: Routes = [
 
   { path: 'alert/:cause/:param', component: AlertComponent,   data: { allowedRoles: [] }},
   { path: 'alert/:cause', component: AlertComponent,          data: { allowedRoles: [] }},
+  { path: 'profile/:id', component: UserProfileComponent,          data: { allowedRoles: [UserRoles.Admin, UserRoles.Reg_buyer, UserRoles.Reg_seller] }},
   
 ];
 

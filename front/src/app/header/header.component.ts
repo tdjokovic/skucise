@@ -27,6 +27,7 @@ export class HeaderComponent implements OnInit {
   public adCategories : AdCategory [] = [];
   firstName : string = '';
   lastName : string = '';
+  id: number = 0;
 
   ngOnInit(): void {
     this.loginService.newLogin.subscribe(res => {
@@ -86,5 +87,6 @@ export class HeaderComponent implements OnInit {
   {
     this.firstName = (localStorage.getItem('first-name')) ? localStorage.getItem('first-name')!.toString() : '';
     this.lastName = (localStorage.getItem('first-name')) ? localStorage.getItem('last-name')!.toString() : '';
+    this.id = JWTUtil.getID();
   }
 }
