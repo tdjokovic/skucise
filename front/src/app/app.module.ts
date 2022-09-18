@@ -3,6 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
+import { CommonModule } from '@angular/common';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -45,6 +46,7 @@ import { DashboardComponent } from './_pages/dashboard/dashboard.component';
 import { ApproveUsersComponent } from './_pages/dashboard/approve-users/approve-users.component';
 import { ApproveUsersCardComponent } from './_pages/dashboard/approve-users/approve-users-card/approve-users-card.component';
 import { ReservationComponent } from './_pages/reservations/reservation/reservation.component';
+import { DatePipe } from '@angular/common';
 
 @NgModule({
   declarations: [
@@ -94,9 +96,10 @@ import { ReservationComponent } from './_pages/reservations/reservation/reservat
     AppRoutingModule,
     FormsModule,
     RouterModule,
-    HttpClientModule
+    HttpClientModule,
+    CommonModule
   ],
-  providers: [],
+  providers: [DatePipe],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

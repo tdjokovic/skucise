@@ -1,1 +1,11 @@
-<p>reservation works!</p>
+<div *ngIf="reservation" class="py-1">
+    <button class="d-flex align-items-center text-start w-100 p-2 bg-white rounded-3 shadow-sm border border-1">
+        <img [src]="(reservation.property.picture != null)? reservation.property.picture : defaultPicture" 
+        alt="[image]" style="width: 65px;" class="border">
+        <div class="px-3">
+            <div><h5>{{reservation.property.city.name}}</h5></div>
+            <div>{{reservation.property.price}}</div>
+            <div>{{reservation.date | date:'d MMMM y, h:mm a':'+0200'}}</div>
+        </div>
+    </button>
+</div>

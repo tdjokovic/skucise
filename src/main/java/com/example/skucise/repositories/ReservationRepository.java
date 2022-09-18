@@ -146,7 +146,7 @@ public class ReservationRepository implements IReservationRepository {
 
         stmt.setInt("r_user_id", user_id);
         stmt.setInt("r_property_id", reservation.getProperty().getId());
-        stmt.setString("r_date",reservation.getDate().toString());
+        stmt.setTimestamp("r_date", java.sql.Timestamp.valueOf(reservation.getDate()));
         stmt.setBoolean("r_is_approved", reservation.isApproved());
     }
 }

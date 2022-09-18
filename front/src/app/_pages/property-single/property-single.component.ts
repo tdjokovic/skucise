@@ -92,6 +92,8 @@ export class PropertySingleComponent implements OnInit {
     date.setHours(this.selectedHour);
     date.setMinutes(this.selectedMinute);
 
+    //console.log(date);
+
     if (date < now)
     {
       this.wrongDate = true;
@@ -150,7 +152,7 @@ export class PropertySingleComponent implements OnInit {
 
   cbSuccessAddReservation(self: any) {
     this.modalClose.nativeElement.click();
-    
+
     window.location.reload();
   }
 }

@@ -14,25 +14,21 @@
           <!--Status poslatih rezervacija -->
         <div *ngIf="activeReservationsByMe" class="card p-1">
           <div *ngIf="reservationsByMe.length>0" class="container">
-            <div class="row">
-    
-                <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4" *ngFor="let r of reservationsByMe">
-                    <p>{{r.date}}</p>
-                </div>
-                
+              
+            <div class="d-flex flex-column" *ngFor="let r of rbmShow">
+              <app-reservation [reservation]="r"></app-reservation>
             </div>
-            <!--
+
             <div class="row align-items-center py-5">
                 <div class="col-lg-3">
-                    Pagination ({{currentPage}} of {{totalPagesNum}})
+                    Pagination ({{currentPageRbm}} of {{totalPagesNumRbm}})
                 </div>
                 <div class="col-lg-6 text-center">
                     <div class="custom-pagination">
-                        <a *ngFor="let p of totalPagesArray" [class]="(currentPage == p) ? 'active' : ''" (click)="changePage(p)" style="margin:2px">{{p}}</a>
+                        <a *ngFor="let p of totalPagesArrayRbm" [class]="(currentPageRbm == p) ? 'active' : ''" (click)="changePage(p,true)" style="margin:2px">{{p}}</a>
                     </div>
                 </div>
             </div>
-          -->
           </div>
     
           <div *ngIf="reservationsByMe.length==0" class="container">
@@ -45,28 +41,26 @@
           <div *ngIf="reservationsForMe.length>0" class="container">
             <div class="row">
     
-                <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4" *ngFor="let r of reservationsForMe">
+                <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4" *ngFor="let r of rfmShow">
                     <p>{{r.date}}</p>
                 </div>
                 
             </div>
-            <!--
             <div class="row align-items-center py-5">
                 <div class="col-lg-3">
-                    Pagination ({{currentPage}} of {{totalPagesNum}})
+                    Pagination ({{currentPageRfm}} of {{totalPagesNumRfm}})
                 </div>
                 <div class="col-lg-6 text-center">
                     <div class="custom-pagination">
-                        <a *ngFor="let p of totalPagesArray" [class]="(currentPage == p) ? 'active' : ''" (click)="changePage(p)" style="margin:2px">{{p}}</a>
+                        <a *ngFor="let p of totalPagesArrayRfm" [class]="(currentPageRfm == p) ? 'active' : ''" (click)="changePage(p, false)" style="margin:2px">{{p}}</a>
                     </div>
                 </div>
             </div>
-          -->
           </div>
     
-          <div *ngIf="reservationsForMe.length==0" class="container">
-              Trenutno nemate ni jednu rezervaciju koju treba odobriti.
-          </div>
+            <div *ngIf="reservationsForMe.length==0" class="container">
+                Trenutno nemate ni jednu rezervaciju koju treba odobriti.
+            </div>
         </div>
     </div>
 </div>
