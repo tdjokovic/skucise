@@ -146,7 +146,7 @@ public class PropertyController {
 
     private void validate(Property property){
 
-        //videti sta sve moze da se preda a da nije naznaceno za nekretninu!
+        //videti sta sve moze da se preda a da nije naznaceno za nekretninu! Da li ovo moze uopste, da se ne setuje lokacija ili cena?
 
         //ako nije setovano
         if(property.getCity() == null){
@@ -155,8 +155,8 @@ public class PropertyController {
         }
 
         //ako nije naznacena cena
-        if(property.getPrice() == ""){
-            property.setPrice(null);
+        if(property.getPrice() == 0){
+            property.setPrice(0);
         }
     }
 

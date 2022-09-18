@@ -208,7 +208,7 @@ public class SellerRepository implements ISellerRepository {
                 property = new Property();
                 property.setId(resultSet.getInt("id"));
                 property.setNewConstruction(resultSet.getBoolean("new_construction"));
-                property.setPrice(resultSet.getString("price"));
+                property.setPrice(resultSet.getInt("price"));
                 property.setPostingDate(resultSet.getObject("post_date", LocalDateTime.class));
                 property.setArea(resultSet.getString("area"));
                 property.setDescription(resultSet.getString("description"));

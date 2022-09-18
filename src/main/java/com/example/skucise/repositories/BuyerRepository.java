@@ -297,7 +297,7 @@ public class BuyerRepository implements IBuyerRepository {
         property.setId(resultSet.getInt("id"));
         property.setDescription(resultSet.getString("description"));
         property.setPostingDate(resultSet.getObject("post_date", LocalDateTime.class));
-        property.setPrice(resultSet.getString("price"));
+        property.setPrice(resultSet.getInt("price"));
         property.setArea(resultSet.getString("area"));
         property.setNewConstruction(resultSet.getBoolean("new_construction"));
         property.setAdCategory(adCategory);

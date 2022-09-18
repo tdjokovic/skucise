@@ -25,9 +25,9 @@ public class Property {
     @Size(min = 10, max = 10000, message = "The length of description must be between 10 and 10000 characters")
     private String description;
 
-    @Pattern( regexp = "^([0-9]+( - [0-9]+)? [A-Z]{3})$")
-    @Size(max = 50)
-    private String price;
+    @Min(1)
+    @Max(Integer.MAX_VALUE)
+    private int price;
 
     @Size(max = 50)
     private String area; //kvadratura
@@ -48,7 +48,7 @@ public class Property {
                     City city,
                     LocalDateTime postingDate,
                     String description,
-                    String price,
+                    int price,
                     String area,
                     boolean newConstruction,
                     String picture) {
@@ -122,11 +122,11 @@ public class Property {
         this.description = description;
     }
 
-    public String getPrice() {
+    public int getPrice() {
         return price;
     }
 
-    public void setPrice(String price) {
+    public void setPrice(int price) {
         this.price = price;
     }
 
