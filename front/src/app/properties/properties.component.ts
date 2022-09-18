@@ -259,12 +259,24 @@ export class PropertiesComponent implements OnInit {
   resetFilters(){
     this.selectedSellerId = 0;
     this.selectedCityId = 0;    
-    this.selectedAdCategoryId = 0; //radio button
-    const radio = document.getElementById(
-      'IzdavanjeRadio'
-    ) as HTMLInputElement | null;
-    if(radio != null){
-      radio.checked = true;
+
+    if(this.adCategory == 'prodaja'){
+      this.selectedAdCategoryId = this.adCategories.find(s => s.name == 'Prodaja')?.id as unknown as number; 
+      const radio = document.getElementById(
+        'ProdajaRadio'
+      ) as HTMLInputElement | null;
+      if(radio != null){
+        radio.checked = true;
+      }
+    }
+    else{
+      this.selectedAdCategoryId = this.adCategories.find(s => s.name == 'Izdavanje')?.id as unknown as number; 
+      const radio = document.getElementById(
+        'IzdavanjeRadio'
+      ) as HTMLInputElement | null;
+      if(radio != null){
+        radio.checked = true;
+      }
     }
 
     this.selectedAdTypeId = 0
