@@ -29,4 +29,9 @@ public class ReservationService implements IReservationService {
     public List<Reservation> getReservationsByUser(int user_id) {
         return reservationRepository.getReservationsByUser(user_id);
     }
+
+    @Override
+    public List<Reservation>getReservationsForUser(int user_id){
+        return reservationRepository.getReservationsForUser(user_id);
+    }
 }

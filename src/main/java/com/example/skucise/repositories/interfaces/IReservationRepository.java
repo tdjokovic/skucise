@@ -11,4 +11,7 @@ public interface IReservationRepository extends CRUDRepository<Reservation,Integ
     public boolean postReservation(Reservation reservation, int user_id);
 
     List<Reservation> getReservationsByUser(int user_id);
+
+    List<Reservation> getReservationsForUser(int user_id);
+    public List<Reservation> getReservationsForProperty(int property_id);
 }

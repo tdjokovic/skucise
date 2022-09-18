@@ -16,8 +16,6 @@ export class ReservationComponent implements OnInit {
   constructor(private datePipe : DatePipe) { }
 
   ngOnInit(): void {
-    if (this.reservation)
-    console.log(this.datePipe.transform(this.reservation.date,'MM/dd/yyyy'));
   }
 
 }

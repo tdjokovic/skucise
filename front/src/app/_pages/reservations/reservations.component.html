@@ -12,7 +12,7 @@
           </ul>
         <br>
           <!--Status poslatih rezervacija -->
-        <div *ngIf="activeReservationsByMe" class="card p-1">
+        <div *ngIf="activeReservationsByMe" class="card p-3">
           <div *ngIf="reservationsByMe.length>0" class="container">
               
             <div class="d-flex flex-column" *ngFor="let r of rbmShow">
@@ -37,25 +37,25 @@
         </div>
 
         <!--Rezervacije koje čekaju odobrenje -->
-        <div *ngIf="activeReservationsForMe" class="card p-1">
+        <div *ngIf="activeReservationsForMe" class="card p-3">
           <div *ngIf="reservationsForMe.length>0" class="container">
             <div class="row">
     
                 <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4" *ngFor="let r of rfmShow">
                     <p>{{r.date}}</p>
                 </div>
-                
+                <div class="row align-items-center py-5">
+                  <div class="col-lg-3">
+                      Pagination ({{currentPageRfm}} of {{totalPagesNumRfm}})
+                  </div>
+                  <div class="col-lg-6 text-center">
+                      <div class="custom-pagination">
+                          <a *ngFor="let p of totalPagesArrayRfm" [class]="(currentPageRfm == p) ? 'active' : ''" (click)="changePage(p, false)" style="margin:2px">{{p}}</a>
+                      </div>
+                  </div>
+              </div>
             </div>
-            <div class="row align-items-center py-5">
-                <div class="col-lg-3">
-                    Pagination ({{currentPageRfm}} of {{totalPagesNumRfm}})
-                </div>
-                <div class="col-lg-6 text-center">
-                    <div class="custom-pagination">
-                        <a *ngFor="let p of totalPagesArrayRfm" [class]="(currentPageRfm == p) ? 'active' : ''" (click)="changePage(p, false)" style="margin:2px">{{p}}</a>
-                    </div>
-                </div>
-            </div>
+            
           </div>
     
             <div *ngIf="reservationsForMe.length==0" class="container">

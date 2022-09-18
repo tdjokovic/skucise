@@ -32,17 +32,18 @@
                 </div>
                 
             </div>
-        </div>
-        <div class="row align-items-center py-5">
-            <div class="col-lg-3">
-                Pagination ({{currentPage}} of {{totalPagesNum}})
-            </div>
-            <div class="col-lg-6 text-center">
-                <div class="custom-pagination">
-                    <a *ngFor="let p of totalPagesArray" [class]="(currentPage == p) ? 'active' : ''" style="margin:2px" (click)="changePage(p)">{{p}}</a>
+            <div class="row align-items-center py-5">
+                <div class="col-lg-3">
+                    Pagination ({{currentPage}} of {{totalPagesNum}})
+                </div>
+                <div class="col-lg-6 text-center">
+                    <div class="custom-pagination">
+                        <a *ngFor="let p of totalPagesArray" [class]="(currentPage == p) ? 'active' : ''" style="margin:2px" (click)="changePage(p)">{{p}}</a>
+                    </div>
                 </div>
             </div>
         </div>
+        
     
         <div *ngIf="propertiesBySeller.length==0" class="container">
             Trenutno nema ni jedan okačen oglas.

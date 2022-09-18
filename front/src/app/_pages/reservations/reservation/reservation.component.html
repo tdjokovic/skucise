@@ -1,11 +1,36 @@
 <div *ngIf="reservation" class="py-1">
-    <button class="d-flex align-items-center text-start w-100 p-2 bg-white rounded-3 shadow-sm border border-1">
-        <img [src]="(reservation.property.picture != null)? reservation.property.picture : defaultPicture" 
-        alt="[image]" style="width: 65px;" class="border">
-        <div class="px-3">
-            <div><h5>{{reservation.property.city.name}}</h5></div>
-            <div>{{reservation.property.price}}</div>
-            <div>{{reservation.date | date:'d MMMM y, h:mm a':'+0200'}}</div>
+    <div class="d-flex align-items-center text-start w-100 p-2 bg-white rounded-3 shadow-sm border border-1">
+        <a class="bg-white border-0" [routerLink]="['/property/' + reservation.property.id]"><img [src]="(reservation.property.picture != null)? reservation.property.picture : defaultPicture" 
+        alt="[image]" style="width: 65px;" class="border"></a>
+        <div class="container px-3">
+            <div class="row align-items-center">
+                <div class="col-sm-2">
+                    <h6>Rezervacija</h6>
+                    <h6>broj {{reservation.id}}</h6>
+                </div>
+                <div class="col-sm-3">
+                    <h5>{{reservation.property.city.name + "," + reservation.property.price + "$"}}</h5>
+                    <p>{{reservation.property.type.name + "/" + reservation.property.adCategory.name}}</p>
+                    <h5><a [routerLink]="['/property/' + reservation.property.id]" class="text-info">Vidite oglas</a></h5>
+                </div>
+                <div class="col-sm-4">
+                    <h6>Odabrani termin razgledanja</h6>
+                    <h5>{{reservation.date | date:'d MMMM y, h:mm a':'UTC +4'}}</h5>
+                </div>
+                <div class="col-sm">
+                    <h6>Status rezervacije</h6>
+                    <div *ngIf="reservation.isApproved == 0">
+                        Na čekanju <img [src]="'../../../assets/images/on_wait.png'" alt="[image]" style="width:8%">
+                    </div>
+                    <div *ngIf="reservation.isApproved == -1">
+                        Odbijeno <img [src]="'../../../assets/images/failed.png'" alt="[image]" style="width:8%">
+                    </div>
+                    <div *ngIf="reservation.isApproved == 1">
+                        Prihvaćeno <img [src]="'../../../assets/images/correct.png'" alt="[image]" style="width:8%">
+                    </div>
+                </div>
+            </div>
+
         </div>
-    </button>
+    </div>
 </div>

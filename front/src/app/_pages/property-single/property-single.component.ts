@@ -33,7 +33,6 @@ export class PropertySingleComponent implements OnInit {
   selectedMinute : number = 30;
   wrongDate : boolean = false; 
 
-  @ViewChild('myModalClose') modalClose: any;
 
   constructor(private activatedRoute : ActivatedRoute,
     private authorizationService : AuthorizeService,
@@ -92,7 +91,7 @@ export class PropertySingleComponent implements OnInit {
     date.setHours(this.selectedHour);
     date.setMinutes(this.selectedMinute);
 
-    //console.log(date);
+    console.log(date);
 
     if (date < now)
     {
@@ -115,7 +114,7 @@ export class PropertySingleComponent implements OnInit {
       user:null,
       property:this.property,
       date:reservationDate,
-      is_approved:false
+      isApproved:0
     }
 
     return newReservation;
@@ -151,8 +150,5 @@ export class PropertySingleComponent implements OnInit {
   }
 
   cbSuccessAddReservation(self: any) {
-    this.modalClose.nativeElement.click();
-
-    window.location.reload();
   }
 }

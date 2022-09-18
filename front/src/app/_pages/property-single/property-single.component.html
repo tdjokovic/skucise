@@ -43,15 +43,19 @@
                 <table class="table" style="width:80%">
                     <tr>
                         <td><h6>Cena:</h6></td>
-                        <td><b>{{property.price}}</b></td>
+                        <td><b>{{property.price + " $"}}</b></td>
                     </tr>
                     <tr>
                         <td><h6>Kvadratura:</h6></td>
-                        <td><b>{{property.area}}</b></td>
+                        <td><b>{{property.area + " m²"}}</b></td>
                     </tr>
                     <tr>
                         <td><h6>Vrsta nekretnine:</h6></td>
                         <td><b>{{property.type.name}}</b></td>
+                    </tr>
+                    <tr>
+                        <td><h6>Datum postavljanja:</h6></td>
+                        <td><b>{{property.postingDate | date:'dd/M/yyyy'}}</b></td>
                     </tr>
                     <tr *ngIf="property.newConstruction">
                         <td><h6>Novogradnja</h6></td>
@@ -81,12 +85,13 @@
             </div>
         </div>
     </div>
+
     <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
         <div class="modal-dialog">
           <div class="modal-content">
             <div class="modal-header">
               <h5 class="modal-title" id="staticBackdropLabel">Zakaži razgledanje u željenom terminu</h5>
-              <button #myModalClose type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
               <p>Unesite datum kada bi želeli da razgledate nekretninu i oglasivač će Vam u najkraćem roku odgovoriti na zahtev.</p>
@@ -147,7 +152,7 @@
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Odustani</button>
-              <button type="button" class="btn btn-primary" (click)="applyForPropery()">Zakaži</button>
+              <button type="button" class="btn btn-primary" data-bs-dismiss="modal" (click)="applyForPropery()">Zakaži</button>
             </div>
           </div>
         </div>

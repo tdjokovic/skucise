@@ -106,13 +106,29 @@ public class ReservationRepository implements IReservationRepository {
         return reservations;
     }
 
+    @Override
+    public List<Reservation> getReservationsForUser(int user_id) {
+        List<Reservation> reservations = new ArrayList<Reservation>();
+
+
+
+        return reservations;
+    }
+    @Override
+    public List<Reservation> getReservationsForProperty(int property_id) {
+        List<Reservation> reservations = new ArrayList<Reservation>();
+
+
+
+        return reservations;
+    }
     private Reservation setNewReservation(ResultSet resultSet) throws SQLException {
         Reservation reservation = new Reservation();
 
         reservation.setId(resultSet.getInt("id"));
         reservation.setUser(null);
         reservation.setDate(resultSet.getObject("reservation_date", LocalDateTime.class));
-        reservation.setApproved(resultSet.getBoolean("is_approved"));
+        reservation.setIsApproved(resultSet.getInt("is_approved"));
 
         AdCategory adCategory = new AdCategory();
         adCategory.setId(resultSet.getInt("ad_category_id"));
@@ -139,6 +155,8 @@ public class ReservationRepository implements IReservationRepository {
 
         reservation.setProperty(property);
 
+        LOGGER.info("" + reservation.getIsApproved());
+
         return reservation;
     }
 
@@ -147,6 +165,6 @@ public class ReservationRepository implements IReservationRepository {
         stmt.setInt("r_user_id", user_id);
         stmt.setInt("r_property_id", reservation.getProperty().getId());
         stmt.setTimestamp("r_date", java.sql.Timestamp.valueOf(reservation.getDate()));
-        stmt.setBoolean("r_is_approved", reservation.isApproved());
+        stmt.setInt("r_is_approved", reservation.getIsApproved());
     }
 }

@@ -13,7 +13,7 @@
                 </div>
             </div>
             <div class="col-sm">
-                <span *ngIf="postingDate">{{postingDate.toLocaleDateString()}}</span>
+                <span *ngIf="postingDate">{{postingDate | date:'dd/M/yyyy'}}</span>
             </div>
         </div>
         <div>

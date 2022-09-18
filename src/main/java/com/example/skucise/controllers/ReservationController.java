@@ -1,7 +1,5 @@
 package com.example.skucise.controllers;
 
-import com.example.skucise.models.BuyerUser;
-import com.example.skucise.models.Property;
 import com.example.skucise.models.Reservation;
 import com.example.skucise.security.ResultPair;
 import com.example.skucise.security.Role;
@@ -20,7 +18,6 @@ import javax.validation.constraints.Min;
 import java.util.List;
 
 import static com.example.skucise.security.SecurityConfiguration.*;
-import static com.example.skucise.security.SecurityConfiguration.ROLE_CLAIM_NAME;
 
 @Validated
 @RestController
@@ -78,6 +75,29 @@ public class ReservationController {
 
 
         return ResponseEntity.status(httpStatus).headers(responseHeaders).body(reservationsByUser);
+    }
+
+    @GetMapping("{id}")
+    public ResponseEntity<List<Reservation>> getReservationsForUser(@RequestHeader(JWT_CUSTOM_HTTP_HEADER) String jwt,
+                                                                    @PathVariable("id")
+                                                                    @Min( 1 )
+                                                                    @Max( Integer.MAX_VALUE ) int id)
+    {
+        List<Reservation> reservationsForUser = null;
+
+        ResultPair resultPair = checkAccess(jwt, Role.REG_SELLER, Role.ADMIN, Role.REG_BUYER);
+        HttpStatus httpStatus = resultPair.getHttpStatus();
+        HttpHeaders responseHeaders = new HttpHeaders();
+        responseHeaders.set(JWT_CUSTOM_HTTP_HEADER, jwt);
+
+        if(httpStatus != HttpStatus.OK){
+            return ResponseEntity.status(httpStatus).headers(responseHeaders).body(null);
+        }
+
+        reservationsForUser = reservationService.getReservationsForUser(id);
+
+
+        return ResponseEntity.status(httpStatus).headers(responseHeaders).body(reservationsForUser);
     }
 
 }

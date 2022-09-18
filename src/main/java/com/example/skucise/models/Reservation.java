@@ -20,11 +20,13 @@ public class Reservation {
     @FutureOrPresent
     private LocalDateTime date;
 
-    private boolean isApproved;
+    @Min(-1)
+    @Max(2)
+    private int isApproved;
 
-    public Reservation() { }
+    public Reservation() {}
 
-    public Reservation(int id, Property property, GeneralUser user, LocalDateTime date, boolean isApproved) {
+    public Reservation(int id, Property property, GeneralUser user, LocalDateTime date, int isApproved) {
         this.id = id;
         this.property = property;
         this.user = user;
@@ -64,12 +66,11 @@ public class Reservation {
         this.date = date;
     }
 
-    public boolean isApproved() {
+    public int getIsApproved() {
         return isApproved;
     }
 
-    public void setApproved(boolean approved) {
-        isApproved = approved;
+    public void setIsApproved(int isApproved) {
+        this.isApproved = isApproved;
     }
-
 }

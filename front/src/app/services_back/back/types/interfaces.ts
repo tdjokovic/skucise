@@ -46,7 +46,7 @@ export interface Reservation{
     user:GeneralUser | null;
     property:Property;
     date:Date;
-    is_approved:boolean;
+    isApproved:number;
 }
 
 export interface GeneralUser{
