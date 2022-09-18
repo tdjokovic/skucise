@@ -20,9 +20,9 @@ public class ReservationService implements IReservationService {
     }
 
     @Override
-    public boolean postReservation(Reservation reservation)
+    public boolean postReservation(Reservation reservation, int user_id)
     {
-        return reservationRepository.postReservation(reservation);
+        return reservationRepository.postReservation(reservation, user_id);
     }
 
     @Override

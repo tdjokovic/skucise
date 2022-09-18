@@ -8,7 +8,7 @@ import java.util.List;
 @Repository
 public interface IReservationRepository extends CRUDRepository<Reservation,Integer> {
 
-    public boolean postReservation(Reservation reservation);
+    public boolean postReservation(Reservation reservation, int user_id);
 
     List<Reservation> getReservationsByUser(int user_id);
 }

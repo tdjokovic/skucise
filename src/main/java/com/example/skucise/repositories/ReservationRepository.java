@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import java.sql.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Repository
@@ -53,7 +54,7 @@ public class ReservationRepository implements IReservationRepository {
     }
 
     @Override
-    public boolean postReservation(Reservation reservation) {
+    public boolean postReservation(Reservation reservation, int user_id) {
 
         boolean createSuccess = false;
         int id;
@@ -61,7 +62,7 @@ public class ReservationRepository implements IReservationRepository {
         try(Connection conn = DriverManager.getConnection(databaseSourceUrl, databaseUsername, databasePassword);
             CallableStatement stmt = conn.prepareCall(POST_RESERVATION_STORED_PROCEDURE)){
 
-            setReservationParameters(stmt, reservation);
+            setReservationParameters(stmt, reservation, user_id);
             stmt.registerOutParameter("r_is_posted", Types.BOOLEAN);
             stmt.executeUpdate();
 
@@ -80,7 +81,7 @@ public class ReservationRepository implements IReservationRepository {
 
     @Override
     public List<Reservation> getReservationsByUser(int user_id) {
-        List<Reservation> reservations = null;
+        List<Reservation> reservations = new ArrayList<Reservation>();
         Reservation reservation = null;
 
         LOGGER.info("Trying to find reservations by user with id {}", user_id);
@@ -134,15 +135,16 @@ public class ReservationRepository implements IReservationRepository {
         property.setCity(city);
         property.setAdCategory(adCategory);
         property.setType(type);
+        property.setSellerUser(null);
 
         reservation.setProperty(property);
 
         return reservation;
     }
 
-    public void setReservationParameters(CallableStatement stmt, Reservation reservation) throws SQLException{
+    public void setReservationParameters(CallableStatement stmt, Reservation reservation, int user_id) throws SQLException{
 
-        stmt.setInt("r_user_id", reservation.getUser().getId());
+        stmt.setInt("r_user_id", user_id);
         stmt.setInt("r_property_id", reservation.getProperty().getId());
         stmt.setString("r_date",reservation.getDate().toString());
         stmt.setBoolean("r_is_approved", reservation.isApproved());

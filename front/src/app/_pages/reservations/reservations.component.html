@@ -12,13 +12,61 @@
           </ul>
         <br>
           <!--Status poslatih rezervacija -->
-        <div *ngIf="reservationsByMe" class="card p-1">
-
+        <div *ngIf="activeReservationsByMe" class="card p-1">
+          <div *ngIf="reservationsByMe.length>0" class="container">
+            <div class="row">
+    
+                <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4" *ngFor="let r of reservationsByMe">
+                    <p>{{r.date}}</p>
+                </div>
+                
+            </div>
+            <!--
+            <div class="row align-items-center py-5">
+                <div class="col-lg-3">
+                    Pagination ({{currentPage}} of {{totalPagesNum}})
+                </div>
+                <div class="col-lg-6 text-center">
+                    <div class="custom-pagination">
+                        <a *ngFor="let p of totalPagesArray" [class]="(currentPage == p) ? 'active' : ''" (click)="changePage(p)" style="margin:2px">{{p}}</a>
+                    </div>
+                </div>
+            </div>
+          -->
+          </div>
+    
+          <div *ngIf="reservationsByMe.length==0" class="container">
+              Trenutno nemate ni jednu poslatu rezervaciju.
+          </div>
         </div>
 
         <!--Rezervacije koje čekaju odobrenje -->
-        <div *ngIf="reservationsForMe" class="card p-1">
-            
+        <div *ngIf="activeReservationsForMe" class="card p-1">
+          <div *ngIf="reservationsForMe.length>0" class="container">
+            <div class="row">
+    
+                <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4" *ngFor="let r of reservationsForMe">
+                    <p>{{r.date}}</p>
+                </div>
+                
+            </div>
+            <!--
+            <div class="row align-items-center py-5">
+                <div class="col-lg-3">
+                    Pagination ({{currentPage}} of {{totalPagesNum}})
+                </div>
+                <div class="col-lg-6 text-center">
+                    <div class="custom-pagination">
+                        <a *ngFor="let p of totalPagesArray" [class]="(currentPage == p) ? 'active' : ''" (click)="changePage(p)" style="margin:2px">{{p}}</a>
+                    </div>
+                </div>
+            </div>
+          -->
+          </div>
+    
+          <div *ngIf="reservationsForMe.length==0" class="container">
+              Trenutno nemate ni jednu rezervaciju koju treba odobriti.
+          </div>
         </div>
     </div>
 </div>

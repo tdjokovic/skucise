@@ -37,6 +37,8 @@ public class ReservationController {
                                           @Valid @RequestBody Reservation reservation) {
 
         ResultPair resultPair = checkAccess(jwt, Role.REG_SELLER, Role.ADMIN, Role.REG_BUYER);
+        int user_id =(int)(double) resultPair.getClaims().get(USER_ID_CLAIM_NAME);
+
         HttpStatus httpStatus = resultPair.getHttpStatus();
         HttpHeaders responseHeaders = new HttpHeaders();
         responseHeaders.set(JWT_CUSTOM_HTTP_HEADER, jwt);
@@ -45,7 +47,7 @@ public class ReservationController {
             return ResponseEntity.status(httpStatus).headers(responseHeaders).body(null);
         }
 
-        boolean posted = reservationService.postReservation(reservation);
+        boolean posted = reservationService.postReservation(reservation, user_id);
 
         if(posted){
             return ResponseEntity.status(HttpStatus.CREATED).headers(responseHeaders).body(null);

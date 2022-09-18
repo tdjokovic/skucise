@@ -15,12 +15,6 @@ export class ReservationApiService {
     constructor(private http : HttpClient){}
 
     getReservationsByUser() : Observable<HttpResponse<Reservation[]>>{
-        let par : HttpParams = new HttpParams({
-            encoder: {encodeKey: k=>k,encodeValue:v=>encodeURIComponent(v),
-            decodeKey:k=>k, decodeValue: v=>decodeURIComponent(v)}
-        });
-
-
         return this.http.get<Reservation[]>(
             this.url,
             {

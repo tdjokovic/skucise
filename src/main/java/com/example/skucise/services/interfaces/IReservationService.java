@@ -8,7 +8,7 @@ import java.util.List;
 @Service
 public interface IReservationService {
 
-    public boolean postReservation(Reservation reservation);
+    public boolean postReservation(Reservation reservation, int user_id);
 
     List<Reservation> getReservationsByUser(int user_id);
 }

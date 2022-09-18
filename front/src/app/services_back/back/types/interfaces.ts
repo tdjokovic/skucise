@@ -42,7 +42,8 @@ export interface Property{
 }
 
 export interface Reservation{
-    user:GeneralUser;
+    id: number | null;
+    user:GeneralUser | null;
     property:Property;
     date:Date;
     is_approved:boolean;
@@ -50,31 +51,21 @@ export interface Reservation{
 
 export interface GeneralUser{
     id:number;
-    email:string | null;
-    hashedPassword:string | null;
-    picture:string | null; //slika u Base64
-    phoneNumber:string | null;
-}
-export interface Seller{
-    id:number;
-    firstName:string;
-    lastName:string;
     email:string;
     hashedPassword:string;
     picture:string | null; //slika u Base64
     phoneNumber:string;
+}
+export interface Seller extends GeneralUser{
+    firstName:string;
+    lastName:string;
     tin:string;
 }
 
-export interface Buyer{
-    id:number;
+export interface Buyer extends GeneralUser{
     firstName:string;
     lastName:string;
-    email:string;
-    hashedPassword:string;
-    picture:string | null; //slika u Base64
     address:string;
-    phoneNumber:string;
 }
 
 export interface City{

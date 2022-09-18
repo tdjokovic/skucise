@@ -86,7 +86,7 @@
           <div class="modal-content">
             <div class="modal-header">
               <h5 class="modal-title" id="staticBackdropLabel">Zakaži razgledanje u željenom terminu</h5>
-              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              <button #myModalClose type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
               <p>Unesite datum kada bi želeli da razgledate nekretninu i oglasivač će Vam u najkraćem roku odgovoriti na zahtev.</p>
@@ -99,22 +99,22 @@
                     </tr>
                     <tr>
                         <td>
-                            <select class="form-select">
-                                <option *ngFor="let day of days" [selected]="thisDay == day">
+                            <select [(ngModel)]="selectedDay" class="form-select" name="daySelect">
+                                <option *ngFor="let day of days" [selected]="selectedDay == day" [ngValue]="day">
                                     {{day}}
                                 </option>
                             </select>
                         </td>
                         <td>
-                            <select class="form-select">
-                                <option *ngFor="let month of months" [selected]="thisMonth == month.id">
+                            <select [(ngModel)]="selectedMonth" class="form-select" name="monthSelect">
+                                <option *ngFor="let month of months" [selected]="selectedMonth == month.id" [ngValue]="month.id">
                                     {{month.name}}
                                 </option>
                             </select>
                         </td>
                         <td>
-                            <select class="form-select">
-                                <option *ngFor="let year of years" [selected]="thisYear == year">
+                            <select [(ngModel)]="selectedYear" class="form-select" name="yearSelect">
+                                <option *ngFor="let year of years" [selected]="selectedYear == year" [ngValue]="year">
                                     {{year}}
                                 </option>
                             </select>
@@ -127,26 +127,27 @@
                     </tr>
                     <tr>
                         <td>
-                            <select class="form-select">
-                                <option *ngFor="let hour of hours" [selected]="hour == 14">
+                            <select [(ngModel)]="selectedHour" class="form-select" name="hourSelect">
+                                <option *ngFor="let hour of hours" [ngValue]="hour">
                                     {{getHour(hour)}}
                                 </option>
                             </select>
                         </td>
                         <td>
-                            <select class="form-select" style="width:auto;">
-                                <option *ngFor="let minute of minutes" [selected]="minute == 30">
+                            <select [(ngModel)]="selectedMinute" class="form-select" style="width:auto;" name="minuteSelect">
+                                <option *ngFor="let minute of minutes" [ngValue]="minute">
                                     {{getMinute(minute)}}
                                 </option>
                             </select>
                         </td>
                     </tr>
                 </table>
+                <p *ngIf="wrongDate" class="small fw-bold text-danger" style="text-align: center;">Uneti datum je prošao.</p>
               </form>
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Odustani</button>
-              <button type="button" class="btn btn-primary" (submit)="applyForPropery()">Zakaži</button>
+              <button type="button" class="btn btn-primary" (click)="applyForPropery()">Zakaži</button>
             </div>
           </div>
         </div>

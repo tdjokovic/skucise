@@ -1,6 +1,7 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ReservationApiService } from '../back/apis/reservation-api.service';
+import { Reservation } from '../back/types/interfaces';
 import { AuthorizeService } from './authorize.service';
 
 @Injectable({
@@ -16,15 +17,12 @@ export class ReservationService {
     this.api.getReservationsByUser().subscribe(
         (response) => {
             if(response.body != null){
-                console.log("PROPERTIES");
+                console.log("RESEVATIONS");
                 console.log(response.body);
-                //dobili smo nekretnine
-                //this.properties = response.body.properties;
-                //this.totalProperties = response.body.totalProperties;
 
                 if(self && cbSuccess) {
                     console.log("cbsuccess");
-                    //cbSuccess(self,this.properties, this.totalProperties);
+                    cbSuccess(self,response.body);
                 }
                 else{
                     console.log("notcbsuccess");
@@ -39,6 +37,19 @@ export class ReservationService {
         (error : HttpErrorResponse) => {
             this.authService.redirectIfSessionExpired(error.status);
         }
-    );
-}
+        );
+    }
+
+    createReservation(reservationData : Reservation, self?: any, cbSuccess?: Function){
+        this.api.createReservation(reservationData).subscribe(
+            (response) => {
+                console.log("Reservation created ", response.status);
+
+                if(self && cbSuccess) cbSuccess(self);
+            },
+            (error : HttpErrorResponse) => {
+                this.authService.redirectIfSessionExpired(error.status);
+            }
+        );
+    }
 }
