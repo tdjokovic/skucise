@@ -173,11 +173,11 @@ public class SellerRepository implements ISellerRepository {
             CallableStatement stmt = conn.prepareCall(APPROVE_SELLER_PROCEDURE_CALL)){
 
             stmt.setInt("p_id", id);
-            stmt.registerOutParameter("p_approve_successfully", Types.BOOLEAN);
+            stmt.registerOutParameter("p_approved_successfully", Types.BOOLEAN);
 
             stmt.executeUpdate();
 
-            approvedSuccessfully = stmt.getBoolean("p_approve_successfully");
+            approvedSuccessfully = stmt.getBoolean("p_approved_successfully");
 
         }catch(SQLException e){
             LOGGER.error("Error while trying to communicate with the database - approve");
