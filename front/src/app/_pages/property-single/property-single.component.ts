@@ -6,10 +6,8 @@ import { MONTHS } from 'src/app/services_back/constants/date';
 import { DEFAULT_PROPERTY_PICTURE } from 'src/app/services_back/constants/raw-data';
 import { JWTUtil } from 'src/app/services_back/helpers/jwt_helper';
 import { AuthorizeService } from 'src/app/services_back/services/authorize.service';
-import { CityService } from 'src/app/services_back/services/city.service';
 import { PropertyService } from 'src/app/services_back/services/property.service';
 import { ReservationService } from 'src/app/services_back/services/reservation.service';
-import { SellerService } from 'src/app/services_back/services/seller.service';
 
 @Component({
   selector: 'app-property-single',
@@ -31,8 +29,10 @@ export class PropertySingleComponent implements OnInit {
   selectedDay : number = 0;
   selectedHour: number = 14;
   selectedMinute : number = 30;
-  wrongDate : boolean = false; 
-
+  wrongDate : boolean = false;
+  
+  successfulReservation:boolean = false;
+  failedReservation: boolean = false;
 
   constructor(private activatedRoute : ActivatedRoute,
     private authorizationService : AuthorizeService,
@@ -150,5 +150,13 @@ export class PropertySingleComponent implements OnInit {
   }
 
   cbSuccessAddReservation(self: any) {
+
+    self.failedReservation = false;
+    self.successfulReservation = true;
+  }
+  cbFailAddReservation(self: any)
+  {
+    self.successfulReservation = false;
+    self.failedReservation = true;
   }
 }

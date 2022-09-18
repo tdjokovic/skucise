@@ -11,6 +11,7 @@ import { DatePipe } from '@angular/common';
 export class ReservationComponent implements OnInit {
 
   @Input() reservation! : Reservation;
+  @Input() byUser! : boolean;
   public defaultPicture: string = DEFAULT_PROPERTY_PICTURE;
 
   constructor(private datePipe : DatePipe) { }

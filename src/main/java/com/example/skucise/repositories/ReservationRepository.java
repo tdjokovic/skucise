@@ -18,6 +18,7 @@ public class ReservationRepository implements IReservationRepository {
     private static final Logger LOGGER = LoggerFactory.getLogger(PropertyRepository.class);
     private static final String POST_RESERVATION_STORED_PROCEDURE = "{call post_reservation(?,?,?,?,?)}";
     private static final String GET_RESERVATIONS_STORED_PROCEDURE = "{call get_reservations_by_user(?)}";
+    private static final String GET_RESERVATIONS_FOR_USER_STORED_PROCEDURE = "{call get_reservations_for_user(?)}";
 
     @Value("jdbc:mariadb://localhost:3306/skucise")
     private String databaseSourceUrl;
@@ -27,31 +28,6 @@ public class ReservationRepository implements IReservationRepository {
 
     @Value("")
     private String databasePassword;
-
-    @Override
-    public List<Reservation> getAll() {
-        return null;
-    }
-
-    @Override
-    public boolean create(Reservation reservation) {
-        return false;
-    }
-
-    @Override
-    public Reservation get(Integer integer) {
-        return null;
-    }
-
-    @Override
-    public boolean update(Reservation reservation, Integer integer) {
-        return false;
-    }
-
-    @Override
-    public boolean delete(Integer integer) {
-        return false;
-    }
 
     @Override
     public boolean postReservation(Reservation reservation, int user_id) {
@@ -84,7 +60,7 @@ public class ReservationRepository implements IReservationRepository {
         List<Reservation> reservations = new ArrayList<Reservation>();
         Reservation reservation = null;
 
-        LOGGER.info("Trying to find reservations by user with id {}", user_id);
+        LOGGER.info("Trying to find reservations for user with id {}", user_id);
 
         try(Connection conn = DriverManager.getConnection(databaseSourceUrl, databaseUsername, databasePassword);
             CallableStatement stmt = conn.prepareCall(GET_RESERVATIONS_STORED_PROCEDURE)){
@@ -93,7 +69,7 @@ public class ReservationRepository implements IReservationRepository {
             ResultSet resultSet = stmt.executeQuery();
 
             while(resultSet.next()){
-                reservation = setNewReservation(resultSet);
+                reservation = setNewReservation(resultSet, false);
                 LOGGER.info("Reservaton id {}", reservation.getId());
 
                 reservations.add(reservation);
@@ -110,6 +86,27 @@ public class ReservationRepository implements IReservationRepository {
     public List<Reservation> getReservationsForUser(int user_id) {
         List<Reservation> reservations = new ArrayList<Reservation>();
 
+        Reservation reservation = null;
+
+        LOGGER.info("Trying to find reservations by user with id {}", user_id);
+
+        try(Connection conn = DriverManager.getConnection(databaseSourceUrl, databaseUsername, databasePassword);
+            CallableStatement stmt = conn.prepareCall(GET_RESERVATIONS_FOR_USER_STORED_PROCEDURE)){
+
+            stmt.setInt("r_user_id", user_id);
+            ResultSet resultSet = stmt.executeQuery();
+
+            while(resultSet.next()){
+                reservation = setNewReservation(resultSet, true);
+                LOGGER.info("Reservaton id {}", reservation.getId());
+
+                reservations.add(reservation);
+            }
+        }catch (SQLException e){
+            LOGGER.error("Error while trying to communicate with the database - get");
+            e.printStackTrace();
+        }
+
 
 
         return reservations;
@@ -122,11 +119,10 @@ public class ReservationRepository implements IReservationRepository {
 
         return reservations;
     }
-    private Reservation setNewReservation(ResultSet resultSet) throws SQLException {
+    private Reservation setNewReservation(ResultSet resultSet, boolean getUser) throws SQLException {
         Reservation reservation = new Reservation();
 
         reservation.setId(resultSet.getInt("id"));
-        reservation.setUser(null);
         reservation.setDate(resultSet.getObject("reservation_date", LocalDateTime.class));
         reservation.setIsApproved(resultSet.getInt("is_approved"));
 
@@ -153,9 +149,30 @@ public class ReservationRepository implements IReservationRepository {
         property.setType(type);
         property.setSellerUser(null);
 
-        reservation.setProperty(property);
+        if (!getUser)
+        {
+            reservation.setUser(null);
+        }
+        else {
+            int user_id = resultSet.getInt("user_id");
+            BuyerRepository buyerRepository = new BuyerRepository();
 
-        LOGGER.info("" + reservation.getIsApproved());
+            BuyerUser buyer = buyerRepository.get(user_id);
+
+            if (buyer == null)
+            {
+
+            }
+        }
+        BuyerUser buyer = new BuyerUser();
+        buyer.setId(resultSet.getInt("user_id"));
+        buyer.setFirstName(resultSet.getString("first_name"));
+        buyer.setLastName(resultSet.getString("last_name"));
+        buyer.setPicture(resultSet.getString("picture"));
+        buyer.setEmail(resultSet.getString("email"));
+        buyer.setPhoneNumber(resultSet.getString("phone_number"));
+
+        reservation.setProperty(property);
 
         return reservation;
     }
@@ -167,4 +184,30 @@ public class ReservationRepository implements IReservationRepository {
         stmt.setTimestamp("r_date", java.sql.Timestamp.valueOf(reservation.getDate()));
         stmt.setInt("r_is_approved", reservation.getIsApproved());
     }
+
+    @Override
+    public List<Reservation> getAll() {
+        return null;
+    }
+
+    @Override
+    public boolean create(Reservation reservation) {
+        return false;
+    }
+
+    @Override
+    public Reservation get(Integer integer) {
+        return null;
+    }
+
+    @Override
+    public boolean update(Reservation reservation, Integer integer) {
+        return false;
+    }
+
+    @Override
+    public boolean delete(Integer integer) {
+        return false;
+    }
 }
+

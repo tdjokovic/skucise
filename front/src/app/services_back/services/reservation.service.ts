@@ -40,7 +40,7 @@ export class ReservationService {
         );
     }
 
-    createReservation(reservationData : Reservation, self?: any, cbSuccess?: Function){
+    createReservation(reservationData : Reservation, self?: any, cbSuccess?: Function, cbFail? : Function){
         this.api.createReservation(reservationData).subscribe(
             (response) => {
                 console.log("Reservation created ", response.status);
@@ -49,6 +49,7 @@ export class ReservationService {
             },
             (error : HttpErrorResponse) => {
                 this.authService.redirectIfSessionExpired(error.status);
+                if (self && cbFail) cbFail(self);
             }
         );
     }

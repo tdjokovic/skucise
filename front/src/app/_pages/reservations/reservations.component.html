@@ -16,7 +16,7 @@
           <div *ngIf="reservationsByMe.length>0" class="container">
               
             <div class="d-flex flex-column" *ngFor="let r of rbmShow">
-              <app-reservation [reservation]="r"></app-reservation>
+              <app-reservation [reservation]="r" [byUser]="true"></app-reservation>
             </div>
 
             <div class="row align-items-center py-5">
@@ -42,7 +42,7 @@
             <div class="row">
     
                 <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4" *ngFor="let r of rfmShow">
-                    <p>{{r.date}}</p>
+                  <app-reservation [reservation]="r" [byUser]="false"></app-reservation>
                 </div>
                 <div class="row align-items-center py-5">
                   <div class="col-lg-3">

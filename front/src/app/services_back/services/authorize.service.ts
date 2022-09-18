@@ -82,7 +82,8 @@ export class AuthorizeService {
   }
 
   redirectIfSessionExpired(status:HttpStatusCode){
-    this.router.navigate([RedirectRoutes.ON_SESSION_EXPIRED]);
+    if (this.checkIsSessionExpired(status))
+      this.router.navigate([RedirectRoutes.ON_SESSION_EXPIRED]);
   }
 
   isBuyer():boolean{
