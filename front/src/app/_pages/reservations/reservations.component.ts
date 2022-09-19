@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Reservation } from 'src/app/services_back/back/types/interfaces';
+import { JWTUtil } from 'src/app/services_back/helpers/jwt_helper';
 import { AuthorizeService } from 'src/app/services_back/services/authorize.service';
 import { ReservationService } from 'src/app/services_back/services/reservation.service';
 
@@ -40,6 +41,7 @@ export class ReservationsComponent implements OnInit {
         
         
         this.reservationService.getReservationsByUser(this,this.cbSuccessReservationsByUser);
+        self.reservationService.getReservationsForUser(JWTUtil.getID(),self,self.cbSuccessReservationsForUser);
         
       }
     )
@@ -62,7 +64,7 @@ export class ReservationsComponent implements OnInit {
   cbSuccessReservationsByUser(self: any, reservations : any)
   {
     self.reservationsByMe = reservations;
-    console.log(self.reservationsByMe);
+    //console.log(self.reservationsByMe);
 
     self.rbmShow = reservations.slice(0, self.reservationsPerPage);
 
@@ -71,7 +73,20 @@ export class ReservationsComponent implements OnInit {
     for(let i = 1; i<=self.totalPagesNumRbm ; i ++ ){
       self.totalPagesArrayRbm.push(i);
     }
+  }
 
+  cbSuccessReservationsForUser(self: any, reservations : any)
+  {
+    self.reservationsForMe = reservations;
+    //console.log(self.reservationsForMe);
+
+    self.rfmShow = reservations.slice(0, self.reservationsPerPage);
+
+    self.totalRfmNum = reservations.length;
+    self.totalPagesNumRfm = Math.ceil(self.totalRfmNum / self.reservationsPerPage);
+    for(let i = 1; i<=self.totalPagesNumRfm ; i ++ ){
+      self.totalPagesArrayRfm.push(i);
+    }
   }
 
   changePage(p:number, indicator : boolean){

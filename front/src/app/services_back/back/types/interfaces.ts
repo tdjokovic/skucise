@@ -43,7 +43,7 @@ export interface Property{
 
 export interface Reservation{
     id: number | null;
-    user:GeneralUser | null;
+    buyer:Buyer | null;
     property:Property;
     date:Date;
     isApproved:number;

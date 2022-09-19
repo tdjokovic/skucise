@@ -111,7 +111,7 @@ export class PropertySingleComponent implements OnInit {
   {
     let newReservation : Reservation = {
       id:null,
-      user:null,
+      buyer:null,
       property:this.property,
       date:reservationDate,
       isApproved:0

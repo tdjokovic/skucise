@@ -3,21 +3,29 @@
         <a class="bg-white border-0" [routerLink]="['/property/' + reservation.property.id]"><img [src]="(reservation.property.picture != null)? reservation.property.picture : defaultPicture" 
         alt="[image]" style="width: 65px;" class="border"></a>
         <div class="container px-3">
-            <div class="row align-items-center">
-                <div class="col-sm-2">
-                    <h6>Rezervacija</h6>
-                    <h6>broj {{reservation.id}}</h6>
+            <div class="row align-items-center" style="text-align:center;">
+                <div class="col-sm-1">
+                    <p>Rezervacija<p>
+                    <p>broj {{reservation.id}}</p>
                 </div>
                 <div class="col-sm-3">
                     <h5>{{reservation.property.city.name + ", " + reservation.property.price + "$"}}</h5>
                     <p>{{reservation.property.type.name + "/" + reservation.property.adCategory.name}}</p>
                     <h5><a [routerLink]="['/property/' + reservation.property.id]" style="color:dodgerblue">Vidite oglas</a></h5>
                 </div>
-                <div class="col-sm-4">
+                <div *ngIf="!byUser" class="col-sm-2">
+                    <h6>Korisnik</h6>
+                    <h6><a [routerLink]="['/buyer/' + reservation.buyer?.id]" style="color: dodgerblue;"> {{ reservation.buyer?.firstName + " " + reservation.buyer?.lastName }}</a></h6>
+                </div>
+                <div *ngIf="byUser" class="col-sm-4">
                     <h6>Odabrani termin razgledanja</h6>
                     <h5>{{reservation.date | date:'d MMMM y, h:mm a':'UTC +4'}}</h5>
                 </div>
-                <div class="col-sm">
+                <div *ngIf="!byUser" class="col-sm-3">
+                    <h6>Odabrani termin razgledanja</h6>
+                    <h5>{{reservation.date | date:'d MMMM y, h:mm a':'UTC +4'}}</h5>
+                </div>
+                <div *ngIf="byUser" class="col-sm">
                     <h6>Status rezervacije</h6>
                     <div *ngIf="reservation.isApproved == 0">
                         <h5>Na čekanju <img [src]="'../../../assets/images/on_wait.png'" alt="[image]" style="width:10%"></h5>
@@ -29,8 +37,29 @@
                         <h5>Prihvaćeno <img [src]="'../../../assets/images/correct.png'" alt="[image]" style="width:8%"></h5>
                     </div>
                 </div>
+                <div *ngIf="!byUser" class="col-sm-3">
+                    <button type="button" class="btn btn-outline-danger m-1" (click)="openModal(false)" data-bs-toggle="modal" data-bs-target="#confirmModal">Odbij</button>
+                    <button type="button" class="btn btn-primary m-1" (click)="openModal(true)" data-bs-toggle="modal" data-bs-target="#confirmModal">Prihvati</button>
+                </div>
             </div>
-
         </div>
     </div>
 </div>
+<div class="modal fade" id="confirmModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="staticBackdropLabel">Potvrdite akciju</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          Da li ste sigurni da želite da {{(acceptFlag)? "prihvatite" : "odbijete" }} termin za rezervaciju?
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Ne</button>
+          <button type="button" *ngIf="acceptFlag" class="btn btn-primary" data-bs-dismiss="modal" (click)="acceptReservation()">Da</button>
+          <button type="button" *ngIf="!acceptFlag" class="btn btn-primary" data-bs-dismiss="modal" (click)="rejectReservation()">Da</button>
+        </div>
+      </div>
+    </div>
+  </div>

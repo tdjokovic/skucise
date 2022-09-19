@@ -24,6 +24,16 @@ export class ReservationApiService {
         )
     }
 
+    getReservationsForUser(id : number) : Observable<HttpResponse<Reservation[]>>{
+        return this.http.get<Reservation[]>(
+            this.url + `/${id}`,
+            {
+                observe:'response',
+                headers: HeaderUtil.jwtOnlyHeaders()
+            }
+        )
+    }
+
     createReservation(reservation : Reservation) : Observable<HttpResponse<boolean>>{
         return this.http.post<boolean>(
             this.url,

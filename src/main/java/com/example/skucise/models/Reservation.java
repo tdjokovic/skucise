@@ -14,7 +14,7 @@ public class Reservation {
 
     private Property property;
 
-    private GeneralUser user;
+    private BuyerUser buyer;
 
     @DateTimeFormat
     @FutureOrPresent
@@ -26,10 +26,10 @@ public class Reservation {
 
     public Reservation() {}
 
-    public Reservation(int id, Property property, GeneralUser user, LocalDateTime date, int isApproved) {
+    public Reservation(int id, Property property,BuyerUser buyer, LocalDateTime date, int isApproved) {
         this.id = id;
         this.property = property;
-        this.user = user;
+        this.buyer = buyer;
         this.date = date;
         this.isApproved = isApproved;
     }
@@ -50,12 +50,12 @@ public class Reservation {
         this.property = property;
     }
 
-    public GeneralUser getUser() {
-        return user;
+    public BuyerUser getBuyer() {
+        return buyer;
     }
 
-    public void setUser(GeneralUser user) {
-        this.user = user;
+    public void setBuyer(BuyerUser buyer) {
+        this.buyer = buyer;
     }
 
     public LocalDateTime getDate() {

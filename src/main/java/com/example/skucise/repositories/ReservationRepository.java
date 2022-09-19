@@ -4,6 +4,7 @@ import com.example.skucise.models.*;
 import com.example.skucise.repositories.interfaces.IReservationRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
 
@@ -15,7 +16,7 @@ import java.util.List;
 @Repository
 public class ReservationRepository implements IReservationRepository {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(PropertyRepository.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ReservationRepository.class);
     private static final String POST_RESERVATION_STORED_PROCEDURE = "{call post_reservation(?,?,?,?,?)}";
     private static final String GET_RESERVATIONS_STORED_PROCEDURE = "{call get_reservations_by_user(?)}";
     private static final String GET_RESERVATIONS_FOR_USER_STORED_PROCEDURE = "{call get_reservations_for_user(?)}";
@@ -28,6 +29,13 @@ public class ReservationRepository implements IReservationRepository {
 
     @Value("")
     private String databasePassword;
+
+    private final UserRepository userRepository;
+
+    @Autowired
+    public ReservationRepository(UserRepository userRepository){
+        this.userRepository = userRepository;
+    }
 
     @Override
     public boolean postReservation(Reservation reservation, int user_id) {
@@ -60,7 +68,7 @@ public class ReservationRepository implements IReservationRepository {
         List<Reservation> reservations = new ArrayList<Reservation>();
         Reservation reservation = null;
 
-        LOGGER.info("Trying to find reservations for user with id {}", user_id);
+        LOGGER.info("Trying to find reservations by user with id {}", user_id);
 
         try(Connection conn = DriverManager.getConnection(databaseSourceUrl, databaseUsername, databasePassword);
             CallableStatement stmt = conn.prepareCall(GET_RESERVATIONS_STORED_PROCEDURE)){
@@ -88,7 +96,7 @@ public class ReservationRepository implements IReservationRepository {
 
         Reservation reservation = null;
 
-        LOGGER.info("Trying to find reservations by user with id {}", user_id);
+        LOGGER.info("Trying to find reservations for user with id {}", user_id);
 
         try(Connection conn = DriverManager.getConnection(databaseSourceUrl, databaseUsername, databasePassword);
             CallableStatement stmt = conn.prepareCall(GET_RESERVATIONS_FOR_USER_STORED_PROCEDURE)){
@@ -107,8 +115,6 @@ public class ReservationRepository implements IReservationRepository {
             e.printStackTrace();
         }
 
-
-
         return reservations;
     }
     @Override
@@ -119,11 +125,13 @@ public class ReservationRepository implements IReservationRepository {
 
         return reservations;
     }
-    private Reservation setNewReservation(ResultSet resultSet, boolean getUser) throws SQLException {
+    @Override
+    public Reservation setNewReservation(ResultSet resultSet, boolean getUser) throws SQLException {
         Reservation reservation = new Reservation();
 
         reservation.setId(resultSet.getInt("id"));
         reservation.setDate(resultSet.getObject("reservation_date", LocalDateTime.class));
+        reservation.setBuyer(null);
         reservation.setIsApproved(resultSet.getInt("is_approved"));
 
         AdCategory adCategory = new AdCategory();
@@ -149,34 +157,29 @@ public class ReservationRepository implements IReservationRepository {
         property.setType(type);
         property.setSellerUser(null);
 
-        if (!getUser)
+        reservation.setProperty(property);
+
+        if (getUser == true)
         {
-            reservation.setUser(null);
+            int user_id = resultSet.getInt("user_id");
+            setBuyerToReservation(reservation,user_id);
         }
         else {
-            int user_id = resultSet.getInt("user_id");
-            BuyerRepository buyerRepository = new BuyerRepository();
-
-            BuyerUser buyer = buyerRepository.get(user_id);
-
-            if (buyer == null)
-            {
-
-            }
+            reservation.setBuyer(null);
         }
-        BuyerUser buyer = new BuyerUser();
-        buyer.setId(resultSet.getInt("user_id"));
-        buyer.setFirstName(resultSet.getString("first_name"));
-        buyer.setLastName(resultSet.getString("last_name"));
-        buyer.setPicture(resultSet.getString("picture"));
-        buyer.setEmail(resultSet.getString("email"));
-        buyer.setPhoneNumber(resultSet.getString("phone_number"));
-
-        reservation.setProperty(property);
 
         return reservation;
     }
 
+    @Override
+    public void setBuyerToReservation(Reservation reservation, int user_id) throws SQLException
+    {
+
+        BuyerUser buyer = this.userRepository.getAsBuyer(user_id);
+
+        reservation.setBuyer(buyer);
+
+    }
     public void setReservationParameters(CallableStatement stmt, Reservation reservation, int user_id) throws SQLException{
 
         stmt.setInt("r_user_id", user_id);

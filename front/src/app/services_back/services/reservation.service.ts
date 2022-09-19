@@ -17,8 +17,8 @@ export class ReservationService {
     this.api.getReservationsByUser().subscribe(
         (response) => {
             if(response.body != null){
-                console.log("RESEVATIONS");
-                console.log(response.body);
+                console.log("RESEVATIONS BY USER");
+                //console.log(response.body);
 
                 if(self && cbSuccess) {
                     console.log("cbsuccess");
@@ -38,6 +38,34 @@ export class ReservationService {
             this.authService.redirectIfSessionExpired(error.status);
         }
         );
+    }
+
+    getReservationsForUser(id : number, self?: any, cbSuccess?: Function){
+        console.log("Getting reservations for user");
+        this.api.getReservationsForUser(id).subscribe(
+            (response) => {
+                if(response.body != null){
+                    console.log("RESEVATIONS FOR USER");
+                    //console.log(response.body);
+    
+                    if(self && cbSuccess) {
+                        console.log("cbsuccess");
+                        cbSuccess(self,response.body);
+                    }
+                    else{
+                        console.log("notcbsuccess");
+                    }
+    
+                    console.log("Reservations found");
+                }
+                else{
+                    console.log("No reservations found");
+                }
+            },
+            (error : HttpErrorResponse) => {
+                this.authService.redirectIfSessionExpired(error.status);
+            }
+            );
     }
 
     createReservation(reservationData : Reservation, self?: any, cbSuccess?: Function, cbFail? : Function){

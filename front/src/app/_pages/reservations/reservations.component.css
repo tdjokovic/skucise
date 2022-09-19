@@ -1,3 +1,10 @@
 .nav-link{
     font-size:large;
 }
+#top_container
+{
+    padding-top: 30px;
+    position: relative;
+    text-align: center;
+    background-color: rgba(0, 32, 74, 0.05);
+}

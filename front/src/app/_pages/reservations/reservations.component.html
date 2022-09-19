@@ -1,6 +1,6 @@
 <app-background-image [heading]="'Rezervacije'" [page]="'Rezervacije'"></app-background-image>
 
-<div class="features-1 pb-5">
+<div class="pb-5" id="top_container">
     <div class="container">
         <ul class="nav nav-pills justify-content-center">
             <li class="nav-item">
@@ -39,11 +39,9 @@
         <!--Rezervacije koje čekaju odobrenje -->
         <div *ngIf="activeReservationsForMe" class="card p-3">
           <div *ngIf="reservationsForMe.length>0" class="container">
-            <div class="row">
-    
-                <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4" *ngFor="let r of rfmShow">
-                  <app-reservation [reservation]="r" [byUser]="false"></app-reservation>
-                </div>
+            <div class="d-flex flex-column" *ngFor="let r of rfmShow">
+              <app-reservation [reservation]="r" [byUser]="false"></app-reservation>
+            </div>
                 <div class="row align-items-center py-5">
                   <div class="col-lg-3">
                       Pagination ({{currentPageRfm}} of {{totalPagesNumRfm}})
@@ -54,8 +52,6 @@
                       </div>
                   </div>
               </div>
-            </div>
-            
           </div>
     
             <div *ngIf="reservationsForMe.length==0" class="container">

@@ -1,9 +1,12 @@
 package com.example.skucise.controllers;
 
 import com.example.skucise.models.Reservation;
+import com.example.skucise.repositories.PropertyRepository;
 import com.example.skucise.security.ResultPair;
 import com.example.skucise.security.Role;
 import com.example.skucise.services.ReservationService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -24,6 +27,8 @@ import static com.example.skucise.security.SecurityConfiguration.*;
 @RequestMapping("/api/reservations")
 public class ReservationController {
     private final ReservationService reservationService;
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(ReservationController.class);
 
     @Autowired
     public ReservationController(ReservationService reservationService){
@@ -86,9 +91,18 @@ public class ReservationController {
         List<Reservation> reservationsForUser = null;
 
         ResultPair resultPair = checkAccess(jwt, Role.REG_SELLER, Role.ADMIN, Role.REG_BUYER);
+
+        int userId =(int)(double) resultPair.getClaims().get(USER_ID_CLAIM_NAME);
+
         HttpStatus httpStatus = resultPair.getHttpStatus();
         HttpHeaders responseHeaders = new HttpHeaders();
         responseHeaders.set(JWT_CUSTOM_HTTP_HEADER, jwt);
+
+        if(userId != id){
+            httpStatus = HttpStatus.UNAUTHORIZED;
+            LOGGER.warn("Trying to get someone elses reservations!");
+        }
+
 
         if(httpStatus != HttpStatus.OK){
             return ResponseEntity.status(httpStatus).headers(responseHeaders).body(null);
