@@ -39,7 +39,7 @@
 
                         <ul class="dropdown">
                             <li>
-                                <a [routerLink]="['/profile/', id]">Moj profil</a>
+                                <a [routerLink]="['/profile/', id]" *ngIf="!isAdmin()">Moj profil</a>
                             </li>
                             <li>
                                 <a [routerLink]="['/logout']">Odjavi se</a>
