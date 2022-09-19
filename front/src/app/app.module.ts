@@ -90,11 +90,8 @@ import { UserProfileComponent } from './_pages/user-profile/user-profile.compone
     DashboardComponent,
     ApproveUsersComponent,
     ApproveUsersCardComponent,
-<<<<<<< front/src/app/app.module.ts
-    ReservationComponent
-=======
-    UserProfileComponent,
->>>>>>> front/src/app/app.module.ts
+    ReservationComponent,
+    UserProfileComponent
   ],
   imports: [
     BrowserModule,
