@@ -269,13 +269,25 @@ export class PropertiesComponent implements OnInit {
         radio.checked = true;
       }
     }
-    else{
+    else if(this.adCategory == 'izdavanje'){
       this.selectedAdCategoryId = this.adCategories.find(s => s.name == 'Izdavanje')?.id as unknown as number; 
       const radio = document.getElementById(
         'IzdavanjeRadio'
       ) as HTMLInputElement | null;
       if(radio != null){
         radio.checked = true;
+      }
+    }
+    else{
+      this.selectedAdCategoryId = 0;
+      const radio1 = document.getElementById('IzdavanjeRadio') as HTMLInputElement | null;
+      const radio2 = document.getElementById('ProdajaRadio') as HTMLInputElement | null;
+      
+      if(radio1 != null){
+        radio1.checked = false;
+      }
+      if(radio2 != null){
+        radio2.checked = false;
       }
     }
 
