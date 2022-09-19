@@ -1,2 +1,71 @@
-<p>user-profile works!</p>
-<div *ngIf="isMe()">Mine</div>
+<app-background-image *ngIf ="!isMe()" [heading]="'Profil korisnika'" [page]="'Profil'"></app-background-image>
+<app-background-image *ngIf ="isMe()" [heading]="'Moj profil'" [page]="'Profil'"></app-background-image>
+
+
+<div class="features-1">
+    <div class="section">
+        <div class="container">
+
+            <!-- moj profil -->
+            <div *ngIf="isMe()" class="row justify-content-center">
+                <div class="card p1">
+
+                    <form>
+                        <div class="row m-3">
+                            <div class="col">
+                                <input [(ngModel)]="firstName" name="firstName" type="text" id="firstName" class="form-control">
+                                <p *ngIf="wrongNewFirstName" class="small fw-bold text-danger">Unesite ispravno ime. (minimum 1, maksimum 30 karaktera)</p>
+                            </div>
+                            <div class="col">
+                                <input [(ngModel)]="lastName" name="lastName" type="text" id="lastName" class="form-control">
+                                <p *ngIf="wrongNewLastName" class="small fw-bold text-danger">Unesite ispravno prezime. (minimum 1, maksimum 30 karaktera)</p>
+                            </div>
+                        </div>
+                        <div class="row m-3">
+                            <div class="col">
+                                <input [(ngModel)]="email" name="email" type="email" id="email" class="form-control">
+                                <p *ngIf="wrongNewEmail" class="small fw-bold text-danger">Unesite ispravnu e-mail adresu.</p>
+                            </div>
+                            <div class="col">
+                                <input [(ngModel)]="phoneNumber" name="phoneNumber" type="text" id="phoneNumber" class="form-control">
+                                <p *ngIf="wrongNewPhoneNumber" class="small fw-bold text-danger">Unesite ispravan broj telefona. (Format: +3817215898 ili 0617218598)</p>
+                            </div>
+                        </div>
+                        <div class="row m-3">
+                            <div class="col">
+                                <input type="button" class="btn btn-primary move-right" value="Izmeni podatke" (click)="changeData()"> 
+                            </div>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+
+            <!-- profil korisnika -->
+            <div *ngIf="!isMe()" class="row justify-content-center">
+                <div class="card p1">
+
+                    <div class="row m-3">
+                        <div class="col">
+                            <input [(ngModel)]="firstName" name="firstName" type="text" id="firstName" class="form-control" disabled>
+                        </div>
+                        <div class="col">
+                            <input [(ngModel)]="lastName" name="lastName" type="text" id="lastName" class="form-control" disabled>
+                            
+                        </div>
+                    </div>
+                    <div class="row m-3">
+                        <div class="col">
+                            <input [(ngModel)]="email" name="email" type="email" id="email" class="form-control" disabled>
+                        </div>
+                        <div class="col">
+                            <input [(ngModel)]="phoneNumber" name="phoneNumber" type="text" id="phoneNumber" class="form-control" disabled>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

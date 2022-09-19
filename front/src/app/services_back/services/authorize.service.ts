@@ -92,4 +92,8 @@ export class AuthorizeService {
   isSeller():boolean{
     return JWTUtil.getUserRole() == UserRoles.Reg_seller;
   }
+
+  isAdmin():boolean{
+    return JWTUtil.getUserRole() == UserRoles.Admin;
+  }
 }

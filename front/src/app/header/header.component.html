@@ -25,7 +25,7 @@
                         </ul>
                     </li>
                     
-                    <li *ngIf="!isVisitor()" [class.active]="isActive === '/my-properties'"><a [routerLink]="['/my-properties']">Moji oglasi</a></li>
+                    <li *ngIf="!isVisitor() && !isAdmin()" [class.active]="isActive === '/my-properties'"><a [routerLink]="['/my-properties']">Moji oglasi</a></li>
                     <li *ngIf="!isVisitor()"><a [routerLink]="['/reservations']">Rezervacije razgledanja</a></li>
                     <li *ngIf="isAdmin()"><a [routerLink]="['/dashboard']">Dashboard</a></li>
 
