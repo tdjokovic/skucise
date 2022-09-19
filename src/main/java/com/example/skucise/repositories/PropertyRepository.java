@@ -20,7 +20,7 @@ public class PropertyRepository implements IPropertyRepository {
 
     private static final String GET_FILTERED_PROPERTIES_STORED_PROCEDURE = "{call get_filtered_properties(?,?,?,?,?)}";
     private static final String TAG_STORED_PROCEDURE = "{call get_tags_for_a_property(?)}";
-    private static final String POST_PROPERTY_STORED_PROCEDURE = "{call post_property2(?,?,?,?,?,?,?,?,?,?)}";
+    private static final String POST_PROPERTY_STORED_PROCEDURE = "{call post_property(?,?,?,?,?,?,?,?,?,?)}";
     private static final String INSERT_TAG_STORED_PROCEDURE = "{call insert_tag(?,?,?)}";
     private static final String GET_PROPERTY_APPLICANTS_PROCEDURE_CALL = "{call get_property_applicants(?)}";
     private static final String PROPERTY_APPLY_PROCEDURE_CALL = "{call apply_for_a_property(?,?,?)}";

@@ -41,26 +41,31 @@ export interface Property{
     picture:string | null; //slika u Base64
 }
 
-export interface Seller{
+export interface Reservation{
+    id: number | null;
+    buyer:Buyer | null;
+    property:Property;
+    date:Date;
+    isApproved:number;
+}
+
+export interface GeneralUser{
     id:number;
-    firstName:string;
-    lastName:string;
     email:string;
     hashedPassword:string;
     picture:string | null; //slika u Base64
     phoneNumber:string;
+}
+export interface Seller extends GeneralUser{
+    firstName:string;
+    lastName:string;
     tin:string;
 }
 
-export interface Buyer{
-    id:number;
+export interface Buyer extends GeneralUser{
     firstName:string;
     lastName:string;
-    email:string;
-    hashedPassword:string;
-    picture:string | null; //slika u Base64
     address:string;
-    phoneNumber:string;
 }
 
 export interface City{

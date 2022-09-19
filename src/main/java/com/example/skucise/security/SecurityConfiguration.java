@@ -33,7 +33,7 @@ public class SecurityConfiguration implements ApplicationContextAware {
     public static final String ISSUER = "http://localhost:8080";
 
     //vreme trajanja jednog tokena
-    public static final long TIME_TO_LIVE_MILLS = 2400000L; // 40 minuta
+    public static final long TIME_TO_LIVE_MILLS = 7200000L; // 2 sata
 
     //kljuc koji se koristi za sifrovanje jwt-a
     private static final String SECRET_KEY = "oeRaYY7Wo24sDqKSX3IM9ASGmdGPmkTd9jo1QTy4b7P9Ze5_9hKolVX8";

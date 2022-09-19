@@ -356,4 +356,30 @@ public class SellerRepository implements ISellerRepository {
 
         return isApplied;
     }
+
+    @Override
+    public BuyerUser getAsBuyer(Integer id) {
+        BuyerUser buyer = null;
+
+        try(Connection conn = DriverManager.getConnection(databaseSourceUrl, databaseUsername, databasePassword);
+            CallableStatement stmt = conn.prepareCall(GET_SELLER_PROCEDURE_CALL)){
+            stmt.setInt("p_id", id);
+            ResultSet resultSet = stmt.executeQuery();
+
+            if(resultSet.first()){
+                buyer = new BuyerUser();
+                buyer.setId(resultSet.getInt("user_id"));
+                buyer.setEmail(resultSet.getString("email"));
+                buyer.setFirstName(resultSet.getString("first_name"));
+                buyer.setLastName(resultSet.getString("last_name"));
+                buyer.setPicture(resultSet.getString("picture"));
+                buyer.setPhoneNumber(resultSet.getString("phone_number"));
+            }
+        }catch(SQLException e){
+            LOGGER.error("Error while trying to communicate with the database - get");
+            e.printStackTrace();
+        }
+
+        return buyer;
+    }
 }
