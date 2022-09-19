@@ -1,5 +1,6 @@
 package com.example.skucise.repositories.interfaces;
 
+import com.example.skucise.models.BuyerUser;
 import com.example.skucise.models.Property;
 import com.example.skucise.models.Rating;
 import com.example.skucise.models.SellerUser;
@@ -13,5 +14,6 @@ public interface ISellerRepository extends CRUDRepository<SellerUser,Integer> {
     List<Property> getPostedProperties(int id);
     Rating getRating(int sellerId, int buyerId, boolean isApplicant);
     boolean rate(int sellerId, int buyerId, byte feedback);
+    public BuyerUser getAsBuyer(Integer id);
 
 }

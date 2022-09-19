@@ -1,6 +1,7 @@
 <app-background-image [heading]="'Moji oglasi'" [page]="'Moji oglasi'"></app-background-image>
 
 <br>
+
 <div class="row justify-content-center align-items-center">
     <div class="col-3" style="text-align: center;">
         <button type="button" class="btn btn-primary" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample"
@@ -20,26 +21,38 @@
     <div class="col-10" style="text-align: center;">
         <div class="collapse" id="collapseExample">
             <div class="card card-body">
-              <app-add-property-form></app-add-property-form>
+                <app-add-property-form></app-add-property-form>
             </div>
         </div>
     </div>
 </div><br>
-<div class="container">
-    <h2>Lista okačenih oglasa</h2>
+<div class="container pb-5">
+    <h2>Lista mojih oglasa</h2>
     <div class="card p-4">
         <div *ngIf="propertiesBySeller.length>0" class="container">
             <div class="row">
     
-                <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4" *ngFor="let p of propertiesBySeller">
+                <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4" *ngFor="let p of propertiesToShow">
                     <app-property [property]="p" [additionalOptions]="true"></app-property>
                 </div>
                 
             </div>
+            <div class="row align-items-center py-5">
+                <div class="col-lg-3">
+                    Pagination ({{currentPage}} of {{totalPagesNum}})
+                </div>
+                <div class="col-lg-6 text-center">
+                    <div class="custom-pagination">
+                        <a *ngFor="let p of totalPagesArray" [class]="(currentPage == p) ? 'active' : ''" style="margin:2px" (click)="changePage(p)">{{p}}</a>
+                    </div>
+                </div>
+            </div>
         </div>
+        
     
         <div *ngIf="propertiesBySeller.length==0" class="container">
             Trenutno nema ni jedan okačen oglas.
         </div>
     </div>
 </div>
+
