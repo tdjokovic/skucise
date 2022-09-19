@@ -5,6 +5,7 @@ import com.example.skucise.models.Property;
 import com.example.skucise.security.ResultPair;
 import com.example.skucise.security.Role;
 import com.example.skucise.services.BuyerService;
+import com.example.skucise.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -26,9 +27,13 @@ import static com.example.skucise.security.SecurityConfiguration.*;
 public class BuyerController {
 
     private final BuyerService buyerService;
+    private final UserService userService;
 
     @Autowired
-    public BuyerController(BuyerService buyerService){this.buyerService = buyerService;}
+    public BuyerController(BuyerService buyerService, UserService userService){
+        this.buyerService = buyerService;
+        this.userService = userService;
+    }
 
     //zahtev za logovanje novog kupca
     @PostMapping
@@ -83,12 +88,12 @@ public class BuyerController {
         }
 
         //ako je prodavac, ali prosledjeni kupac nema zahtev za razgledanje stana kod njega
-        else if (Role.REG_SELLER.equalsTo(role) && !buyerService.isApplied(uid, id)){
+        else if (Role.REG_SELLER.equalsTo(role) && uid != id && !buyerService.isApplied(uid, id)){
             return ResponseEntity.status(HttpStatus.FORBIDDEN).headers(responseHeaders).body(null);
         }
 
         //u suprotnom mogu da se uzmu podaci
-        BuyerUser buyerUser = buyerService.getBuyer(id);
+        BuyerUser buyerUser = userService.getAsBuyer(id);
         if(buyerUser != null){
             return ResponseEntity.status(httpStatus).headers(responseHeaders).body(buyerUser);
         }

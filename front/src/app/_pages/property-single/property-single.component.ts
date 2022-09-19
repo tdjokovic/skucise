@@ -1,5 +1,5 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { UserRoles } from 'src/app/services_back/back/types/enums';
 import { Property, Reservation } from 'src/app/services_back/back/types/interfaces';
 import { MONTHS } from 'src/app/services_back/constants/date';
@@ -37,8 +37,7 @@ export class PropertySingleComponent implements OnInit {
   constructor(private activatedRoute : ActivatedRoute,
     private authorizationService : AuthorizeService,
     private propertyService : PropertyService,
-    private reservationService : ReservationService,
-    private router: Router) { }
+    private reservationService : ReservationService) { }
 
   ngOnInit(): void {
     this.checkIsUserAuthorized();
@@ -81,10 +80,19 @@ export class PropertySingleComponent implements OnInit {
     return JWTUtil.getUserRole() == UserRoles.Visitor;
   }
 
+
+
   applyForPropery()
   {
     let date = new Date();
     let now = new Date();
+    let month = MONTHS.find(x => (x.id == this.selectedMonth))
+    if (month && this.selectedDay > month?.days)
+    {
+      console.log(month);
+      this.wrongDate = true;
+      return;
+    }
     date.setDate(this.selectedDay);
     date.setMonth(this.selectedMonth);
     date.setFullYear(this.selectedYear);

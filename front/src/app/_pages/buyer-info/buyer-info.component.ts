@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { UserRoles } from 'src/app/services_back/back/types/enums';
 import { Buyer } from 'src/app/services_back/back/types/interfaces';
 import { RedirectRoutes } from 'src/app/services_back/constants/routing.properties';
@@ -20,7 +20,8 @@ export class BuyerInfoComponent implements OnInit {
 
   constructor(private authorizationService : AuthorizeService,
     private activatedRoute : ActivatedRoute,
-    private buyerService : BuyerService) { }
+    private buyerService : BuyerService,
+    private router : Router) { }
 
     ngOnInit(): void {
       this.checkIsUserAuthorized();
@@ -55,6 +56,7 @@ export class BuyerInfoComponent implements OnInit {
     }
 
     cbNotFound(self: any) {
+      console.log("Dosao je ovde");
       self.router.navigate(RedirectRoutes.HOME);
   }
 }

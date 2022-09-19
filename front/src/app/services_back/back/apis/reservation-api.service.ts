@@ -44,6 +44,16 @@ export class ReservationApiService {
             }
         )
     }
-
+    approveReservation(id : number, approved: boolean) : Observable<HttpResponse<null>>
+    {
+        return this.http.put<null>(
+            this.url+ `/id=${id}`,
+            {approved},
+            {
+                observe: 'response',
+                headers: HeaderUtil.jwtOnlyHeaders()
+            }
+        )
+    }
 
 }

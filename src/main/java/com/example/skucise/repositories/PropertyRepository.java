@@ -620,4 +620,30 @@ public class PropertyRepository implements IPropertyRepository {
 
         return deleteSuccess;
     }
+
+    public BuyerUser getPropertyUser(Integer id) {
+        BuyerUser user = null;
+
+        LOGGER.info("Trying to find property with id {}", id);
+
+        try(Connection conn = DriverManager.getConnection(databaseSourceUrl, databaseUsername, databasePassword);
+            CallableStatement stmt = conn.prepareCall(GET_PROPERTY_STORED_PROCEDURE)){
+
+            stmt.setInt("p_id", id);
+            ResultSet resultSet = stmt.executeQuery();
+
+            if(resultSet.first()){
+
+                resultSet.getInt("")
+                property = new Property();
+                property = setNewProperty(resultSet, stmtTag);
+                LOGGER.info("Property id {}, seller id {}, city id {}, price {}", property.getId(), property.getSellerUser().getId(), property.getCity().getId(), property.getPrice());
+            }
+        }catch (SQLException e){
+            LOGGER.error("Error while trying to communicate with the database - get");
+            e.printStackTrace();
+        }
+
+        return user;
+    }
 }
