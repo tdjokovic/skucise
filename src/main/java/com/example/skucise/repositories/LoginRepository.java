@@ -17,7 +17,7 @@ public class LoginRepository implements ILoginRepository {
     private static final Logger LOGGER = LoggerFactory.getLogger(LoginRepository.class);
     private static final String LOGIN_STORED_PROCEDURE_CALL = "{call check_credentials(?,?,?,?,?,?)}";
 
-    @Value("jdbc:mariadb://localhost:3306/skucise")
+    @Value("jdbc:mariadb://localhost:3307/skucise")
     private String databaseSourceUrl;
 
     @Value("root")

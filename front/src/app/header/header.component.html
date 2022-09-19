@@ -34,7 +34,7 @@
                     <li *ngIf="isAdmin()"><a [routerLink]="['/dashboard']">Dashboard</a></li>
 
                     <li *ngIf="isVisitor()" [class.active]="isActive === '/about'"><a [routerLink]="['/about']">O nama</a></li>
-                    <li [class.active]="isActive === '/contactus'"><a [routerLink]="['/contactus']">Kontakt</a></li>
+                    <!--<li [class.active]="isActive === '/contactus'"><a [routerLink]="['/contactus']">Kontakt</a></li>-->
 
                     <!-- deo za prijavu i odjavu korisnika! -->
                     <li [class.active]="isActive === '/login'"><a *ngIf="isVisitor()" [routerLink] = "['/login']">Prijava</a></li>
@@ -42,6 +42,9 @@
                         <a [routerLink]="['/home']">{{ firstName + " " + lastName }}</a>
 
                         <ul class="dropdown">
+                            <li>
+                                <a [routerLink]="['/profile/', id]">Moj profil</a>
+                            </li>
                             <li>
                                 <a [routerLink]="['/logout']">Odjavi se</a>
                             </li>
