@@ -36,7 +36,7 @@ public class PropertyRepository implements IPropertyRepository {
     private static final String RECALL_LIKE_STORED_PROCEDURE = "{call recall_like(?,?,?)}";
 
 
-    @Value("jdbc:mariadb://localhost:3306/skucise")
+    @Value("jdbc:mariadb://localhost:3307/skucise")
     private String databaseSourceUrl;
 
     @Value("root")
@@ -104,9 +104,9 @@ public class PropertyRepository implements IPropertyRepository {
         LOGGER.info("" + property.getType().getId());
         LOGGER.info("" + property.getAdCategory().getId());
         LOGGER.info("" + property.getCity().getId());
-        LOGGER.info(property.getDescription());
-        LOGGER.info(property.getArea());
-        LOGGER.info(property.getPrice());
+        LOGGER.info("" + property.getDescription());
+        LOGGER.info("" + property.getArea());
+        LOGGER.info("" + property.getPrice());
         LOGGER.info("" + property.isNewConstruction());
         LOGGER.info(property.getPicture());
 
@@ -116,7 +116,7 @@ public class PropertyRepository implements IPropertyRepository {
         stmt.setInt("p_city_id", property.getCity().getId());
         stmt.setString("p_description", property.getDescription());
         stmt.setString("p_area", property.getArea());
-        stmt.setString("p_price", property.getPrice());
+        stmt.setInt("p_price", property.getPrice());
         stmt.setBoolean("p_new_construction", property.isNewConstruction());
         stmt.setString("p_picture", property.getPicture());
     }
@@ -178,7 +178,7 @@ public class PropertyRepository implements IPropertyRepository {
         property.setId(resultSet.getInt("id"));
         property.setPostingDate(resultSet.getObject("post_date", LocalDateTime.class));
         property.setDescription(resultSet.getString("description"));
-        property.setPrice(resultSet.getString("price"));
+        property.setPrice(resultSet.getInt("price"));
         property.setArea(resultSet.getString("area"));
         property.setNewConstruction(resultSet.getBoolean("new_construction"));
         property.setPicture(resultSet.getString("property_picture"));

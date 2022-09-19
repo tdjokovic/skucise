@@ -17,9 +17,15 @@ export class MyPropertiesComponent implements OnInit {
   public propertiesPerPage: number = 6;
 
   constructor(private sellerService: SellerService) { }
+  
+  newPropModal : boolean = false;
 
   ngOnInit(): void {
     this.sellerService.getSellersProperties(JWTUtil.getID(),this,this.cbSuccessProperty);
+  }
+
+  toggleNewProp(){
+    this.newPropModal = !this.newPropModal;
   }
 
   propertiesBySeller : Property[] = [];

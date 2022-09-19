@@ -47,6 +47,7 @@ import { ApproveUsersComponent } from './_pages/dashboard/approve-users/approve-
 import { ApproveUsersCardComponent } from './_pages/dashboard/approve-users/approve-users-card/approve-users-card.component';
 import { ReservationComponent } from './_pages/reservations/reservation/reservation.component';
 import { DatePipe } from '@angular/common';
+import { UserProfileComponent } from './_pages/user-profile/user-profile.component';
 
 @NgModule({
   declarations: [
@@ -89,7 +90,11 @@ import { DatePipe } from '@angular/common';
     DashboardComponent,
     ApproveUsersComponent,
     ApproveUsersCardComponent,
+<<<<<<< front/src/app/app.module.ts
     ReservationComponent
+=======
+    UserProfileComponent,
+>>>>>>> front/src/app/app.module.ts
   ],
   imports: [
     BrowserModule,

@@ -27,18 +27,26 @@
 
                 <div class="home-form-group form-control place-multi">
                     Grad
-                    <select [(ngModel)]="selectedCityId" class="form-select" name="citySelect">
-                        <option value="0" selected>Svi gradovi</option>
+                    <select [(ngModel)]="selectedCityId" id="selectedCity" class="form-select" name="citySelect">
+                        <option value="0" id="allCities" selected>Svi gradovi</option>
                         <option *ngFor="let c of cities" [ngValue]="c.id" name="city">{{c.name}}</option>
                     </select>
                 </div>
 
                 <div class="form-check">
                     <input (click)="toggleNewConstruction()" class="form-check-input" type="checkbox" id="novogradnjaCheckbox">
-                    <label class="form-check-label" for="novogradnjaCheckbox">Novogradnja</label>
+                    <label class="form-check-label" for="novogradnjaCheckbox">Samo novogradnja</label>
+                </div>
+
+                <div class="form-control">
+                    <button id="sortByPrice" name="sortByPrice" (click)="togglePriceSort()">{{sortByPriceText}}</button>
+                </div>
+
+                <div class="form-control">
+                    <button (click)="resetFilters()">Resetuj filtere</button>
                 </div>
                 <!--<input type="text" class="form-control px-4" placeholder="Your ZIP code or City. e.g. New York">-->
-                <button type="submit" class="btn btn-primary" (click)="onSubmit()">Pretraga</button>
+                <button type="submit" class="btn btn-primary" (click)="onSubmit()">Traži</button>
             </form>
         </div>
     </div>
@@ -56,7 +64,7 @@
         </div>
         <div class="row align-items-center py-5">
             <div class="col-lg-3">
-                Pagination ({{currentPage}} of {{totalPagesNum}})
+                Strana ({{currentPage}} od {{totalPagesNum}})
             </div>
             <div class="col-lg-6 text-center">
                 <div class="custom-pagination">
