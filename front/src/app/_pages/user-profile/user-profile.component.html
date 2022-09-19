@@ -12,6 +12,11 @@
 
                     <form>
                         <div class="row m-3">
+                            <div class="text-center">
+                                <img *ngIf="picture != ''" src="{{picture}}" alt="SlikaKorisnika" class="img-fluid mx-auto d-block" width="30%">
+                            </div>
+                        </div>
+                        <div class="row m-3">
                             <div class="col">
                                 <input [(ngModel)]="firstName" name="firstName" type="text" id="firstName" class="form-control">
                                 <p *ngIf="wrongNewFirstName" class="small fw-bold text-danger">Unesite ispravno ime. (minimum 1, maksimum 30 karaktera)</p>
@@ -45,6 +50,11 @@
             <div *ngIf="!isMe()" class="row justify-content-center">
                 <div class="card p1">
 
+                    <div class="row m-3">
+                        <div class="text-center">
+                            <img *ngIf="picture != ''" src="{{picture}}" alt="SlikaKorisnika" class="img-fluid mx-auto d-block" width="30%">
+                        </div>
+                    </div>
                     <div class="row m-3">
                         <div class="col">
                             <input [(ngModel)]="firstName" name="firstName" type="text" id="firstName" class="form-control" disabled>
