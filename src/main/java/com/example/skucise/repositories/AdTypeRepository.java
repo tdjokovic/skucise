@@ -15,7 +15,7 @@ public class AdTypeRepository implements IAdTypeRepository {
 
     private static final String AD_TYPE_STORED_PROCEDURE_CALL = "{call get_all_ad_types()}";
 
-    @Value("jdbc:mariadb://localhost:3306/skucise")
+    @Value("jdbc:mariadb://localhost:3307/skucise")
     private String databaseSourceUrl;
 
     @Value("root")

@@ -29,7 +29,8 @@ export class PropertiesComponent implements OnInit {
   public totalPagesNum: number = 0 ;
   public totalPagesArray : number [] = [];
   public propertiesPerPage: number = 6;
-  public sortDateAscending: boolean = false;
+  public sortByPriceAsc: boolean = true;
+  public sortByPriceText: string = "Cena rastuce";
 
   public checkedTags: number[] = [];
   propertyName: string = '';
@@ -65,6 +66,17 @@ export class PropertiesComponent implements OnInit {
   tagsListVisible: boolean = false;
   toggleTagsListVisibility() {
     this.tagsListVisible = !this.tagsListVisible;
+  }
+
+  togglePriceSort(){
+    if(!this.sortByPriceAsc){
+      this.sortByPriceAsc = true;
+      this.sortByPriceText = "Cena rastuce";
+    }
+    else{
+      this.sortByPriceAsc = false;
+      this.sortByPriceText = "Cena opadajuce";
+    }
   }
 
   constructor(private authorizationService : AuthorizeService,
@@ -153,7 +165,7 @@ export class PropertiesComponent implements OnInit {
 
           pageNumber:1,
           propertiesPerPage:6,
-          ascendingOrder:false
+          ascendingOrder:true
         }
 
       }
@@ -170,7 +182,7 @@ export class PropertiesComponent implements OnInit {
 
           pageNumber:1,
           propertiesPerPage:6,
-          ascendingOrder:false
+          ascendingOrder:true
         }
       }
 
@@ -231,7 +243,7 @@ export class PropertiesComponent implements OnInit {
 
       pageNumber : (pageNumber) ? pageNumber : 1,
       propertiesPerPage : this.propertiesPerPage,
-      ascendingOrder : this.sortDateAscending
+      ascendingOrder : this.sortByPriceAsc
     }
 
     console.log("FILTERS ARE");
@@ -242,6 +254,43 @@ export class PropertiesComponent implements OnInit {
 
     console.log('Filters from page selected ');
     console.log(this.filtersFromPage);
+  }
+
+  resetFilters(){
+    this.selectedSellerId = 0;
+    this.selectedCityId = 0;    
+
+    if(this.adCategory == 'prodaja'){
+      this.selectedAdCategoryId = this.adCategories.find(s => s.name == 'Prodaja')?.id as unknown as number; 
+      const radio = document.getElementById(
+        'ProdajaRadio'
+      ) as HTMLInputElement | null;
+      if(radio != null){
+        radio.checked = true;
+      }
+    }
+    else{
+      this.selectedAdCategoryId = this.adCategories.find(s => s.name == 'Izdavanje')?.id as unknown as number; 
+      const radio = document.getElementById(
+        'IzdavanjeRadio'
+      ) as HTMLInputElement | null;
+      if(radio != null){
+        radio.checked = true;
+      }
+    }
+
+    this.selectedAdTypeId = 0
+
+    this.newConstruction= false; //checkbox
+    const checkbox = document.getElementById(
+      'novogradnjaCheckbox',
+    ) as HTMLInputElement | null;
+    if (checkbox != null) {
+      checkbox.checked = false;
+    }
+
+    this.totalPagesNum = 0
+    this.sortByPriceAsc = true;
   }
 
   showMore(){
@@ -313,7 +362,7 @@ export class PropertiesComponent implements OnInit {
     self.counterPages();
 
 
-    console.log(`After fetching properties, total pages is ${self.totalPagesNum}, jobs per page is ${self.propertiesPerPage}, and total properties is ${self.totalPropertiesNum}.`);
+    console.log(`After fetching properties, total pages is ${self.totalPagesNum}, properties per page is ${self.propertiesPerPage}, and total properties is ${self.totalPropertiesNum}.`);
   }
 
   cbSuccessNextPage(self: any, properties? : Property[], propertiesNumber? : number){

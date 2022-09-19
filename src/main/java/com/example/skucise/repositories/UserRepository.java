@@ -17,7 +17,7 @@ public class UserRepository implements IUserRepository {
     private static final Logger LOGGER = LoggerFactory.getLogger(UserRepository.class);
     private static final String GET_USER_PROCEDURE_CALL = "{call get_user(?)}";
 
-    @Value("jdbc:mariadb://localhost:3306/skucise")
+    @Value("jdbc:mariadb://localhost:3307/skucise")
     private String databaseSourceUrl;
 
     @Value("root")

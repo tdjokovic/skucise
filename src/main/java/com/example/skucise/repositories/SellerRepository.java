@@ -30,7 +30,7 @@ public class SellerRepository implements ISellerRepository {
     private static final String SELLER_GET_POSTS_PROCEDURE_CALL = "{call seller_get_posts_without_tags(?)}";
     private static final String GET_TAGS_A_PROPERTY_PROCEDURE_CALL = "{call get_tags_for_a_property(?)}";
 
-    @Value("jdbc:mariadb://localhost:3306/skucise")
+    @Value("jdbc:mariadb://localhost:3307/skucise")
     private String databaseSourceUrl;
 
     @Value("root")
@@ -173,11 +173,11 @@ public class SellerRepository implements ISellerRepository {
             CallableStatement stmt = conn.prepareCall(APPROVE_SELLER_PROCEDURE_CALL)){
 
             stmt.setInt("p_id", id);
-            stmt.registerOutParameter("p_approve_successfully", Types.BOOLEAN);
+            stmt.registerOutParameter("p_approved_successfully", Types.BOOLEAN);
 
             stmt.executeUpdate();
 
-            approvedSuccessfully = stmt.getBoolean("p_approve_successfully");
+            approvedSuccessfully = stmt.getBoolean("p_approved_successfully");
 
         }catch(SQLException e){
             LOGGER.error("Error while trying to communicate with the database - approve");
@@ -208,7 +208,7 @@ public class SellerRepository implements ISellerRepository {
                 property = new Property();
                 property.setId(resultSet.getInt("id"));
                 property.setNewConstruction(resultSet.getBoolean("new_construction"));
-                property.setPrice(resultSet.getString("price"));
+                property.setPrice(resultSet.getInt("price"));
                 property.setPostingDate(resultSet.getObject("post_date", LocalDateTime.class));
                 property.setArea(resultSet.getString("area"));
                 property.setDescription(resultSet.getString("description"));

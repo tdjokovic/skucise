@@ -63,7 +63,7 @@ export class PropertyService{
 
             pageNumber:1,
             propertiesPerPage:6,
-            ascendingOrder:false
+            ascendingOrder:true
         }
         console.log("Getting properties");
         this.getFilteredProperties(filters, self, cbSuccess);

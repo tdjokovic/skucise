@@ -24,9 +24,9 @@
             <div class="specs d-flex mb-4">
                 <span class="d-block d-flex align-items-center me-3">
                     <span class="icon-home me-2"></span>
-                    <span class="caption">{{property.area}}</span>
+                    <span class="caption">{{property.area}}㎡</span>
                 </span>
-                <a *ngIf="additionalOptions" class="btn btn-danger py-2 px-3 float-right" data-bs-toggle="modal" data-bs-target="#deleteModal">Izbrisi</a>&nbsp;
+                <a *ngIf="additionalOptions || isAdmin()" class="btn btn-danger py-2 px-3 float-right" data-bs-toggle="modal" data-bs-target="#deleteModal">Izbrisi</a>&nbsp;
                 <a [routerLink]="['/property/', property.id]" class="btn btn-primary py-2 px-3 float-right">Vidi detalje</a>
             </div>
             
