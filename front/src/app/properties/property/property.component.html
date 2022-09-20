@@ -1,8 +1,8 @@
 <div class="property-item">
 
     <a [routerLink]="['/property/', property.id]" class="img">
-        <img *ngIf="property.picture != null" src="{{property.picture}}" alt="Image" class="img-fluid mx-auto d-block" style="width:80%">
-        <img *ngIf="property.picture == null" src="{{defPropertyPic}}" alt="defImage" class="img-fluid mx-auto d-block" style="width:80%">
+        <img *ngIf="property.picture != null" src="{{property.picture}}" alt="Image" class="img-fluid mx-auto d-block" style="width: 80%; height: 15vw;object-fit: cover;">
+        <img *ngIf="property.picture == null" src="{{defPropertyPic}}" alt="defImage" class="img-fluid mx-auto d-block" style="width: 80%; height: 15vw;object-fit: cover;">
     </a>
 
     <div class="property-content">
