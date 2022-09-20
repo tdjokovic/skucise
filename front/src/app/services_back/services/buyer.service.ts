@@ -1,7 +1,7 @@
 import { HttpErrorResponse, HttpStatusCode } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { BuyerApiService } from "../back/apis/buyer-api.service";
-import { NewBuyer } from "../back/types/interfaces";
+import { NewBuyer, NewUserData } from "../back/types/interfaces";
 import { AuthorizeService } from "./authorize.service";
 
 @Injectable({
@@ -116,4 +116,21 @@ export class BuyerService{
           }
         );
       }
+
+      editBuyerData(id: number, data : NewUserData, self? : any, successCallback?: Function){
+        this.api.editBuyerData(id, data).subscribe(
+            // Success
+            (response) => {
+              if (response.body) {
+                console.log('Success editing data! '+response.status);
+                if (self && successCallback) { successCallback(self) };
+              }
+            },
+      
+            // Error
+            (error: HttpErrorResponse) => {
+              this.authorizationService.redirectIfSessionExpired(error.status);
+            }
+          );
+    }
 }

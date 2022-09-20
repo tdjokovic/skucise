@@ -27,6 +27,7 @@ public class BuyerRepository implements IBuyerRepository {
     private static final String DELETE_STORED_PROCEDURE = "{call delete_user(?,?)}";
     private static final String PROPERTIES_BUYER_APPLIED_STORED_PROCEDURE = "{call get_properties_buyer_applied_on(?)}";
     private static final String TAG_STORED_PROCEDURE = "{call get_tags_for_a_property(?)}";
+    private static final String EDIT_BUYER_STORED_PROCEDURE = "{call edit_buyer_data(?,?,?,?,?,?)}";
 
     @Value("jdbc:mariadb://localhost:3307/skucise")
     private String databaseSourceUrl;
@@ -245,6 +246,33 @@ public class BuyerRepository implements IBuyerRepository {
         }
 
         return properties;
+    }
+
+    @Override
+    public boolean editData(int id, NewUserData data) {
+        boolean isEdited = false;
+
+        try(Connection conn = DriverManager.getConnection(databaseSourceUrl, databaseUsername, databasePassword);
+            CallableStatement stmt = conn.prepareCall(EDIT_BUYER_STORED_PROCEDURE)){
+
+            stmt.setInt("p_id",id);
+            stmt.setString("p_first_name", data.getFirstName());
+            stmt.setString("p_last_name", data.getLastName());
+            stmt.setString("p_email", data.getEmail());
+            stmt.setString("p_phone_number", data.getPhoneNumber());
+            stmt.registerOutParameter("p_edited_successfully", Types.BOOLEAN);
+
+            stmt.executeUpdate();
+
+            isEdited = stmt.getBoolean("p_edited_successfully");
+
+
+        }catch(SQLException e){
+            LOGGER.error("Error while trying to communicate with the database - editData");
+            e.printStackTrace();
+        }
+
+        return isEdited;
     }
 
     public boolean isApplied(int sellerId, int buyerId){

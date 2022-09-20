@@ -623,20 +623,21 @@ public class PropertyRepository implements IPropertyRepository {
 
     public BuyerUser getPropertyUser(Integer id) {
         BuyerUser user = null;
-
+        Property property;
         LOGGER.info("Trying to find property with id {}", id);
 
         try(Connection conn = DriverManager.getConnection(databaseSourceUrl, databaseUsername, databasePassword);
-            CallableStatement stmt = conn.prepareCall(GET_PROPERTY_STORED_PROCEDURE)){
+            CallableStatement stmt = conn.prepareCall(GET_PROPERTY_STORED_PROCEDURE))
+            {
 
             stmt.setInt("p_id", id);
             ResultSet resultSet = stmt.executeQuery();
 
             if(resultSet.first()){
 
-                resultSet.getInt("")
+                resultSet.getInt("");
                 property = new Property();
-                property = setNewProperty(resultSet, stmtTag);
+               // property = setNewProperty(resultSet, stmtTag);
                 LOGGER.info("Property id {}, seller id {}, city id {}, price {}", property.getId(), property.getSellerUser().getId(), property.getCity().getId(), property.getPrice());
             }
         }catch (SQLException e){

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { UserRoles } from 'src/app/services_back/back/types/enums';
 import { Buyer, NewUserData, Seller } from 'src/app/services_back/back/types/interfaces';
 import { JWTUtil } from 'src/app/services_back/helpers/jwt_helper';
 import { AuthorizeService } from 'src/app/services_back/services/authorize.service';
@@ -145,8 +146,8 @@ export class UserProfileComponent implements OnInit {
   }
 
   fetchUserData(){
-    this.sellerService.getSeller(this.id, this, this.cbFoundUser, this.cbNotFound);
-    this.buyerService.getBuyer(this.id, this, this.cbFoundUser, this.cbNotFound);
+    this.sellerService.getSeller(this.id, this, this.cbFoundSeller, this.cbNotFound);
+    this.buyerService.getBuyer(this.id, this, this.cbFoundBuyer, this.cbNotFound);
   }
 
   checkAccess(){
@@ -194,22 +195,49 @@ export class UserProfileComponent implements OnInit {
 
         //nije doslo ni do jedne greske
 
-        let newSeller : NewUserData = {
+        let newUser : NewUserData = {
           firstName : this.firstName,
           lastName : this.lastName,
           email : this.email,
           phoneNumber : this.phoneNumber
         }
         //azuriraj podatke!!!!!!!!!!!!!!!!!!!!!!!!
+        if(JWTUtil.getRole() == UserRoles.Reg_seller){
+          this.sellerService.editSellerData(this.id, newUser, this, this.cbSuccessEditedData);
+        }
+        else if (JWTUtil.getRole() == UserRoles.Reg_buyer){
+          this.buyerService.editBuyerData(this.id, newUser, this, this.cbSuccessEditedData);
+        }
+        
       }
+  }
+
+  cbSuccessEditedData(){
+    console.log("SUCCESSFULLY EDITED DATA");
+    alert("Uspesno ste izmenili podatke");
+  }
+
+  cbNotEditedData(){
+    console.error("ERROR EDITING DATA");
   }
   
 
 
-  cbFoundUser(self: any, user: Buyer | Seller){
+  cbFoundSeller(self: any, user: Seller){
     if(user){
       console.log("found user ", user.firstName);
       self.user = user;
+      self.userType = 'seller';
+      //podesi podatke koji su pronadjeni
+      self.fillData();
+    }
+  }
+
+  cbFoundBuyer(self: any, user: Buyer){
+    if(user){
+      console.log("found user ", user.firstName);
+      self.user = user;
+      self.userType = 'buyer';
       //podesi podatke koji su pronadjeni
       self.fillData();
     }
@@ -217,6 +245,7 @@ export class UserProfileComponent implements OnInit {
 
   cbNotFound(self:any){
     console.error("User is not found!");
+    self.userType = '';
   }
 
 

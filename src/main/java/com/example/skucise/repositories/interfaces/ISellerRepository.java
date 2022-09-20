@@ -1,9 +1,6 @@
 package com.example.skucise.repositories.interfaces;
 
-import com.example.skucise.models.BuyerUser;
-import com.example.skucise.models.Property;
-import com.example.skucise.models.Rating;
-import com.example.skucise.models.SellerUser;
+import com.example.skucise.models.*;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -15,5 +12,6 @@ public interface ISellerRepository extends CRUDRepository<SellerUser,Integer> {
     Rating getRating(int sellerId, int buyerId, boolean isApplicant);
     boolean rate(int sellerId, int buyerId, byte feedback);
     public BuyerUser getAsBuyer(Integer id);
+    public boolean editData(int id, NewUserData data);
 
 }

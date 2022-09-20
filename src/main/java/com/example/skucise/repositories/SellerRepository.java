@@ -29,6 +29,7 @@ public class SellerRepository implements ISellerRepository {
 
     private static final String SELLER_GET_POSTS_PROCEDURE_CALL = "{call seller_get_posts_without_tags(?)}";
     private static final String GET_TAGS_A_PROPERTY_PROCEDURE_CALL = "{call get_tags_for_a_property(?)}";
+    private static final String EDIT_SELLER_STORED_PROCEDURE = "{call edit_seller_data(?,?,?,?,?,?)}";
 
     @Value("jdbc:mariadb://localhost:3307/skucise")
     private String databaseSourceUrl;
@@ -381,5 +382,32 @@ public class SellerRepository implements ISellerRepository {
         }
 
         return buyer;
+    }
+
+    @Override
+    public boolean editData(int id, NewUserData data) {
+        boolean isEdited = false;
+
+        try(Connection conn = DriverManager.getConnection(databaseSourceUrl, databaseUsername, databasePassword);
+            CallableStatement stmt = conn.prepareCall(EDIT_SELLER_STORED_PROCEDURE)){
+
+            stmt.setInt("p_id",id);
+            stmt.setString("p_first_name", data.getFirstName());
+            stmt.setString("p_last_name", data.getLastName());
+            stmt.setString("p_email", data.getEmail());
+            stmt.setString("p_phone_number", data.getPhoneNumber());
+            stmt.registerOutParameter("p_edited_successfully", Types.BOOLEAN);
+
+            stmt.executeUpdate();
+
+            isEdited = stmt.getBoolean("p_edited_successfully");
+
+
+        }catch(SQLException e){
+            LOGGER.error("Error while trying to communicate with the database - editData");
+            e.printStackTrace();
+        }
+
+        return isEdited;
     }
 }

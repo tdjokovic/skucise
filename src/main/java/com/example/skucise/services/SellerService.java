@@ -1,5 +1,6 @@
 package com.example.skucise.services;
 
+import com.example.skucise.models.NewUserData;
 import com.example.skucise.models.Property;
 import com.example.skucise.models.Rating;
 import com.example.skucise.models.SellerUser;
@@ -59,5 +60,10 @@ public class SellerService implements ISellerService {
     @Override
     public boolean rate(int sellerId, int buyerId, byte feedbackValue) {
         return sellerRepository.rate(sellerId, buyerId, feedbackValue);
+    }
+
+    @Override
+    public boolean editData(int id, NewUserData newData) {
+        return sellerRepository.editData(id, newData);
     }
 }
