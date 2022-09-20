@@ -193,9 +193,9 @@ export class PropertyService{
     getPropertyLikes(propertyId: number, self?: any, cbSuccess?: Function){
         this.api.getPropertyLikes(propertyId).subscribe(
             (response) => {
-                console.log("Likes fetched ", response.status);
+                console.log("Likes fetched ", response);
 
-                if(self && cbSuccess) cbSuccess(self);
+                if(self && cbSuccess) cbSuccess(self, response.body);
             },
             (error : HttpErrorResponse) => {
                 this.authService.redirectIfSessionExpired(error.status);

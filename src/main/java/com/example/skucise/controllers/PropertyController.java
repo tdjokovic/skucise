@@ -404,7 +404,7 @@ public class PropertyController {
             buyerId = (int) (double) resultPair.getClaims().get(USER_ID_CLAIM_NAME);
             String role = (String) resultPair.getClaims().get(ROLE_CLAIM_NAME);
 
-            if(Role.REG_BUYER.equalsTo(role)) isApplicant = true;
+            if(!Role.VISITOR.equalsTo(role)) isApplicant = true;
         }
 
         return ResponseEntity.status(httpStatus).headers(responseHeaders).body(propertyService.getPropertyLikes(propertyId, buyerId, isApplicant));
@@ -416,7 +416,7 @@ public class PropertyController {
                                           @Min(1)
                                           @Max(Integer.MAX_VALUE) int propertyId)
     {
-        ResultPair resultPair = checkAccess(jwt,Role.REG_BUYER);
+        ResultPair resultPair = checkAccess(jwt,Role.REG_BUYER, Role.REG_SELLER, Role.ADMIN);
         HttpStatus httpStatus = resultPair.getHttpStatus();
         HttpHeaders responseHeaders = new HttpHeaders();
         responseHeaders.set(JWT_CUSTOM_HTTP_HEADER, jwt);
@@ -441,7 +441,7 @@ public class PropertyController {
                                         @Min(1)
                                         @Max(Integer.MAX_VALUE) int propertyId)
     {
-        ResultPair resultPair = checkAccess(jwt, Role.REG_BUYER);
+        ResultPair resultPair = checkAccess(jwt, Role.REG_BUYER, Role.REG_SELLER, Role.ADMIN);
         HttpStatus httpStatus = resultPair.getHttpStatus();
         HttpHeaders responseHeaders = new HttpHeaders();
         responseHeaders.set(JWT_CUSTOM_HTTP_HEADER, jwt);

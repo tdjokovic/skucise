@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { UserRoles } from 'src/app/services_back/back/types/enums';
-import { Property, Reservation } from 'src/app/services_back/back/types/interfaces';
+import { Likes, Property, Reservation } from 'src/app/services_back/back/types/interfaces';
 import { MONTHS } from 'src/app/services_back/constants/date';
 import { DEFAULT_PROPERTY_PICTURE } from 'src/app/services_back/constants/raw-data';
 import { JWTUtil } from 'src/app/services_back/helpers/jwt_helper';
@@ -18,6 +18,7 @@ export class PropertySingleComponent implements OnInit {
 
   public  property! : Property;
   public propertyId : number = 0;
+  propertyLikes : Likes = {alreadyLiked : false, totalLikes: 0}
   defPropertyPic : string = DEFAULT_PROPERTY_PICTURE;
   months : any = MONTHS;
   days : Array<number> = [];
@@ -51,6 +52,7 @@ export class PropertySingleComponent implements OnInit {
         this.propertyId = this.activatedRoute.snapshot.paramMap.get("id") as unknown as number;
         
         this.propertyService.getProperty(this.propertyId, this, this.cbSuccess, this.cbNotFound);
+        this.propertyService.getPropertyLikes(this.propertyId,this,this.cbSuccessLikes)
 
         const now = new Date();
         this.selectedYear = now.getFullYear();
@@ -80,7 +82,14 @@ export class PropertySingleComponent implements OnInit {
     return JWTUtil.getUserRole() == UserRoles.Visitor;
   }
 
-
+  likeProperty()
+  {
+    this.propertyService.likeProperty(this.propertyId,this,this.cbSuccessLike)
+  }
+  recallLike()
+  {
+    this.propertyService.deletePropertyLike(this.propertyId,this,this.cbSuccessRecallLike)
+  }
 
   applyForPropery()
   {
@@ -138,7 +147,20 @@ export class PropertySingleComponent implements OnInit {
   cbNotFound(self:any){
     console.error("Property with this id is not found!");
   }
-
+  cbSuccessLikes(self:any, likes : Likes)
+  {
+    self.propertyLikes = likes;
+  }
+  cbSuccessLike(self:any)
+  {
+    self.propertyLikes.alreadyLiked = true;
+    self.propertyLikes.totalLikes++;
+  }
+  cbSuccessRecallLike(self:any)
+  {
+    self.propertyLikes.alreadyLiked = false;
+    self.propertyLikes.totalLikes--;
+  }
   getHour(hour:number)
   {
     if (hour < 10)

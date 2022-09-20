@@ -545,7 +545,7 @@ public class PropertyRepository implements IPropertyRepository {
             ResultSet rs = stmt.executeQuery();
 
             rs.first();
-            likeResponse.setTotalLikes(rs.getInt("count"));
+            likeResponse.setTotalLikes(rs.getInt("likes_count"));
 
             if(isApplicant) //samo tada moze da lajkuje
             {
@@ -554,7 +554,7 @@ public class PropertyRepository implements IPropertyRepository {
                 rs = stmtCheck.executeQuery();
 
                 rs.first();
-                if(rs.getInt("count") != 0) likeResponse.setAlreadyLiked(true);
+                if(rs.getInt("likes_count") != 0) likeResponse.setAlreadyLiked(true);
             }
         }
 
@@ -579,7 +579,7 @@ public class PropertyRepository implements IPropertyRepository {
 
             ResultSet rs = stmtAlreadyLiked.executeQuery();
             rs.first();
-            if(rs.getInt("count") != 0){
+            if(rs.getInt("likes_count") != 0){
                 return false;//vec je lajkovao prop
             }
 
@@ -587,7 +587,7 @@ public class PropertyRepository implements IPropertyRepository {
             stmt.setInt("p_buyer_id", buyerId);
             stmt.registerOutParameter("p_is_liked", Types.BOOLEAN);
 
-            stmtAlreadyLiked.executeUpdate();
+            stmt.executeUpdate();
 
             likeSuccess = stmt.getBoolean("p_is_liked");
 

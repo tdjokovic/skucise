@@ -98,7 +98,7 @@ export interface PropertyComment{
 
 export interface Likes{
     totalLikes:number;
-    liked:boolean; //ako je lajkovano da ne moze opet
+    alreadyLiked:boolean; //ako je lajkovano da ne moze opet
 }
 
 export interface Rating{
