@@ -299,6 +299,7 @@ export class PropertiesComponent implements OnInit {
       if(radio2 != null){
         radio2.checked = false;
       }
+
     }
 
     this.selectedAdTypeId = 0

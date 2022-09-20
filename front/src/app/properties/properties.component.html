@@ -36,7 +36,7 @@
                 </div>
 
                 <div class="form-check no-border fit-search-bar fit-search gray-font" style="padding:1rem;">
-                    <div class="border-left fit-search-bar" style="padding-left: 1rem;padding-right:1rem;">
+                    <div class="border-left border-right fit-search-bar" style="padding-left: 1rem;padding-right:1rem;">
                         <input (click)="toggleNewConstruction()" class="" type="checkbox" id="novogradnjaCheckbox">
                         <label class="form-check-label" for="novogradnjaCheckbox">Samo novogradnja</label>
                     </div>
@@ -51,14 +51,15 @@
                     </select>
                 </div>
 
-                <div class="form-control no-border fit-search-bar home-form-group" style="width:fit-content;margin:auto;"
-                placement="right" ngbTooltip="Login for uploading your files, creating datasets, saving models and more!">
-                    <button (click)="resetFilters()" style="background:none;border:none">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-arrow-clockwise" viewBox="0 0 16 16">
-                            <path fill-rule="evenodd" d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2v1z"/>
-                            <path d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466z"/>
-                          </svg>
-                    </button>
+                <div class="form-control no-border fit-search-bar home-form-group" style="width:fit-content;margin:auto;">
+                    <div class="border-left border-right fit-search-bar" style="padding-left: 1rem;padding-right:1rem;">
+                        <button (click)="resetFilters()" style="background:none;border:none">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-arrow-clockwise" viewBox="0 0 16 16">
+                                <path fill-rule="evenodd" d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2v1z"/>
+                                <path d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466z"/>
+                              </svg>
+                        </button>
+                    </div>
                 </div>
                 <!--<input type="text" class="form-control px-4" placeholder="Your ZIP code or City. e.g. New York">-->
                 <button type="submit" style="border-radius:8px;" class="btn btn-primary" (click)="onSubmit()">Traži</button>
