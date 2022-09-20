@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Injectable, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { UserRoles } from 'src/app/services_back/back/types/enums';
 import { Buyer, NewUserData, Seller } from 'src/app/services_back/back/types/interfaces';
@@ -6,6 +6,9 @@ import { JWTUtil } from 'src/app/services_back/helpers/jwt_helper';
 import { AuthorizeService } from 'src/app/services_back/services/authorize.service';
 import { BuyerService } from 'src/app/services_back/services/buyer.service';
 import { SellerService } from 'src/app/services_back/services/seller.service';
+import { IndividualConfig } from 'ngx-toastr';
+import { ToastrService } from 'ngx-toastr';
+
 
 @Component({
   selector: 'app-user-profile',
@@ -39,10 +42,12 @@ export class UserProfileComponent implements OnInit {
   public id : number = 0;
   public user : Seller | Buyer | null = null;
 
+
   constructor(private authorizationService : AuthorizeService,
               private activatedRoute : ActivatedRoute,
               private sellerService : SellerService,
-              private buyerService : BuyerService) 
+              private buyerService : BuyerService,
+              private toastr:ToastrService) 
   {   }
 
     //univerzalne fje
@@ -211,12 +216,14 @@ export class UserProfileComponent implements OnInit {
       }
   }
 
-  cbSuccessEditedData(){
+  cbSuccessEditedData(self:any){
     console.log("SUCCESSFULLY EDITED DATA");
+    self.toastr.success("You've successfully edited your profile data","User data editing!");
   }
 
-  cbNotEditedData(){
+  cbNotEditedData(self:any){
     console.error("ERROR EDITING DATA");
+    self.toastr.error("Profile data is not edited! There has been an error","User data editing!");
   }
   
 

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 import { AdCategory, AdType, City, Property, Seller } from 'src/app/services_back/back/types/interfaces';
 import { RedirectRoutes } from 'src/app/services_back/constants/routing.properties';
 import { JWTUtil } from 'src/app/services_back/helpers/jwt_helper';
@@ -52,7 +53,8 @@ export class AddPropertyFormComponent implements OnInit {
     private adCategoryService : AdCategoryService,
     private adTypeService : AdTypesService,
     private cityService : CityService,
-    private sellerService : SellerService) { }
+    private sellerService : SellerService,
+    private toastr : ToastrService) { }
 
   ngOnInit(): void {
     this.checkIsUserAuthorized();
@@ -114,7 +116,7 @@ export class AddPropertyFormComponent implements OnInit {
               picture:(this.picture == '')? null : this.picture, //slika u Base64
             }
 
-            this.propertyService.createProperty(newProperty,this, this.cbSuccessAddProperty);
+            this.propertyService.createProperty(newProperty,this, this.cbSuccessAddProperty, this.cbErrorAddProperty);
           }
     
   }
@@ -157,7 +159,7 @@ export class AddPropertyFormComponent implements OnInit {
       console.log(self.picture);
       let len = self.picture.length;
 
-      if(len < 5000 || len > 65000) // duzina tj velicina slike nije dobra
+      if(len < 5000 || len > 332000) // duzina tj velicina slike nije dobra
       {
         (<HTMLSelectElement>document.getElementById('propertyPicture')).focus();
         self.invalidPicture = true;
@@ -178,8 +180,14 @@ export class AddPropertyFormComponent implements OnInit {
   cbSuccess(self: any, seller: Seller | null) {
     self.this_seller = seller;
   }
+
   cbSuccessAddProperty(self: any) {
     window.location.reload();
+    self.toastr.succes("Uspešno ste dodali oglas!","Dodavanje nove nekretnine");
+  }
+
+  cbErrorAddProperty(self: any) {
+    self.toastr.error("Dodavanje oglasa nije uspešno! Pokušaj opet.","Dodavanje nove nekretnine");
   }
 
   cbNotFound(self: any) {

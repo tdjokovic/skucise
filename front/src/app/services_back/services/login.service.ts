@@ -60,7 +60,8 @@ export class LoginService {
           self._newLogin.next();
         }
         
-        if(self && callbackSuccess) callbackSuccess(self);
+        if(self && callbackSuccess) 
+          callbackSuccess(self);
       },
 
       //ako je doslo do neke greske

@@ -208,6 +208,13 @@ export class PropertiesComponent implements OnInit {
         this.previousPage();
       }
     }
+
+    //zumiraj gore
+    document.getElementById('searchForm')?.scrollIntoView({
+      behavior: "smooth",
+      block: "start",
+      inline: "nearest"
+    })
   }
 
   nextPage(){

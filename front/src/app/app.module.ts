@@ -48,6 +48,8 @@ import { ApproveUsersCardComponent } from './_pages/dashboard/approve-users/appr
 import { ReservationComponent } from './_pages/reservations/reservation/reservation.component';
 import { DatePipe } from '@angular/common';
 import { UserProfileComponent } from './_pages/user-profile/user-profile.component';
+import{BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import{ToastrModule} from 'ngx-toastr';
 
 @NgModule({
   declarations: [
@@ -99,7 +101,9 @@ import { UserProfileComponent } from './_pages/user-profile/user-profile.compone
     FormsModule,
     RouterModule,
     HttpClientModule,
-    CommonModule
+    CommonModule,
+    BrowserAnimationsModule,
+    ToastrModule.forRoot(),
   ],
   providers: [DatePipe],
   bootstrap: [AppComponent]

@@ -29,7 +29,7 @@
                         </ul>
                     </li>
                     
-                    <li *ngIf="!isVisitor() && !isAdmin()"><a class="{{(checkActive('my-properties')?'nav-active':'')}}" [routerLink]="['/my-properties']">Moji oglasi</a></li>
+                    <li *ngIf="isSeller()"><a class="{{(checkActive('my-properties')?'nav-active':'')}}" [routerLink]="['/my-properties']">Moji oglasi</a></li>
                     <li *ngIf="!isVisitor()"><a class="{{(checkActive('reservations')?'nav-active':'')}}" [routerLink]="['/reservations']">Rezervacije razgledanja</a></li>
                     <li *ngIf="isAdmin()"><a class="{{(checkActive('dashboard')?'nav-active':'')}}" [routerLink]="['/dashboard']">Dashboard</a></li>
 

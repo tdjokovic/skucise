@@ -6,7 +6,7 @@
 <div class="container">
     <div class="row justify-content-center align-items-center">
         <div class="col-lg-12 text-center">
-            <form action="#" class="form-search d-flex align-items-stretch mb-3 home-search-form">
+            <form id="searchForm" action="#" class="form-search d-flex align-items-stretch mb-3 home-search-form">
                 <div *ngIf="adCategory == null" class="home-form-group form-control">
                 
                     <div class="form-check radio-form">
@@ -55,8 +55,19 @@
 </div>
 
 <!--ovo su sve nekretnine-->
-<div class="section section-properties">
+<div class="section-properties">
     <div *ngIf="properties.length>0" class="container">
+        <div class="row align-items-center py-5">
+            <div class="col-lg-3">
+                Strana ({{currentPage}} od {{totalPagesNum}})
+            </div>
+            <div class="col-lg-6 text-center">
+                <div class="custom-pagination">
+                    <a *ngFor="let p of totalPagesArray" [class]="(currentPage == p) ? 'active' : ''" (click)="changePage(p)" style="margin:2px">{{p}}</a>
+                </div>
+            </div>
+        </div>
+        
         <div class="row">
 
             <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4" *ngFor="let p of properties">

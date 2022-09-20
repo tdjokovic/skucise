@@ -51,7 +51,6 @@ export class BuyerApiService{
     }
 
     createBuyer(buyerData: NewBuyer) : Observable<HttpResponse<null>>{
-        alert("Seller picture len "+buyerData.picture?.length);
         return this.http.post<null>(
             this.url,
             buyerData,
