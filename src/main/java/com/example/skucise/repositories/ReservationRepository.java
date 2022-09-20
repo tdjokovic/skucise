@@ -149,7 +149,7 @@ public class ReservationRepository implements IReservationRepository {
         Property property = new Property();
         property.setId(resultSet.getInt("property_id"));
         property.setPostingDate(resultSet.getObject("post_date", LocalDateTime.class));
-        property.setPrice(resultSet.getString("price"));
+        property.setPrice(resultSet.getInt("price"));
         property.setArea(resultSet.getString("area"));
         property.setPicture(resultSet.getString("property_picture"));
         property.setCity(city);
