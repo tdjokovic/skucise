@@ -110,7 +110,7 @@ export class PropertySingleComponent implements OnInit {
       
       let newReservation = this.addNewReservation(date);
 
-      this.reservationService.createReservation(newReservation, this,this.cbSuccessAddReservation);
+      this.reservationService.createReservation(newReservation, this,this.cbSuccessAddReservation, this.cbFailAddReservation);
 
     }
 

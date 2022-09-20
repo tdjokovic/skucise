@@ -1,7 +1,9 @@
-import { HttpErrorResponse } from '@angular/common/http';
+import { HttpErrorResponse, HttpStatusCode } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 import { ReservationApiService } from '../back/apis/reservation-api.service';
 import { Reservation } from '../back/types/interfaces';
+import { RedirectRoutes } from '../constants/routing.properties';
 import { AuthorizeService } from './authorize.service';
 
 @Injectable({
@@ -10,7 +12,9 @@ import { AuthorizeService } from './authorize.service';
 export class ReservationService {
 
   constructor(private api : ReservationApiService,
-              private authService : AuthorizeService) { }
+              private authService : AuthorizeService,
+              private router : Router) { }
+
 
   getReservationsByUser(self?: any, cbSuccess?: Function){
     console.log("Getting reservations by user");
@@ -92,7 +96,11 @@ export class ReservationService {
             },
             (error : HttpErrorResponse) => {
                 this.authService.redirectIfSessionExpired(error.status);
+                if(error.status == HttpStatusCode.Forbidden){
+                    this.router.navigate(RedirectRoutes.ON_FORBIDDEN);
+                }
                 if (self && cbFail) cbFail(self);
+               
             }
         );
     }
