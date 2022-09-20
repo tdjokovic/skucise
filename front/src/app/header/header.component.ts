@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Router, NavigationEnd, ActivatedRoute } from '@angular/router'
 import { BuyerService } from 'src/app/services_back/services/buyer.service';
 import { UserRoles } from '../services_back/back/types/enums';
@@ -23,7 +23,7 @@ export class HeaderComponent implements OnInit {
               private loginService : LoginService) { }
 
   
-  public isActive: string = "";
+  @Input() public active: string = '';
   public adCategories : AdCategory [] = [];
   firstName : string = '';
   lastName : string = '';
@@ -35,7 +35,6 @@ export class HeaderComponent implements OnInit {
       console.log(this.lastName);
       this.updateName();
     });
-    this.routeChanged();
 
     this.adCategoryService.getCategories(this, (self: any, data : AdCategory[]) => {
       this.adCategories = data;
@@ -52,9 +51,6 @@ export class HeaderComponent implements OnInit {
     }*/
   }
 
-  routeChanged(){
-    this.isActive = this.router.url;
-  }
 
   isVisitor():boolean{
     return JWTUtil.getUserRole() == UserRoles.Visitor;
@@ -82,6 +78,10 @@ export class HeaderComponent implements OnInit {
   cbNotFound(self: any) {
     self.router.navigate(RedirectRoutes.HOME);
 }*/
+
+checkActive(name: string): boolean {
+  return name == this.active;
+}
 
   updateName()
   {

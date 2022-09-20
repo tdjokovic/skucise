@@ -1,3 +1,5 @@
+<app-header [active]="'user-profile'"></app-header>
+
 <app-background-image *ngIf ="!isMe()" [heading]="'Profil korisnika'" [page]="'Profil'"></app-background-image>
 <app-background-image *ngIf ="isMe()" [heading]="'Moj profil'" [page]="'Profil'"></app-background-image>
 
