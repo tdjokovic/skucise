@@ -21,7 +21,7 @@ public class BuyerRepository implements IBuyerRepository {
     private static final String REGISTER_BUYER_PROCEDURE_CALL = "{call register_buyer(?,?,?,?,?,?,?,?)}";
     private static final String CHECK_IF_APPROVED_STORED_PROCEDURE = "{call check_if_approved(?)}";
     private static final String GET_BUYER_STORED_PROCEDURE = "{call get_buyer(?)}";
-    private static final String APPLICATION_STORED_PROCEDURE = "{call check_application(?,?)}";
+    private static final String RESERVATION_STORED_PROCEDURE = "{call check_reservation(?,?)}";
     private static final String GET_ALL_BUYERS_STORED_PROCEDURE = "{call get_all_buyers(?)}";
     private static final String APPROVE_STORED_PROCEDURE = "{call approve_user(?,?)}";
     private static final String DELETE_STORED_PROCEDURE = "{call delete_user(?,?)}";
@@ -146,8 +146,10 @@ public class BuyerRepository implements IBuyerRepository {
                     stmtBuyer.setInt("p_id",id);
                     resultSet = stmtBuyer.executeQuery();
 
-                    resultSet.first();
-                    buyerUser = createNewBuyer(resultSet);
+                    if (resultSet.first()){
+                        buyerUser = createNewBuyer(resultSet);
+                    }
+                    else buyerUser = null;
                 }
             }
 
@@ -249,7 +251,7 @@ public class BuyerRepository implements IBuyerRepository {
         boolean isApplied = false;
 
         try(Connection conn = DriverManager.getConnection(databaseSourceUrl, databaseUsername, databasePassword);
-        CallableStatement stmt = conn.prepareCall(APPLICATION_STORED_PROCEDURE)){
+        CallableStatement stmt = conn.prepareCall(RESERVATION_STORED_PROCEDURE)){
 
             stmt.setInt("p_seller_id", sellerId);
             stmt.setInt("p_buyer_id", buyerId);

@@ -46,7 +46,7 @@ export interface Reservation{
     buyer:Buyer | null;
     property:Property;
     date:Date;
-    isApproved:number;
+    isApproved:number; // 0 - na cekanju , -1 - odbijeno, 1 - prihvaceno
 }
 
 export interface GeneralUser{

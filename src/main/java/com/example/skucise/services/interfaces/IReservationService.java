@@ -13,4 +13,8 @@ public interface IReservationService {
     List<Reservation> getReservationsByUser(int user_id);
 
     List<Reservation> getReservationsForUser(int user_id);
+
+    public boolean approveReservation(int user_id, int r_id, boolean approved);
+
+    public Reservation get(Integer id);
 }

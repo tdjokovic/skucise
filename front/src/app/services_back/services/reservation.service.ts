@@ -81,4 +81,19 @@ export class ReservationService {
             }
         );
     }
+
+    approveReservation(id : number, approved: boolean, self?: any, cbSuccess?: Function, cbFail? : Function)
+    {
+        this.api.approveReservation(id,approved).subscribe(
+            (response) => {
+                console.log("Successful handling of reservation ", response.status);
+
+                if(self && cbSuccess) cbSuccess(self);
+            },
+            (error : HttpErrorResponse) => {
+                this.authService.redirectIfSessionExpired(error.status);
+                if (self && cbFail) cbFail(self);
+            }
+        );
+    }
 }

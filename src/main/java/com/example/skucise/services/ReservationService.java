@@ -34,4 +34,14 @@ public class ReservationService implements IReservationService {
     public List<Reservation>getReservationsForUser(int user_id){
         return reservationRepository.getReservationsForUser(user_id);
     }
+
+    @Override
+    public boolean approveReservation(int user_id, int r_id, boolean approved) {
+        return reservationRepository.approveReservation(user_id,r_id,approved);
+    }
+
+    @Override
+    public Reservation get(Integer id) {
+        return reservationRepository.get(id);
+    }
 }

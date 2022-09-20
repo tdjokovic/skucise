@@ -114,4 +114,41 @@ public class ReservationController {
         return ResponseEntity.status(httpStatus).headers(responseHeaders).body(reservationsForUser);
     }
 
+    @PutMapping("{id}")
+    public ResponseEntity<?> approveReservation(@RequestHeader(JWT_CUSTOM_HTTP_HEADER) String jwt,
+                                                @PathVariable("id")
+                                                @Min( 1 )
+                                                @Max( Integer.MAX_VALUE ) int id,
+                                                @RequestBody boolean approved){
+
+        ResultPair resultPair = checkAccess(jwt, Role.ADMIN, Role.REG_BUYER, Role.REG_SELLER);
+        HttpStatus httpStatus = resultPair.getHttpStatus();
+
+        HttpHeaders responseHeaders = new HttpHeaders();
+        responseHeaders.set(JWT_CUSTOM_HTTP_HEADER, jwt);
+
+        if(httpStatus != HttpStatus.OK){
+            return ResponseEntity.status(httpStatus).headers(responseHeaders).body(null);
+        }
+
+        int userId =(int)(double) resultPair.getClaims().get(USER_ID_CLAIM_NAME);
+
+        Reservation r = reservationService.get(id);
+        //MORA DA SE PREPRAVI DA MOZE DA DOBIJE KORISNIKA !!!
+        LOGGER.info("Vlasnik oglasa je " + r.getProperty().getSellerUser().getId());
+        if (userId != r.getProperty().getSellerUser().getId())
+        {
+            httpStatus = HttpStatus.FORBIDDEN;
+            return ResponseEntity.status(httpStatus).headers(responseHeaders).body(null);
+        }
+
+        boolean approveResponseSuccessfull = reservationService.approveReservation(userId,id,approved);
+
+
+        if(approveResponseSuccessfull) httpStatus = HttpStatus.NO_CONTENT;
+        else httpStatus = HttpStatus.CONFLICT;
+
+        return ResponseEntity.status(httpStatus).headers(responseHeaders).body(null);
+    }
+
 }

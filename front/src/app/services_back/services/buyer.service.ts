@@ -44,9 +44,10 @@ export class BuyerService{
 
             //error
             (error : HttpErrorResponse) => {
+                console.log("Blabla");
                 this.authorizationService.redirectIfSessionExpired(error.status);
 
-                if(error.status == HttpStatusCode.NotFound){
+                if(error.status == HttpStatusCode.NotFound || error.status == HttpStatusCode.Forbidden){
                     if(self && notFoundCallback) notFoundCallback(self);
                 }
             }

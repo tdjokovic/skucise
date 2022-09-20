@@ -17,9 +17,12 @@ import java.util.List;
 public class ReservationRepository implements IReservationRepository {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ReservationRepository.class);
+    private static final String GET_RESERVATION_STORED_PROCEDURE = "{call get_reservation(?)}";
     private static final String POST_RESERVATION_STORED_PROCEDURE = "{call post_reservation(?,?,?,?,?)}";
     private static final String GET_RESERVATIONS_STORED_PROCEDURE = "{call get_reservations_by_user(?)}";
     private static final String GET_RESERVATIONS_FOR_USER_STORED_PROCEDURE = "{call get_reservations_for_user(?)}";
+
+    private static final String APPROVE_RESERVATION_STORED_PROCEDURE = "{call approve_reservation(?,?,?)}";
 
     @Value("jdbc:mariadb://localhost:3306/skucise")
     private String databaseSourceUrl;
@@ -180,6 +183,38 @@ public class ReservationRepository implements IReservationRepository {
         reservation.setBuyer(buyer);
 
     }
+
+    @Override
+    public boolean approveReservation(int user_id, int r_id, boolean approved) {
+
+        boolean approvalSuccess = false;
+
+        try(Connection conn = DriverManager.getConnection(databaseSourceUrl, databaseUsername, databasePassword);
+            CallableStatement stmt = conn.prepareCall(APPROVE_RESERVATION_STORED_PROCEDURE)){
+
+            stmt.setInt("r_id",r_id);
+            if(approved == true)
+            {
+                stmt.setInt("r_approved",1);
+            }
+            else{
+                stmt.setInt("r_approved",-1);
+            }
+            stmt.registerOutParameter("r_approved_successfully", Types.BOOLEAN);
+
+            stmt.executeUpdate();
+
+            approvalSuccess = stmt.getBoolean("p_approved_successfully");
+
+
+        }catch(SQLException e){
+            LOGGER.error("Error while trying to communicate with the database - approve");
+            e.printStackTrace();
+        }
+
+        return approvalSuccess;
+    }
+
     public void setReservationParameters(CallableStatement stmt, Reservation reservation, int user_id) throws SQLException{
 
         stmt.setInt("r_user_id", user_id);
@@ -199,8 +234,28 @@ public class ReservationRepository implements IReservationRepository {
     }
 
     @Override
-    public Reservation get(Integer integer) {
-        return null;
+    public Reservation get(Integer id)
+    {
+        Reservation reservation = null;
+
+        LOGGER.info("Trying to find reservations with id {}", id);
+
+        try(Connection conn = DriverManager.getConnection(databaseSourceUrl, databaseUsername, databasePassword);
+            CallableStatement stmt = conn.prepareCall(GET_RESERVATION_STORED_PROCEDURE)){
+
+            stmt.setInt("r_id", id);
+            ResultSet resultSet = stmt.executeQuery();
+
+            if(resultSet.first()){
+                reservation = setNewReservation(resultSet, true);
+                LOGGER.info("Reservaton id {}", reservation.getId());
+            }
+        }catch (SQLException e){
+            LOGGER.error("Error while trying to communicate with the database - get");
+            e.printStackTrace();
+        }
+
+        return reservation;
     }
 
     @Override

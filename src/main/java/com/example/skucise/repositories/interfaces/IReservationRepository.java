@@ -20,4 +20,6 @@ public interface IReservationRepository extends CRUDRepository<Reservation,Integ
     public Reservation setNewReservation(ResultSet resultSet, boolean getUser) throws SQLException;
 
     public void setBuyerToReservation(Reservation reservation, int user_id) throws SQLException;
+
+    public boolean approveReservation(int user_id, int r_id, boolean approved);
 }

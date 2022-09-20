@@ -18,32 +18,6 @@
     </div>
 </div>
 
-<div *ngIf="successfulReservation" class="container" style="width:70%;margin:auto;">
-    <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
-        <symbol id="check-circle-fill" fill="currentColor" viewBox="0 0 16 16">
-          <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/>
-        </symbol>
-      </svg>
-    <div class="alert alert-success alert-dismissible fade show mt-3" role="alert">
-        <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Success:"><use xlink:href="#check-circle-fill"/></svg>
-        <strong>Uspešno ste poslali zahtev za rezervaciju! </strong> <a class="alert-link" style="color:dodgerblue" [routerLink]="['/reservations']">Ovde</a> možete da pratite status vaše rezervacije.
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-    </div>
-</div>
-
-<div *ngIf="failedReservation" class="container" style="width:70%;margin:auto;">
-    <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
-        <symbol id="exclamation-triangle-fill" fill="currentColor" viewBox="0 0 16 16">
-            <path d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
-        </symbol>
-      </svg>
-    <div class="alert alert-danger alert-dismissible fade show mt-3" role="alert">
-        <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Success:"><use xlink:href="#exclamation-triangle-fill"/></svg>
-        <strong>Došlo je do greške!</strong> Pokušajte ponovo kasnije.
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-    </div>
-</div>
-
 <!--property single-->
 <div class="section" *ngIf="property">
     <div class="container">
@@ -60,12 +34,12 @@
                     </div>
                 </div>
             </div>
-            <div class="col-lg-6">
+            <div class="col-lg-6" style="text-align:center;">
                 <h2 class="heading text-primary">{{property.city.name}}</h2>
                 <h5 class="meta">{{property.adCategory.name}} / {{property.type.name}}</h5>
                 
                 <p class="text-black-50"> {{property.description}}</p>
-                <table class="table" style="width:80%">
+                <table class="table" style="width:90%">
                     <tr>
                         <td><h6>Cena:</h6></td>
                         <td><b>{{property.price + " $"}}</b></td>
@@ -87,102 +61,121 @@
                         <td>&nbsp;<input class="form-check-input" disabled checked type="checkbox"></td>
                     </tr>
                 </table>
-                <div class="row justify-content-center" *ngIf="!isVisitor() && !isMe()">
-                    <div class="col-6">
-                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
-                            Zakaži razgledanje
+                <div class="row justify-content-center align-items-center" *ngIf="!isVisitor() && !isMe()">
+                    <div class="col-8" style="text-align: center;">
+                        <button type="button" class="btn btn-primary" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                            Zakaži razgledanje <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16">
+                                <path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z"/>
+                                </svg>
                         </button>
+                        <br><br>
                     </div>
                 </div>
-                
-                <div class="d-block agent-box p-5">
-                    <h3>Podaci o prodavcu</h3>
-                    <div class="img mb-4">
-                        <img src="{{property.sellerUser.picture}}" alt="Image" class="img-thumbnail">
+                <div class="row justify-content-center align-items-center" >
+                    <div class="col-12" style="text-align: center;">
+                        <div class="collapse" id="collapseExample">
+                            <div class="card card-body" style="background-color:rgba(0, 32, 74, 0.05)">
+                                <p class="text-primary">Unesite datum kada bi želeli da razgledate nekretninu i oglasivač će Vam u najkraćem roku odgovoriti na zahtev.</p>
+                                    <form>
+                                        <table>
+                                            <tr>
+                                                <td>Dan</td>
+                                                <td>Mesec</td>
+                                                <td>Godina</td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <select [(ngModel)]="selectedDay" class="form-select" name="daySelect">
+                                                        <option *ngFor="let day of days" [selected]="selectedDay == day" [ngValue]="day">
+                                                            {{day}}
+                                                        </option>
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <select [(ngModel)]="selectedMonth" class="form-select" name="monthSelect">
+                                                        <option *ngFor="let month of months" [selected]="selectedMonth == month.id" [ngValue]="month.id">
+                                                            {{month.name}}
+                                                        </option>
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <select [(ngModel)]="selectedYear" class="form-select" name="yearSelect">
+                                                        <option *ngFor="let year of years" [selected]="selectedYear == year" [ngValue]="year">
+                                                            {{year}}
+                                                        </option>
+                                                    </select>
+                                                </td>
+
+                                            </tr>
+                                            <tr>
+                                                <td>Vreme</td>
+                                                <td>&nbsp;</td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <select [(ngModel)]="selectedHour" class="form-select" name="hourSelect">
+                                                        <option *ngFor="let hour of hours" [ngValue]="hour">
+                                                            {{getHour(hour)}}
+                                                        </option>
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <select [(ngModel)]="selectedMinute" class="form-select" style="width:auto;" name="minuteSelect">
+                                                        <option *ngFor="let minute of minutes" [ngValue]="minute">
+                                                            {{getMinute(minute)}}
+                                                        </option>
+                                                    </select>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                        <button type="button" class="btn btn-primary" (click)="applyForPropery()">Zakaži</button>
+                                        <p *ngIf="wrongDate" class="small fw-bold text-danger" style="text-align: center;">Nevalidan datum/datum je prošao.</p>
+                                        
+                                    </form>
+                                    <div *ngIf="successfulReservation" class="container" style="width:90%;margin:auto;">
+                                        <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+                                            <symbol id="check-circle-fill" fill="currentColor" viewBox="0 0 16 16">
+                                              <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/>
+                                            </symbol>
+                                          </svg>
+                                        <div class="alert alert-success alert-dismissible fade show mt-3" role="alert">
+                                            <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Success:"><use xlink:href="#check-circle-fill"/></svg>
+                                            <strong>Uspešno ste poslali zahtev za rezervaciju! </strong> <a class="alert-link" style="color:dodgerblue" [routerLink]="['/reservations']">Ovde</a> možete da pratite status vaše rezervacije.
+                                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                        </div>
+                                    </div>
+                                    
+                                    <div *ngIf="failedReservation" class="container" style="width:90%;margin:auto;">
+                                        <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+                                            <symbol id="exclamation-triangle-fill" fill="currentColor" viewBox="0 0 16 16">
+                                                <path d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
+                                            </symbol>
+                                          </svg>
+                                        <div class="alert alert-danger alert-dismissible fade show mt-3" role="alert">
+                                            <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Success:"><use xlink:href="#exclamation-triangle-fill"/></svg>
+                                            <strong>Došlo je do greške!</strong> Pokušajte ponovo kasnije.
+                                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="text">
-                        <h3 class="mb-3">{{property.sellerUser.firstName}}  {{[property.sellerUser.lastName]}}</h3>
-                        <div class="meta mb-2">Email adresa: {{property.sellerUser.email}}</div>
-                        <div class="meta mb-2">Kontakt telefon: {{property.sellerUser.phoneNumber}}</div>
-                                                
+                    <div class="d-block agent-box p-5">
+                        <h3>Podaci o prodavcu</h3>
+                        <div class="img mb-4">
+                            <img src="{{property.sellerUser.picture}}" alt="Image" class="img-thumbnail">
+                        </div>
+                        <div class="text">
+                            <h3 class="mb-3">{{property.sellerUser.firstName}}  {{[property.sellerUser.lastName]}}</h3>
+                            <div class="meta mb-2">Email adresa: {{property.sellerUser.email}}</div>
+                            <div class="meta mb-2">Kontakt telefon: {{property.sellerUser.phoneNumber}}</div>
+                                                    
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
 
-    <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="staticBackdropLabel">Zakaži razgledanje u željenom terminu</h5>
-              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-              <p>Unesite datum kada bi želeli da razgledate nekretninu i oglasivač će Vam u najkraćem roku odgovoriti na zahtev.</p>
-              <form>
-                <table>
-                    <tr>
-                        <td>Dan</td>
-                        <td>Mesec</td>
-                        <td>Godina</td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <select [(ngModel)]="selectedDay" class="form-select" name="daySelect">
-                                <option *ngFor="let day of days" [selected]="selectedDay == day" [ngValue]="day">
-                                    {{day}}
-                                </option>
-                            </select>
-                        </td>
-                        <td>
-                            <select [(ngModel)]="selectedMonth" class="form-select" name="monthSelect">
-                                <option *ngFor="let month of months" [selected]="selectedMonth == month.id" [ngValue]="month.id">
-                                    {{month.name}}
-                                </option>
-                            </select>
-                        </td>
-                        <td>
-                            <select [(ngModel)]="selectedYear" class="form-select" name="yearSelect">
-                                <option *ngFor="let year of years" [selected]="selectedYear == year" [ngValue]="year">
-                                    {{year}}
-                                </option>
-                            </select>
-                        </td>
-
-                    </tr>
-                    <tr>
-                        <td>Vreme</td>
-                        <td>&nbsp;</td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <select [(ngModel)]="selectedHour" class="form-select" name="hourSelect">
-                                <option *ngFor="let hour of hours" [ngValue]="hour">
-                                    {{getHour(hour)}}
-                                </option>
-                            </select>
-                        </td>
-                        <td>
-                            <select [(ngModel)]="selectedMinute" class="form-select" style="width:auto;" name="minuteSelect">
-                                <option *ngFor="let minute of minutes" [ngValue]="minute">
-                                    {{getMinute(minute)}}
-                                </option>
-                            </select>
-                        </td>
-                    </tr>
-                </table>
-                <p *ngIf="wrongDate" class="small fw-bold text-danger" style="text-align: center;">Uneti datum je prošao.</p>
-              </form>
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Odustani</button>
-              <button type="button" class="btn btn-primary" data-bs-dismiss="modal" (click)="applyForPropery()">Zakaži</button>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      
 </div>
 
