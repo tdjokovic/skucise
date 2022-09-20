@@ -10389,3 +10389,40 @@ nav[aria-label="breadcrumb"] li:before {
 .nav-active{
   color:#fff !important;
 }
+
+.no-border{
+  border: none !important;
+}
+
+
+.fit-search-bar{
+  height:100% !important;
+}
+
+.fit-search{
+  display:flex;
+  flex-direction:column;
+  justify-content:space-around;
+  gap:0.5rem;
+}
+.gray-font{
+  color: rgba(0, 0, 0, 0.5) !important;
+}
+
+.border-right{
+  border-right: 1px solid rgba(0,0,0,.5);
+}
+
+.border-left{
+  border-left: 1px solid rgba(0,0,0,.5);
+}
+
+.btn-outline-search {
+  color: black;
+  background-color: white;
+  border-color: #00204a solid 1px !important; }
+
+.btn-outline-search:hover {
+    color: #fff;
+    background-color: #001b3f;
+    border-color: #001a3b; }

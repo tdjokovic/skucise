@@ -69,13 +69,16 @@ export class PropertiesComponent implements OnInit {
   }
 
   togglePriceSort(){
-    if(!this.sortByPriceAsc){
-      this.sortByPriceAsc = true;
-      this.sortByPriceText = "Cena rastuce";
-    }
-    else{
-      this.sortByPriceAsc = false;
-      this.sortByPriceText = "Cena opadajuce";
+    const priceSelect = document.getElementById(
+      'sortByPrice'
+    ) as HTMLInputElement | null;
+    if(priceSelect != null){
+      if(priceSelect.value == "0"){
+        this.sortByPriceAsc = true;
+      }
+      else if (priceSelect.value == "1"){
+        this.sortByPriceAsc = false;
+      }
     }
   }
 
