@@ -6,6 +6,7 @@ import { JWTUtil } from 'src/app/services_back/helpers/jwt_helper';
 import { AuthorizeService } from 'src/app/services_back/services/authorize.service';
 import { BuyerService } from 'src/app/services_back/services/buyer.service';
 import { SellerService } from 'src/app/services_back/services/seller.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-user-profile',
@@ -42,7 +43,8 @@ export class UserProfileComponent implements OnInit {
   constructor(private authorizationService : AuthorizeService,
               private activatedRoute : ActivatedRoute,
               private sellerService : SellerService,
-              private buyerService : BuyerService) 
+              private buyerService : BuyerService,
+              private toastr:ToastrService) 
   {   }
 
     //univerzalne fje
@@ -214,7 +216,7 @@ export class UserProfileComponent implements OnInit {
 
   cbSuccessEditedData(){
     console.log("SUCCESSFULLY EDITED DATA");
-    alert("Uspesno ste izmenili podatke");
+    this.toastr.success("You have successfully edited your data!", 'User data change');
   }
 
   cbNotEditedData(){
