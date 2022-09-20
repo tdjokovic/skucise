@@ -40,9 +40,9 @@ export class ReservationService {
         );
     }
 
-    getReservationsForUser(id : number, self?: any, cbSuccess?: Function){
+    getReservationsForUser(id : number, is_new : boolean, is_accepted: boolean, self?: any, cbSuccess?: Function){
         console.log("Getting reservations for user");
-        this.api.getReservationsForUser(id).subscribe(
+        this.api.getReservationsForUser(id, is_new, is_accepted).subscribe(
             (response) => {
                 if(response.body != null){
                     console.log("RESEVATIONS FOR USER");

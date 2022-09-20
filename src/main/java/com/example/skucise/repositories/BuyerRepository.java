@@ -28,7 +28,7 @@ public class BuyerRepository implements IBuyerRepository {
     private static final String PROPERTIES_BUYER_APPLIED_STORED_PROCEDURE = "{call get_properties_buyer_applied_on(?)}";
     private static final String TAG_STORED_PROCEDURE = "{call get_tags_for_a_property(?)}";
 
-    @Value("jdbc:mariadb://localhost:3307/skucise")
+    @Value("jdbc:mariadb://localhost:3306/skucise")
     private String databaseSourceUrl;
 
     @Value("root")

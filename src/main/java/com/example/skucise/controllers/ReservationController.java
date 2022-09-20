@@ -82,11 +82,13 @@ public class ReservationController {
         return ResponseEntity.status(httpStatus).headers(responseHeaders).body(reservationsByUser);
     }
 
-    @GetMapping("{id}")
+    @GetMapping("{id}/{is_new}/{is_accepted}")
     public ResponseEntity<List<Reservation>> getReservationsForUser(@RequestHeader(JWT_CUSTOM_HTTP_HEADER) String jwt,
                                                                     @PathVariable("id")
                                                                     @Min( 1 )
-                                                                    @Max( Integer.MAX_VALUE ) int id)
+                                                                    @Max( Integer.MAX_VALUE ) int id,
+                                                                    @PathVariable("is_new") boolean is_new,
+                                                                    @PathVariable("is_accepted") boolean is_accepted)
     {
         List<Reservation> reservationsForUser = null;
 
@@ -108,7 +110,7 @@ public class ReservationController {
             return ResponseEntity.status(httpStatus).headers(responseHeaders).body(null);
         }
 
-        reservationsForUser = reservationService.getReservationsForUser(id);
+        reservationsForUser = reservationService.getReservationsForUser(id, is_new, is_accepted);
 
 
         return ResponseEntity.status(httpStatus).headers(responseHeaders).body(reservationsForUser);
@@ -133,14 +135,16 @@ public class ReservationController {
 
         int userId =(int)(double) resultPair.getClaims().get(USER_ID_CLAIM_NAME);
 
+        LOGGER.info("Dovlacim rezervaciju sa id-jem " + id);
         Reservation r = reservationService.get(id);
-        //MORA DA SE PREPRAVI DA MOZE DA DOBIJE KORISNIKA !!!
+
         LOGGER.info("Vlasnik oglasa je " + r.getProperty().getSellerUser().getId());
-        if (userId != r.getProperty().getSellerUser().getId())
-        {
+        if (userId != r.getProperty().getSellerUser().getId() || r.getIsApproved() != 0) //ne moze one koje nisu njegove
+        {                                                                                //i one koje su vec odobrene
             httpStatus = HttpStatus.FORBIDDEN;
             return ResponseEntity.status(httpStatus).headers(responseHeaders).body(null);
         }
+
 
         boolean approveResponseSuccessfull = reservationService.approveReservation(userId,id,approved);
 

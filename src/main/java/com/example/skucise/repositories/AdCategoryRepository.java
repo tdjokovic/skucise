@@ -15,7 +15,7 @@ public class AdCategoryRepository implements IAdCategoryRepository {
 
     private static final String AD_CATEGORY_STORED_PROCEDURE_CALL = "{call get_all_ad_categories()}";
 
-    @Value("jdbc:mariadb://localhost:3307/skucise")
+    @Value("jdbc:mariadb://localhost:3306/skucise")
     private String databaseSourceUrl;
 
     @Value("root")

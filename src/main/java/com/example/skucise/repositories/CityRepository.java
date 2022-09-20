@@ -14,7 +14,7 @@ public class CityRepository implements ICityRepository {
 
     private static final String CITY_STORED_PROCEDURE_CALL = "{call get_all_cities()}";
 
-    @Value("jdbc:mariadb://localhost:3307/skucise")
+    @Value("jdbc:mariadb://localhost:3306/skucise")
     private String databaseSourceUrl;
 
     @Value("root")

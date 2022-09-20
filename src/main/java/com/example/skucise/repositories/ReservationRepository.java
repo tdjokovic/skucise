@@ -21,7 +21,9 @@ public class ReservationRepository implements IReservationRepository {
     private static final String POST_RESERVATION_STORED_PROCEDURE = "{call post_reservation(?,?,?,?,?)}";
     private static final String GET_RESERVATIONS_STORED_PROCEDURE = "{call get_reservations_by_user(?)}";
     private static final String GET_RESERVATIONS_FOR_USER_STORED_PROCEDURE = "{call get_reservations_for_user(?)}";
+    private static final String GET_RESERVATIONS_OLDER_STORED_PROCEDURE = "{call get_reservations_for_user_older(?)}";
 
+    private static final String GET_ACCEPTED_RESERVATIONS_STORED_PROCEDURE = "{call get_accepted_reservations(?)}";
     private static final String APPROVE_RESERVATION_STORED_PROCEDURE = "{call approve_reservation(?,?,?)}";
 
     @Value("jdbc:mariadb://localhost:3306/skucise")
@@ -34,10 +36,12 @@ public class ReservationRepository implements IReservationRepository {
     private String databasePassword;
 
     private final UserRepository userRepository;
+    private final PropertyRepository propertyRepository;
 
     @Autowired
-    public ReservationRepository(UserRepository userRepository){
+    public ReservationRepository(UserRepository userRepository, PropertyRepository propertyRepository){
         this.userRepository = userRepository;
+        this.propertyRepository = propertyRepository;
     }
 
     @Override
@@ -94,22 +98,36 @@ public class ReservationRepository implements IReservationRepository {
     }
 
     @Override
-    public List<Reservation> getReservationsForUser(int user_id) {
+    public List<Reservation> getReservationsForUser(int user_id, boolean is_new, boolean is_accepted) {
+
         List<Reservation> reservations = new ArrayList<Reservation>();
 
         Reservation reservation = null;
 
+        String procedure;
+
+        if (is_new && !is_accepted)
+        {
+            procedure = GET_RESERVATIONS_FOR_USER_STORED_PROCEDURE;
+        }
+        else if (is_new  && is_accepted){
+            procedure = GET_ACCEPTED_RESERVATIONS_STORED_PROCEDURE;
+        }
+        else{
+            procedure = GET_RESERVATIONS_OLDER_STORED_PROCEDURE;
+        }
+
         LOGGER.info("Trying to find reservations for user with id {}", user_id);
 
         try(Connection conn = DriverManager.getConnection(databaseSourceUrl, databaseUsername, databasePassword);
-            CallableStatement stmt = conn.prepareCall(GET_RESERVATIONS_FOR_USER_STORED_PROCEDURE)){
+            CallableStatement stmt = conn.prepareCall(procedure)){
 
             stmt.setInt("r_user_id", user_id);
             ResultSet resultSet = stmt.executeQuery();
 
             while(resultSet.next()){
                 reservation = setNewReservation(resultSet, true);
-                LOGGER.info("Reservaton id {}", reservation.getId());
+                LOGGER.info("Rezervacija sa id-jem {}", reservation.getId());
 
                 reservations.add(reservation);
             }
@@ -130,6 +148,7 @@ public class ReservationRepository implements IReservationRepository {
     }
     @Override
     public Reservation setNewReservation(ResultSet resultSet, boolean getUser) throws SQLException {
+
         Reservation reservation = new Reservation();
 
         reservation.setId(resultSet.getInt("id"));
@@ -149,16 +168,24 @@ public class ReservationRepository implements IReservationRepository {
         city.setId(resultSet.getInt("city_id"));
         city.setName(resultSet.getString("city_name"));
 
+        SellerUser seller = new SellerUser();
+        seller.setId(resultSet.getInt("seller_id"));
+        seller.setFirstName(resultSet.getString("first_name"));
+        seller.setLastName(resultSet.getString("last_name"));
+        seller.setPicture(resultSet.getString("picture"));
+        seller.setTin(resultSet.getString("tin"));
+        seller.setPhoneNumber(resultSet.getString("phone_number"));
+
         Property property = new Property();
         property.setId(resultSet.getInt("property_id"));
         property.setPostingDate(resultSet.getObject("post_date", LocalDateTime.class));
-        property.setPrice(resultSet.getString("price"));
+        property.setPrice(resultSet.getInt("price"));
         property.setArea(resultSet.getString("area"));
         property.setPicture(resultSet.getString("property_picture"));
         property.setCity(city);
         property.setAdCategory(adCategory);
         property.setType(type);
-        property.setSellerUser(null);
+        property.setSellerUser(seller);
 
         reservation.setProperty(property);
 
@@ -180,6 +207,8 @@ public class ReservationRepository implements IReservationRepository {
 
         BuyerUser buyer = this.userRepository.getAsBuyer(user_id);
 
+        LOGGER.info("Dovukao sam kupca sa imenom" + buyer.getFirstName());
+
         reservation.setBuyer(buyer);
 
     }
@@ -200,11 +229,11 @@ public class ReservationRepository implements IReservationRepository {
             else{
                 stmt.setInt("r_approved",-1);
             }
-            stmt.registerOutParameter("r_approved_successfully", Types.BOOLEAN);
+            stmt.registerOutParameter("r_approve_successfully", Types.BOOLEAN);
 
             stmt.executeUpdate();
 
-            approvalSuccess = stmt.getBoolean("p_approved_successfully");
+            approvalSuccess = stmt.getBoolean("r_approve_successfully");
 
 
         }catch(SQLException e){

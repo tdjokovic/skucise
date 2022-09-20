@@ -36,7 +36,7 @@ public class PropertyRepository implements IPropertyRepository {
     private static final String RECALL_LIKE_STORED_PROCEDURE = "{call recall_like(?,?,?)}";
 
 
-    @Value("jdbc:mariadb://localhost:3307/skucise")
+    @Value("jdbc:mariadb://localhost:3306/skucise")
     private String databaseSourceUrl;
 
     @Value("root")
@@ -218,6 +218,7 @@ public class PropertyRepository implements IPropertyRepository {
         return false;
     }
 
+    //IZBRISI I REZERVACIJE!
     @Override
     public boolean delete(Integer id) {
         boolean deleteSuccess = false;
@@ -634,10 +635,10 @@ public class PropertyRepository implements IPropertyRepository {
 
             if(resultSet.first()){
 
-                resultSet.getInt("")
-                property = new Property();
-                property = setNewProperty(resultSet, stmtTag);
-                LOGGER.info("Property id {}, seller id {}, city id {}, price {}", property.getId(), property.getSellerUser().getId(), property.getCity().getId(), property.getPrice());
+                resultSet.getInt("");
+                //property = new Property();
+                //property = setNewProperty(resultSet, stmtTag);
+                //LOGGER.info("Property id {}, seller id {}, city id {}, price {}", property.getId(), property.getSellerUser().getId(), property.getCity().getId(), property.getPrice());
             }
         }catch (SQLException e){
             LOGGER.error("Error while trying to communicate with the database - get");

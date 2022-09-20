@@ -24,9 +24,9 @@ export class ReservationApiService {
         )
     }
 
-    getReservationsForUser(id : number) : Observable<HttpResponse<Reservation[]>>{
+    getReservationsForUser(id : number, is_new: boolean, is_accepted : boolean) : Observable<HttpResponse<Reservation[]>>{
         return this.http.get<Reservation[]>(
-            this.url + `/${id}`,
+            this.url + `/${id}/${is_new}/${is_accepted}`,
             {
                 observe:'response',
                 headers: HeaderUtil.jwtOnlyHeaders()
@@ -47,8 +47,8 @@ export class ReservationApiService {
     approveReservation(id : number, approved: boolean) : Observable<HttpResponse<null>>
     {
         return this.http.put<null>(
-            this.url+ `/id=${id}`,
-            {approved},
+            this.url + `/${id}`,
+            approved,
             {
                 observe: 'response',
                 headers: HeaderUtil.jwtOnlyHeaders()

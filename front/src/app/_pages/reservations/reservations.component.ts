@@ -16,8 +16,12 @@ export class ReservationsComponent implements OnInit {
   rbmShow : Reservation[] = [];
   reservationsForMe : Reservation[] = [];
   rfmShow : Reservation[] = [];
+  olderReservations : Reservation[] = [];
   activeReservationsByMe : boolean = true;
   activeReservationsForMe : boolean = false;
+  openedReservationsForMe : boolean = true;
+  openedOlderReservations : boolean = false;
+  openedAcceptedReservations : boolean = false;
   isActive : string = "byMe";
 
   public currentPageRbm: number = 1;
@@ -27,7 +31,7 @@ export class ReservationsComponent implements OnInit {
   public totalPagesArrayRbm : number [] = [];
   public totalPagesNumRfm: number = 0 ;
   public totalPagesArrayRfm : number [] = [];
-  public reservationsPerPage: number = 6;
+  public reservationsPerPage: number = 3;
 
   constructor(private activatedRoute : ActivatedRoute,
     private authorizationService : AuthorizeService,
@@ -40,8 +44,8 @@ export class ReservationsComponent implements OnInit {
         self.pageLoaded = true;
         
         
-        this.reservationService.getReservationsByUser(this,this.cbSuccessReservationsByUser);
-        self.reservationService.getReservationsForUser(JWTUtil.getID(),self,self.cbSuccessReservationsForUser);
+        self.reservationService.getReservationsByUser(self,self.cbSuccessReservationsByUser);
+        self.reservationService.getReservationsForUser(JWTUtil.getID(),true,false,self,self.cbSuccessReservationsForUser);
         
       }
     )
@@ -61,10 +65,36 @@ export class ReservationsComponent implements OnInit {
     this.activeReservationsForMe = true;
     
   }
+  getOlderReservations()
+  {
+    this.openedReservationsForMe = false;
+    this.openedAcceptedReservations = false;
+    this.openedOlderReservations = true;
+    
+    this.reservationService.getReservationsForUser(JWTUtil.getID(),false,false,this,this.cbSuccessReservationsForUser);
+  }
+  getReservationsForMe()
+  {
+    this.openedOlderReservations = false;
+    this.openedAcceptedReservations = false;
+    this.openedReservationsForMe = true;
+    
+    this.reservationService.getReservationsForUser(JWTUtil.getID(),true,false,this,this.cbSuccessReservationsForUser);
+  }
+
+  getAcceptedReservations()
+  {
+    this.openedReservationsForMe = false;
+    this.openedOlderReservations = false;
+    this.openedAcceptedReservations = true;
+    
+    this.reservationService.getReservationsForUser(JWTUtil.getID(),true,true,this,this.cbSuccessReservationsForUser);
+
+  }
+
   cbSuccessReservationsByUser(self: any, reservations : any)
   {
     self.reservationsByMe = reservations;
-    //console.log(self.reservationsByMe);
 
     self.rbmShow = reservations.slice(0, self.reservationsPerPage);
 
@@ -84,6 +114,7 @@ export class ReservationsComponent implements OnInit {
 
     self.totalRfmNum = reservations.length;
     self.totalPagesNumRfm = Math.ceil(self.totalRfmNum / self.reservationsPerPage);
+    self.totalPagesArrayRfm = [];
     for(let i = 1; i<=self.totalPagesNumRfm ; i ++ ){
       self.totalPagesArrayRfm.push(i);
     }
