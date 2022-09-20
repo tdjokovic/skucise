@@ -39,7 +39,6 @@ import { BuyerInfoCardComponent } from './_pages/buyer-info/buyer-info-card/buye
 import { PropertySingleComponent } from './_pages/property-single/property-single.component';
 import { MyPropertiesComponent } from './_pages/my-properties/my-properties.component';
 import { BackgroundImageComponent } from './background-image/background-image.component';
-import { MyPropertyComponent } from './_pages/my-properties/my-property/my-property.component';
 import { AddPropertyFormComponent } from './_pages/my-properties/add-property-form/add-property-form.component';
 import { ReservationsComponent } from './_pages/reservations/reservations.component';
 import { DashboardComponent } from './_pages/dashboard/dashboard.component';
@@ -84,7 +83,6 @@ import { UserProfileComponent } from './_pages/user-profile/user-profile.compone
     PropertySingleComponent,
     MyPropertiesComponent,
     BackgroundImageComponent,
-    MyPropertyComponent,
     AddPropertyFormComponent,
     ReservationsComponent,
     DashboardComponent,

@@ -16,7 +16,7 @@ export class PropertyComponent implements OnInit {
   @Input() additionalOptions : boolean = false;
   defPropertyPic : string = DEFAULT_PROPERTY_PICTURE;
   postingDate : Date | null = null;
-  isDeleted : boolean = false;
+  failedDeletion : boolean = false;
 
   constructor(private propertyService : PropertyService) { }
 
@@ -29,7 +29,7 @@ export class PropertyComponent implements OnInit {
   {
     if (this.additionalOptions)
     {
-      this.propertyService.deleteProperty(this.property.id!,this,this.cbSuccess);
+      this.propertyService.deleteProperty(this.property.id!,this,this.cbSuccess,this.cbFail);
     }
 
   }
@@ -42,5 +42,9 @@ export class PropertyComponent implements OnInit {
   {
     window.location.reload();
 
+  }
+  cbFail(self :any)
+  {
+    self.failedDeletion = true;
   }
 }

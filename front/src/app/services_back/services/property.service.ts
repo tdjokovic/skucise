@@ -130,7 +130,7 @@ export class PropertyService{
         );
     }
 
-    deleteProperty(id : number, self?: any, cbSuccess?: Function){
+    deleteProperty(id : number, self?: any, cbSuccess?: Function, cbFail? : Function){
         this.api.deleteProperty(id).subscribe(
             (response) => {
                 console.log("Property deleted ", response.status);
@@ -139,6 +139,7 @@ export class PropertyService{
             },
             (error : HttpErrorResponse) => {
                 this.authService.redirectIfSessionExpired(error.status);
+                if (self && cbFail) cbFail(self);
             }
         );
     }
