@@ -1,7 +1,7 @@
 import { Component, Injectable, OnInit } from '@angular/core';
 import { ActivatedRoute, Route, Router } from '@angular/router';
 import { UserRoles } from 'src/app/services_back/back/types/enums';
-import { Buyer, NewUserData, Seller } from 'src/app/services_back/back/types/interfaces';
+import { Buyer, NewUserData, Property, Seller } from 'src/app/services_back/back/types/interfaces';
 import { JWTUtil } from 'src/app/services_back/helpers/jwt_helper';
 import { AuthorizeService } from 'src/app/services_back/services/authorize.service';
 import { BuyerService } from 'src/app/services_back/services/buyer.service';
@@ -42,6 +42,15 @@ export class UserProfileComponent implements OnInit {
 
   public id : number = 0;
   public user : Seller | Buyer | null = null;
+
+  public currentPage: number = 1;
+  public totalPropertiesNum: number = 0
+  public totalPagesNum: number = 0 ;
+  public totalPagesArray : number [] = [];
+  public propertiesPerPage: number = 6;
+
+  propertiesBySeller : Property[] = [];
+  propertiesToShow : Property[] = [];
 
 
   constructor(private authorizationService : AuthorizeService,
@@ -150,6 +159,7 @@ export class UserProfileComponent implements OnInit {
     this.checkAccess();
     this.id = this.activatedRoute.snapshot.paramMap.get("id") as unknown as number;
     this.fetchUserData();
+  
   }
 
   fetchUserData(){
@@ -165,6 +175,37 @@ export class UserProfileComponent implements OnInit {
     )
   }
 
+  cbSuccessProperty(self:any, properties? : Property[]){
+    if(properties){
+      console.log("Success fetching properties");
+      self.propertiesBySeller = properties;
+      self.propertiesToShow = properties.slice(0, self.propertiesPerPage);
+      console.log(self.propertiesToShow);
+      self.totalPropertiesNum = properties.length;
+      self.totalPagesNum = Math.ceil(self.totalPropertiesNum / self.propertiesPerPage);
+      for(let i = 1; i<=self.totalPagesNum ; i ++ ){
+        self.totalPagesArray.push(i);
+      }
+      console.log("properties set");
+      console.log(self.propertiesBySeller);
+    }
+  }
+
+  changePage(p:number){
+
+    let startIndex = (p-1) * this.propertiesPerPage;
+    let endIndex = startIndex + this.propertiesPerPage
+    this.propertiesToShow = this.propertiesBySeller.slice(startIndex, endIndex);
+    this.currentPage = p;
+
+    document.getElementById('listaKorisnikovihOglasa')?.scrollIntoView({
+      behavior: "smooth",
+      block: "start",
+      inline: "nearest"
+    })
+  }
+
+
 
   isMe(){
     
@@ -173,6 +214,10 @@ export class UserProfileComponent implements OnInit {
     }
 
     return false;
+  }
+
+  isVisitor(){
+    return JWTUtil.getRole() == UserRoles.Visitor;
   }
 
   fillData(){
@@ -261,6 +306,7 @@ export class UserProfileComponent implements OnInit {
       self.userType = 'seller';
       //podesi podatke koji su pronadjeni
       self.fillData();
+      self.sellerService.getSellersProperties(self.id,self,self.cbSuccessProperty);
     }
   }
 
@@ -287,6 +333,10 @@ export class UserProfileComponent implements OnInit {
 
   isAdmin(){
     return JWTUtil.getRole() == UserRoles.Admin;
+  }
+
+  isBuyer(){
+    return JWTUtil.getRole() == UserRoles.Reg_buyer;
   }
 
 }

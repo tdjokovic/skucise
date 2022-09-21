@@ -224,6 +224,7 @@ export class PropertiesComponent implements OnInit {
 
   nextPage(){
     if(this.currentPage >= this.totalPagesNum){
+      alert("next page");
       this.currentPage = this.totalPagesNum;
       return;
     }

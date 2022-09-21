@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { UserRoles } from 'src/app/services_back/back/types/enums';
 import { Property } from 'src/app/services_back/back/types/interfaces';
 import { JWTUtil } from 'src/app/services_back/helpers/jwt_helper';
 import { SellerService } from 'src/app/services_back/services/seller.service';
-import { ViewportScroller } from '@angular/common';
-import { UserRoles } from 'src/app/services_back/back/types/enums';
 
 @Component({
   selector: 'app-my-properties',
@@ -18,7 +17,7 @@ export class MyPropertiesComponent implements OnInit {
   public totalPagesArray : number [] = [];
   public propertiesPerPage: number = 6;
 
-  constructor(private sellerService: SellerService, private viewportScroller : ViewportScroller) { }
+  constructor(private sellerService: SellerService) { }
   
   newPropModal : boolean = false;
 
@@ -55,10 +54,16 @@ export class MyPropertiesComponent implements OnInit {
     let endIndex = startIndex + this.propertiesPerPage
     this.propertiesToShow = this.propertiesBySeller.slice(startIndex, endIndex);
     this.currentPage = p;
-    this.viewportScroller.scrollToAnchor('my_property_begining')
-  }
-  isBuyer():boolean{
-    return JWTUtil.getUserRole() == UserRoles.Reg_buyer;
+
+    document.getElementById('my_property_begining')?.scrollIntoView({
+      behavior: "smooth",
+      block: "start",
+      inline: "nearest"
+    })
   }
 
+
+  isBuyer(){
+    return JWTUtil.getRole() == UserRoles.Reg_buyer;
+  }
 }
