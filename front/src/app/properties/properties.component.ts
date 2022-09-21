@@ -7,7 +7,7 @@ import { AuthorizeService } from '../services_back/services/authorize.service';
 import { CityService } from '../services_back/services/city.service';
 import { PropertyService } from '../services_back/services/property.service';
 import { SellerService } from '../services_back/services/seller.service';
-
+import { ViewportScroller } from '@angular/common';
 @Component({
   selector: 'app-properties',
   templateUrl: './properties.component.html',
@@ -85,7 +85,8 @@ export class PropertiesComponent implements OnInit {
     private adCategoryService : AdCategoryService,
     private adTypeService : AdTypesService,
     private cityService : CityService,
-    private sellerService : SellerService) { }
+    private sellerService : SellerService,
+    private viewportScroller: ViewportScroller) { }
 
   ngOnInit(): void {
 
@@ -208,6 +209,7 @@ export class PropertiesComponent implements OnInit {
         this.previousPage();
       }
     }
+    this.viewportScroller.scrollToAnchor("beggining_container");
   }
 
   nextPage(){

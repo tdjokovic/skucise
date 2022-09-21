@@ -1,3 +1,4 @@
+import { ViewportScroller } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UserRoles } from 'src/app/services_back/back/types/enums';
@@ -6,6 +7,7 @@ import { RedirectRoutes } from 'src/app/services_back/constants/routing.properti
 import { JWTUtil } from 'src/app/services_back/helpers/jwt_helper';
 import { AuthorizeService } from 'src/app/services_back/services/authorize.service';
 import { BuyerService } from 'src/app/services_back/services/buyer.service';
+
 
 @Component({
   selector: 'app-buyer-info',
@@ -21,10 +23,12 @@ export class BuyerInfoComponent implements OnInit {
   constructor(private authorizationService : AuthorizeService,
     private activatedRoute : ActivatedRoute,
     private buyerService : BuyerService,
-    private router : Router) { }
+    private router : Router,
+    private viewport : ViewportScroller) { }
 
     ngOnInit(): void {
       this.checkIsUserAuthorized();
+      this.viewport.scrollToAnchor('top_container')
     }
   
     checkIsUserAuthorized(){

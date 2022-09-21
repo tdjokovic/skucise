@@ -1,3 +1,4 @@
+import { ViewportScroller } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { UserRoles } from 'src/app/services_back/back/types/enums';
@@ -38,10 +39,12 @@ export class PropertySingleComponent implements OnInit {
   constructor(private activatedRoute : ActivatedRoute,
     private authorizationService : AuthorizeService,
     private propertyService : PropertyService,
-    private reservationService : ReservationService) { }
+    private reservationService : ReservationService,
+    private viewportScroller : ViewportScroller) { }
 
   ngOnInit(): void {
     this.checkIsUserAuthorized();
+    this.viewportScroller.scrollToAnchor('single_section');
   }
 
   checkIsUserAuthorized(){

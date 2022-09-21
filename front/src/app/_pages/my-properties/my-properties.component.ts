@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Property } from 'src/app/services_back/back/types/interfaces';
 import { JWTUtil } from 'src/app/services_back/helpers/jwt_helper';
 import { SellerService } from 'src/app/services_back/services/seller.service';
+import { ViewportScroller } from '@angular/common';
 
 @Component({
   selector: 'app-my-properties',
@@ -16,7 +17,7 @@ export class MyPropertiesComponent implements OnInit {
   public totalPagesArray : number [] = [];
   public propertiesPerPage: number = 6;
 
-  constructor(private sellerService: SellerService) { }
+  constructor(private sellerService: SellerService, private viewportScroller : ViewportScroller) { }
   
   newPropModal : boolean = false;
 
@@ -53,6 +54,7 @@ export class MyPropertiesComponent implements OnInit {
     let endIndex = startIndex + this.propertiesPerPage
     this.propertiesToShow = this.propertiesBySeller.slice(startIndex, endIndex);
     this.currentPage = p;
+    this.viewportScroller.scrollToAnchor('my_property_begining')
   }
 
 }

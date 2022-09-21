@@ -4,6 +4,7 @@ import { Reservation } from 'src/app/services_back/back/types/interfaces';
 import { JWTUtil } from 'src/app/services_back/helpers/jwt_helper';
 import { AuthorizeService } from 'src/app/services_back/services/authorize.service';
 import { ReservationService } from 'src/app/services_back/services/reservation.service';
+import { ViewportScroller } from '@angular/common';
 
 @Component({
   selector: 'app-reservations',
@@ -35,7 +36,8 @@ export class ReservationsComponent implements OnInit {
 
   constructor(private activatedRoute : ActivatedRoute,
     private authorizationService : AuthorizeService,
-    private reservationService:ReservationService) { }
+    private reservationService:ReservationService,
+    private viewportScroller: ViewportScroller) { }
 
 
   ngOnInit(): void {
@@ -118,6 +120,8 @@ export class ReservationsComponent implements OnInit {
     for(let i = 1; i<=self.totalPagesNumRfm ; i ++ ){
       self.totalPagesArrayRfm.push(i);
     }
+
+    self.viewportScroller.scrollToAnchor('top_container');
   }
 
   changePage(p:number, indicator : boolean){
@@ -134,6 +138,8 @@ export class ReservationsComponent implements OnInit {
       this.rfmShow = this.reservationsForMe.slice(startIndex,endIndex);
       this.currentPageRfm = p;
     }
+
+    this.viewportScroller.scrollToAnchor('top_container');
   }
 
 }
