@@ -56,24 +56,26 @@
                       </div>
                   </div>
               </div>
-              <div class="row align-items-center justify-content-center">
-                <div class="col-4">
-                  <button class="btn btn-sm flex-fill btn-secondary">
-                      <a class="nav-link link-light" *ngIf="openedReservationsForMe || openedAcceptedReservations" aria-current="page" (click)="getOlderReservations()">Prošle rezervacije</a>
-                      <a class="nav-link link-light" *ngIf="openedOlderReservations" aria-current="page" (click)="getReservationsForMe()">Rezervacije za odobravanje</a>   
-                    </button> 
-                </div>
-                <div class="col-4">
-                  <button class="btn btn-sm flex-fill btn-secondary ">
-                      <a class="nav-link link-light" *ngIf="openedReservationsForMe || openedOlderReservations" aria-current="page" (click)="getAcceptedReservations()">Zakazane rezervacije</a>
-                      <a class="nav-link link-light" *ngIf="openedAcceptedReservations" aria-current="page" (click)="getReservationsForMe()">Rezervacije za odobravanje</a>     
-                  </button> 
-                </div>
-              </div>
           </div>
     
             <div *ngIf="reservationsForMe.length==0" class="container">
-                Trenutno nemate ni jednu rezervaciju koju treba odobriti.
+              <p *ngIf="openedReservationsForMe">Trenutno nemate ni jednu rezervaciju koju treba odobriti.</p>
+              <p *ngIf="openedOlderReservations">Nemate ni jednu prošlu rezervaciju</p>
+              <p *ngIf="openedAcceptedReservations">Nemate ni jednu zakazanu rezervaciju</p>
+            </div>
+            <div class="row align-items-center justify-content-center">
+              <div class="col-4">
+                <button class="btn btn-sm flex-fill btn-secondary">
+                    <a class="nav-link link-light" *ngIf="openedReservationsForMe || openedAcceptedReservations" aria-current="page" (click)="getOlderReservations()">Prošle rezervacije</a>
+                    <a class="nav-link link-light" *ngIf="openedOlderReservations" aria-current="page" (click)="getReservationsForMe()">Rezervacije za odobravanje</a>   
+                  </button> 
+              </div>
+              <div class="col-4">
+                <button class="btn btn-sm flex-fill btn-secondary ">
+                    <a class="nav-link link-light" *ngIf="openedReservationsForMe || openedOlderReservations" aria-current="page" (click)="getAcceptedReservations()">Zakazane rezervacije</a>
+                    <a class="nav-link link-light" *ngIf="openedAcceptedReservations" aria-current="page" (click)="getReservationsForMe()">Rezervacije za odobravanje</a>     
+                </button> 
+              </div>
             </div>
 
         </div>

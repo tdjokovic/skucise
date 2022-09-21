@@ -131,8 +131,8 @@ export class ReservationsComponent implements OnInit {
       this.currentPageRbm = p;
     }
     else{
-      this.rfmShow = this.reservationsForMe.splice(startIndex,endIndex);
-      this.currentPageRbm = p;
+      this.rfmShow = this.reservationsForMe.slice(startIndex,endIndex);
+      this.currentPageRfm = p;
     }
   }
 
