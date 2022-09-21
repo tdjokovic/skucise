@@ -31,9 +31,9 @@ const routes: Routes = [
   {path:'my-properties', component:MyPropertiesComponent, data:{ allowedRoles: [UserRoles.Admin, UserRoles.Reg_seller, UserRoles.Reg_buyer]}},
   {path:'reservations', component:ReservationsComponent, data:{ allowedRoles: [UserRoles.Admin, UserRoles.Reg_seller, UserRoles.Reg_buyer]}},
 
-  { path: 'buyer/:id', component: BuyerInfoComponent, data: { allowedRoles: [UserRoles.Admin, UserRoles.Reg_seller, UserRoles.Reg_buyer] }},
+  { path: 'buyer/:id', component: UserProfileComponent, data: { allowedRoles: [UserRoles.Admin, UserRoles.Reg_seller, UserRoles.Reg_buyer] }},
   //{ path: 'buyers', component: ApplicantsPageComponent,       data: { allowedRoles: [UserRoles.Admin] }},
-  { path: 'seller/:id', component: SellerInfoComponent,   data: { allowedRoles: [] }},
+  { path: 'seller/:id', component: UserProfileComponent,   data: { allowedRoles: [] }},
   //{ path: 'sellers', component: EmployersPageComponent,         data: { allowedRoles: [] }},
   
   {path:'login', component:LoginComponent,           data: { allowedRoles: [UserRoles.Visitor]}}, //samo on moze da se loguje

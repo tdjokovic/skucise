@@ -104,7 +104,7 @@ export class PropertyService{
         );
     }
 
-    createProperty(propertyData : Property, self?: any, cbSuccess?: Function){
+    createProperty(propertyData : Property, self?: any, cbSuccess?: Function, cbError?:Function){
         this.api.createProperty(propertyData).subscribe(
             (response) => {
                 console.log("Property created ", response.status);
@@ -112,7 +112,10 @@ export class PropertyService{
                 if(self && cbSuccess) cbSuccess(self);
             },
             (error : HttpErrorResponse) => {
+                if(self && cbError) cbError(self);
+
                 this.authService.redirectIfSessionExpired(error.status);
+                
             }
         );
     }

@@ -1,6 +1,7 @@
 package com.example.skucise.services;
 
 import com.example.skucise.models.BuyerUser;
+import com.example.skucise.models.NewUserData;
 import com.example.skucise.models.Property;
 import com.example.skucise.repositories.BuyerRepository;
 import com.example.skucise.services.interfaces.IBuyerService;
@@ -57,5 +58,10 @@ public class BuyerService implements IBuyerService {
     @Override
     public List<Property> getAppliedProperties(int id) {
         return buyerRepository.getAppliedProperties(id);
+    }
+
+    @Override
+    public boolean editData(int id, NewUserData data) {
+        return buyerRepository.editData(id, data);
     }
 }

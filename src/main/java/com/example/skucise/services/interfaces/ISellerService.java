@@ -1,5 +1,6 @@
 package com.example.skucise.services.interfaces;
 
+import com.example.skucise.models.NewUserData;
 import com.example.skucise.models.Property;
 import com.example.skucise.models.Rating;
 import com.example.skucise.models.SellerUser;
@@ -17,4 +18,5 @@ public interface ISellerService {
     public List<Property> getPostedProperties(int id);
     public Rating getRating(int sellerId, int buyerId, boolean isApplicant);
     public boolean rate(int sellerId, int buyerId, byte feedbackValue);
+    public boolean editData(int id, NewUserData newData);
 }

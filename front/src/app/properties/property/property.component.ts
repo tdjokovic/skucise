@@ -31,9 +31,8 @@ export class PropertyComponent implements OnInit {
     {
       this.propertyService.deleteProperty(this.property.id!,this,this.cbSuccess);
     }
-
+    
   }
-  
   isAdmin(): boolean{
     return JWTUtil.getUserRole() == UserRoles.Admin;
   }

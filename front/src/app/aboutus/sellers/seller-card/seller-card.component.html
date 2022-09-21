@@ -1,6 +1,6 @@
 <div class="testimonial" style="text-align: center;">
-    <img *ngIf="data.picture != null" src="{{data.picture}}" style="max-height:300px;max-width:fit-content;" alt="image" class="img-fluid rounded-circle w-25 mb-4">
-    <img *ngIf="data.picture == null" src="{{defProfilePic}}" style="max-height:300px;max-width:fit-content;" alt="defImage" class="img-fluid rounded-circle w-25 mb-4">
+    <img *ngIf="data.picture != null" src="{{data.picture}}" style="width: 80%;height: 15vh;object-fit: cover;" alt="image" class="img-fluid rounded-circle w-25 mb-4">
+    <img *ngIf="data.picture == null" src="{{defProfilePic}}" style="width: 80%;height: 15vh;object-fit: cover;" alt="defImage" class="img-fluid rounded-circle w-25 mb-4">
     <h3 class="h5 text-primary">{{data.firstName}} {{data.lastName}}</h3>
     <p class="text-black-50">{{data.email}}</p>
 

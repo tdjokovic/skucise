@@ -1,6 +1,7 @@
 package com.example.skucise.services.interfaces;
 
 import com.example.skucise.models.BuyerUser;
+import com.example.skucise.models.NewUserData;
 import com.example.skucise.models.Property;
 
 import java.util.List;
@@ -19,4 +20,6 @@ public interface IBuyerService {
     public boolean delete(int id);
 
     public List<Property> getAppliedProperties(int id);
+
+    public boolean editData(int id, NewUserData data);
 }

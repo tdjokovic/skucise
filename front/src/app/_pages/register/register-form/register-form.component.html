@@ -44,8 +44,8 @@
                 </div>
                 <div class="row m-3">
                     <div class="col">
-                        <input [(ngModel)]="bPicture" type="file" id="buyerPicture" name="buyerPicture" class="form-control" (input)="buyerPictureValidation()">
-                        <p *ngIf="bWrongPicture" class="small fw-bold text-danger">Slika je prevelika. Dozvoljen opseg je 4kB - 45kB</p>
+                        <input [(ngModel)]="bPicture" type="file" id="buyerPicture" accept=".jpg,.png,.webp" name="buyerPicture" class="form-control" (input)="buyerPictureValidation()">
+                        <p *ngIf="bWrongPicture" class="small fw-bold text-danger">Slika je prevelika. Dozvoljen opseg je 4kB - 200kB</p>
                     </div>
                     <div class="col">
                         <input type="button" class="btn btn-primary move-right" value="Registruj se" (click)="buyerValidation()"> 
@@ -98,8 +98,8 @@
                 </div>
                 <div class="row m-3">
                     <div class="col">
-                        <input [(ngModel)]="sPicture" type="file" id="sellerPicture" name="sellerPicture" class="form-control" (input)="sellerPictureValidation()">
-                        <p *ngIf="sWrongPicture" class="small fw-bold text-danger">Slika je prevelika. Dozvoljen opseg je 4kB - 45kB</p>
+                        <input [(ngModel)]="sPicture" type="file" accept=".jpg,.png,.webp" id="sellerPicture" name="sellerPicture" class="form-control" (input)="sellerPictureValidation()">
+                        <p *ngIf="sWrongPicture" class="small fw-bold text-danger">Slika je prevelika. Dozvoljen opseg je 4kB - 200kB</p>
                     </div>
                     <div class="col">
                         <input type="button" class="btn btn-primary move-right" value="Registruj se" (click)="sellerValidation()">

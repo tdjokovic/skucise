@@ -3,6 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
+import { CommonModule } from '@angular/common';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -44,7 +45,11 @@ import { ReservationsComponent } from './_pages/reservations/reservations.compon
 import { DashboardComponent } from './_pages/dashboard/dashboard.component';
 import { ApproveUsersComponent } from './_pages/dashboard/approve-users/approve-users.component';
 import { ApproveUsersCardComponent } from './_pages/dashboard/approve-users/approve-users-card/approve-users-card.component';
+import { ReservationComponent } from './_pages/reservations/reservation/reservation.component';
+import { DatePipe } from '@angular/common';
 import { UserProfileComponent } from './_pages/user-profile/user-profile.component';
+import{BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import{ToastrModule} from 'ngx-toastr';
 
 @NgModule({
   declarations: [
@@ -87,16 +92,20 @@ import { UserProfileComponent } from './_pages/user-profile/user-profile.compone
     DashboardComponent,
     ApproveUsersComponent,
     ApproveUsersCardComponent,
-    UserProfileComponent,
+    ReservationComponent,
+    UserProfileComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     FormsModule,
     RouterModule,
-    HttpClientModule
+    HttpClientModule,
+    CommonModule,
+    BrowserAnimationsModule,
+    ToastrModule.forRoot(),
   ],
-  providers: [],
+  providers: [DatePipe],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -7,14 +7,16 @@
 
     <div class="container" *ngIf="buyer">
         <div class="row justify-content-center align-items-center">
-            <div class="col-lg-9 text-center"  style="background-color:gray">
+            <div class="col-lg-9 text-center"  style="background-color:rgba(242,244,246,0.88);
+            position: relative;
+            top: 10vh;
+            border-radius: 1rem;">
                 <app-buyer-info-card [buyer]="buyer"></app-buyer-info-card>
 
                 <br>
 
-                <h3 *ngIf="isMe()">Moji oglasi</h3>
-                <h3 *ngIf="!isMe() && isAdmin()">Oglasi na koje se prijavio kupac</h3>
-                ...
+                <h3 *ngIf="isMe()"><a [routerLink]="['/my-properties']" class="link-info">Moji oglasi</a></h3>
+                <!--<h3 *ngIf="!isMe() && isAdmin()">Oglasi na koje se prijavio kupac</h3>-->
             </div>
         </div>
     </div>

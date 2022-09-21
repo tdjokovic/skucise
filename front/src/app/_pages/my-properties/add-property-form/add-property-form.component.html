@@ -49,8 +49,8 @@
         </div>
         <div class="row m-3">
             <div class="col-sm">
-                <input [(ngModel)]="picture" type="file" id="propertyPicture" name="propertyPicture" class="form-control" (input)="validationPicture()">
-                <p *ngIf="invalidPicture" class="small fw-bold text-danger">Slika je prevelika. Dozvoljen opseg je 4kB - 45kB</p>
+                <input [(ngModel)]="picture" type="file" accept=".jpg,.png,.webp" id="propertyPicture" name="propertyPicture" class="form-control" (input)="validationPicture()">
+                <p *ngIf="invalidPicture" class="small fw-bold text-danger">Slika je prevelika. Dozvoljen opseg je 4kB - 200kB</p>
             </div>
             <div class="col-sm-2 " style="font-size: 1rem;">
                 <h6>Novogradnja:</h6>

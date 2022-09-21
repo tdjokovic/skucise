@@ -1,9 +1,11 @@
 package com.example.skucise.repositories;
 
+import com.example.skucise.models.BuyerUser;
 import com.example.skucise.models.User;
 import com.example.skucise.repositories.interfaces.IUserRepository;
 import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
 
@@ -17,7 +19,16 @@ public class UserRepository implements IUserRepository {
     private static final Logger LOGGER = LoggerFactory.getLogger(UserRepository.class);
     private static final String GET_USER_PROCEDURE_CALL = "{call get_user(?)}";
 
-    @Value("jdbc:mariadb://localhost:3307/skucise")
+    private final BuyerRepository buyerRepository;
+    private final SellerRepository sellerRepository;
+
+    @Autowired
+    public UserRepository(BuyerRepository buyerRepository, SellerRepository sellerRepository){
+        this.buyerRepository = buyerRepository;
+        this.sellerRepository = sellerRepository;
+    }
+
+    @Value("jdbc:mariadb://localhost:3306/skucise")
     private String databaseSourceUrl;
 
     @Value("root")
@@ -63,6 +74,19 @@ public class UserRepository implements IUserRepository {
         }
 
         return user;
+    }
+
+    @Override
+    public BuyerUser getAsBuyer(Integer id) {
+        BuyerUser buyer = null;
+
+        buyer = this.buyerRepository.get(id);
+
+        if (buyer == null)
+        {
+            buyer = this.sellerRepository.getAsBuyer(id);
+        }
+        return buyer;
     }
 
     @Override

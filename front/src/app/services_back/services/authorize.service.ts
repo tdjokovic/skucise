@@ -82,7 +82,8 @@ export class AuthorizeService {
   }
 
   redirectIfSessionExpired(status:HttpStatusCode){
-
+    if (this.checkIsSessionExpired(status))
+      this.router.navigate([RedirectRoutes.ON_SESSION_EXPIRED]);
   }
 
   isBuyer():boolean{
@@ -91,5 +92,9 @@ export class AuthorizeService {
 
   isSeller():boolean{
     return JWTUtil.getUserRole() == UserRoles.Reg_seller;
+  }
+
+  isAdmin():boolean{
+    return JWTUtil.getUserRole() == UserRoles.Admin;
   }
 }

@@ -41,26 +41,31 @@ export interface Property{
     picture:string | null; //slika u Base64
 }
 
-export interface Seller{
+export interface Reservation{
+    id: number | null;
+    buyer:Buyer | null;
+    property:Property;
+    date:Date;
+    isApproved:number; // 0 - na cekanju , -1 - odbijeno, 1 - prihvaceno
+}
+
+export interface GeneralUser{
     id:number;
-    firstName:string;
-    lastName:string;
     email:string;
     hashedPassword:string;
     picture:string | null; //slika u Base64
     phoneNumber:string;
+}
+export interface Seller extends GeneralUser{
+    firstName:string;
+    lastName:string;
     tin:string;
 }
 
-export interface Buyer{
-    id:number;
+export interface Buyer extends GeneralUser{
     firstName:string;
     lastName:string;
-    email:string;
-    hashedPassword:string;
-    picture:string | null; //slika u Base64
     address:string;
-    phoneNumber:string;
 }
 
 export interface City{
@@ -126,6 +131,13 @@ export interface NewBuyer{
     hashedPassword:string;
     picture:string | null;
     phoneNumber:string;
+}
+
+export interface NewUserData{
+    firstName:String;
+    lastName:string;
+    email:string;
+    phoneNumber: string;
 }
 
 export interface PagedProperty{

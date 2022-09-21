@@ -1,3 +1,64 @@
+<app-header [active]="'reservations'"></app-header>
+
 <app-background-image [heading]="'Rezervacije'" [page]="'Rezervacije'"></app-background-image>
 
-<p>reservations works!</p>
+<div class="pb-5" id="top_container">
+    <div class="container">
+        <ul class="nav nav-pills justify-content-center">
+            <li class="nav-item">
+              <a class="nav-link" aria-current="page" (click)="showReservationsByMe()" [class.active]="isActive === 'byMe'">Status poslatih rezervacija</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" (click)="showReservationsForMe()" [class.active]="isActive === 'forMe'">Rezervacije koje čekaju odobrenje</a>
+            </li>
+          </ul>
+        <br>
+          <!--Status poslatih rezervacija -->
+        <div *ngIf="activeReservationsByMe" class="card p-3">
+          <div *ngIf="reservationsByMe.length>0" class="container">
+              
+            <div class="d-flex flex-column" *ngFor="let r of rbmShow">
+              <app-reservation [reservation]="r" [byUser]="true"></app-reservation>
+            </div>
+
+            <div class="row align-items-center py-5">
+                <div class="col-lg-3">
+                    Pagination ({{currentPageRbm}} of {{totalPagesNumRbm}})
+                </div>
+                <div class="col-lg-6 text-center">
+                    <div class="custom-pagination">
+                        <a *ngFor="let p of totalPagesArrayRbm" [class]="(currentPageRbm == p) ? 'active' : ''" (click)="changePage(p,true)" style="margin:2px">{{p}}</a>
+                    </div>
+                </div>
+            </div>
+          </div>
+    
+          <div *ngIf="reservationsByMe.length==0" class="container">
+              Trenutno nemate ni jednu poslatu rezervaciju.
+          </div>
+        </div>
+
+        <!--Rezervacije koje čekaju odobrenje -->
+        <div *ngIf="activeReservationsForMe" class="card p-3">
+          <div *ngIf="reservationsForMe.length>0" class="container">
+            <div class="d-flex flex-column" *ngFor="let r of rfmShow">
+              <app-reservation [reservation]="r" [byUser]="false"></app-reservation>
+            </div>
+                <div class="row align-items-center py-5">
+                  <div class="col-lg-3">
+                      Pagination ({{currentPageRfm}} of {{totalPagesNumRfm}})
+                  </div>
+                  <div class="col-lg-6 text-center">
+                      <div class="custom-pagination">
+                          <a *ngFor="let p of totalPagesArrayRfm" [class]="(currentPageRfm == p) ? 'active' : ''" (click)="changePage(p, false)" style="margin:2px">{{p}}</a>
+                      </div>
+                  </div>
+              </div>
+          </div>
+    
+            <div *ngIf="reservationsForMe.length==0" class="container">
+                Trenutno nemate ni jednu rezervaciju koju treba odobriti.
+            </div>
+        </div>
+    </div>
+</div>

@@ -21,12 +21,13 @@ public class BuyerRepository implements IBuyerRepository {
     private static final String REGISTER_BUYER_PROCEDURE_CALL = "{call register_buyer(?,?,?,?,?,?,?,?)}";
     private static final String CHECK_IF_APPROVED_STORED_PROCEDURE = "{call check_if_approved(?)}";
     private static final String GET_BUYER_STORED_PROCEDURE = "{call get_buyer(?)}";
-    private static final String APPLICATION_STORED_PROCEDURE = "{call check_application(?,?)}";
+    private static final String RESERVATION_STORED_PROCEDURE = "{call check_reservation(?,?)}";
     private static final String GET_ALL_BUYERS_STORED_PROCEDURE = "{call get_all_buyers(?)}";
     private static final String APPROVE_STORED_PROCEDURE = "{call approve_user(?,?)}";
     private static final String DELETE_STORED_PROCEDURE = "{call delete_user(?,?)}";
     private static final String PROPERTIES_BUYER_APPLIED_STORED_PROCEDURE = "{call get_properties_buyer_applied_on(?)}";
     private static final String TAG_STORED_PROCEDURE = "{call get_tags_for_a_property(?)}";
+    private static final String EDIT_BUYER_STORED_PROCEDURE = "{call edit_buyer_data(?,?,?,?,?,?)}";
 
     @Value("jdbc:mariadb://localhost:3307/skucise")
     private String databaseSourceUrl;
@@ -146,8 +147,10 @@ public class BuyerRepository implements IBuyerRepository {
                     stmtBuyer.setInt("p_id",id);
                     resultSet = stmtBuyer.executeQuery();
 
-                    resultSet.first();
-                    buyerUser = createNewBuyer(resultSet);
+                    if (resultSet.first()){
+                        buyerUser = createNewBuyer(resultSet);
+                    }
+                    else buyerUser = null;
                 }
             }
 
@@ -245,11 +248,38 @@ public class BuyerRepository implements IBuyerRepository {
         return properties;
     }
 
+    @Override
+    public boolean editData(int id, NewUserData data) {
+        boolean isEdited = false;
+
+        try(Connection conn = DriverManager.getConnection(databaseSourceUrl, databaseUsername, databasePassword);
+            CallableStatement stmt = conn.prepareCall(EDIT_BUYER_STORED_PROCEDURE)){
+
+            stmt.setInt("p_id",id);
+            stmt.setString("p_first_name", data.getFirstName());
+            stmt.setString("p_last_name", data.getLastName());
+            stmt.setString("p_email", data.getEmail());
+            stmt.setString("p_phone_number", data.getPhoneNumber());
+            stmt.registerOutParameter("p_edited_successfully", Types.BOOLEAN);
+
+            stmt.executeUpdate();
+
+            isEdited = stmt.getBoolean("p_edited_successfully");
+
+
+        }catch(SQLException e){
+            LOGGER.error("Error while trying to communicate with the database - editData");
+            e.printStackTrace();
+        }
+
+        return isEdited;
+    }
+
     public boolean isApplied(int sellerId, int buyerId){
         boolean isApplied = false;
 
         try(Connection conn = DriverManager.getConnection(databaseSourceUrl, databaseUsername, databasePassword);
-        CallableStatement stmt = conn.prepareCall(APPLICATION_STORED_PROCEDURE)){
+        CallableStatement stmt = conn.prepareCall(RESERVATION_STORED_PROCEDURE)){
 
             stmt.setInt("p_seller_id", sellerId);
             stmt.setInt("p_buyer_id", buyerId);

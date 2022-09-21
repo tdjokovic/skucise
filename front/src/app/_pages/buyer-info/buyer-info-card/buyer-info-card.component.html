@@ -1,6 +1,9 @@
 <div *ngIf="buyer">
-    <h1 class="heading">{{buyer.firstName}} {{buyer.lastName}}</h1>
+    <h1 class="heading text-primary">{{buyer.firstName}} {{buyer.lastName}}</h1>
     <div>
-        <img src="{{buyer.picture}}" style="max-height:300px;max-width:fit-content" alt="image" class="">
+        <img *ngIf="buyer.picture != null" src="{{buyer.picture}}" style="max-height:300px;max-width:fit-content" alt="image" class="">
+        <img *ngIf="buyer.picture == null" src="{{defaultPicture}}" style="max-height:300px;max-width:fit-content" alt="image" class="">
+        <h5 class="text-primary mt-3">Mejl adresa: {{buyer.email}}</h5>
+        <h5 class="text-primary">Broj telefona: {{buyer.phoneNumber}}</h5>
     </div>
 </div>
