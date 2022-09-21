@@ -35,6 +35,7 @@ export class BuyerService{
         this.api.getBuyer(id).subscribe(
             //success
             (response) => {
+                //alert("got buyer");
                 if(response.body){
                     if(self && successCallback){
                         successCallback(self, response.body);

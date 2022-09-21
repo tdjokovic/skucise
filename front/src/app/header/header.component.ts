@@ -36,10 +36,14 @@ export class HeaderComponent implements OnInit {
   id: number = 0;
 
   ngOnInit(): void {
-    this.loginService.newLogin.subscribe(res => {
-      console.log(this.firstName);
-      console.log(this.lastName);
-      this.updateName();
+
+    this.loginService._newLogin.subscribe({
+      next: user =>{
+        //alert("Nova prijava");
+        console.log(this.firstName);
+        console.log(this.lastName);
+        this.updateName();
+      }
     });
 
     this.adCategoryService.getCategories(this, (self: any, data : AdCategory[]) => {

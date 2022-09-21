@@ -8,7 +8,7 @@
             <li class="nav-item">
               <a class="nav-link" aria-current="page" (click)="showReservationsByMe()" [class.active]="isActive === 'byMe'">Status poslatih rezervacija</a>
             </li>
-            <li class="nav-item">
+            <li *ngIf="isSeller()" class="nav-item">
               <a class="nav-link" (click)="showReservationsForMe()" [class.active]="isActive === 'forMe'">Rezervacije koje čekaju odobrenje</a>
             </li>
           </ul>
