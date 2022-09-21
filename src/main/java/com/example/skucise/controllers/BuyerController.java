@@ -151,7 +151,7 @@ public class BuyerController {
     public ResponseEntity<?> deleteBuyer(@RequestHeader(JWT_CUSTOM_HTTP_HEADER) String jwt,
                                      @PathVariable("id") @Min( 1 ) @Max( Integer.MAX_VALUE ) int id ){
 
-        ResultPair resultPair = checkAccess(jwt, Role.ADMIN);
+        ResultPair resultPair = checkAccess(jwt, Role.VISITOR, Role.ADMIN, Role.REG_BUYER, Role.REG_SELLER);
         HttpStatus httpStatus = resultPair.getHttpStatus();
 
         HttpHeaders responseHeaders = new HttpHeaders();
@@ -160,11 +160,18 @@ public class BuyerController {
         if(httpStatus != HttpStatus.OK){
             return ResponseEntity.status(httpStatus).headers(responseHeaders).body(null);
         }
+        int userId = (int) (double) resultPair.getClaims().get(USER_ID_CLAIM_NAME);
+        String role = (String) resultPair.getClaims().get(ROLE_CLAIM_NAME);
 
-        boolean deleteResponseSuccessfull = buyerService.delete(id);
+        if(userId != id && Role.ADMIN.equalsTo(role)){
+            //samo svoj profil moze da brise, ili admin
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).headers(responseHeaders).body(null);
+        }
 
+        //dozvoljeno
+        boolean successfullDelete = buyerService.delete(id);
 
-        if(deleteResponseSuccessfull) httpStatus = HttpStatus.NO_CONTENT;
+        if(successfullDelete) httpStatus = HttpStatus.NO_CONTENT;
         else httpStatus = HttpStatus.CONFLICT;
 
         return ResponseEntity.status(httpStatus).headers(responseHeaders).body(null);

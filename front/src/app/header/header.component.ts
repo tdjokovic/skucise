@@ -8,6 +8,8 @@ import { JWTUtil } from '../services_back/helpers/jwt_helper';
 import { AdCategoryService } from '../services_back/services/adcategory.service';
 import { LoginService } from '../services_back/services/login.service';
 import { SellerService } from '../services_back/services/seller.service';
+import { NgbOffcanvas, OffcanvasDismissReasons } from '@ng-bootstrap/ng-bootstrap'
+
 
 @Component({
   selector: 'app-header',
@@ -16,11 +18,15 @@ import { SellerService } from '../services_back/services/seller.service';
 })
 export class HeaderComponent implements OnInit {
 
+  closeResult = '';
+
   constructor(private router:Router, 
               private adCategoryService: AdCategoryService,
               private buyerService : BuyerService,
               private sellerService : SellerService,
-              private loginService : LoginService) { }
+              private loginService : LoginService,
+              private offcanvasService : NgbOffcanvas
+              ) { }
 
   
   @Input() public active: string = '';
@@ -30,10 +36,14 @@ export class HeaderComponent implements OnInit {
   id: number = 0;
 
   ngOnInit(): void {
-    this.loginService.newLogin.subscribe(res => {
-      console.log(this.firstName);
-      console.log(this.lastName);
-      this.updateName();
+
+    this.loginService._newLogin.subscribe({
+      next: user =>{
+        //alert("Nova prijava");
+        console.log(this.firstName);
+        console.log(this.lastName);
+        this.updateName();
+      }
     });
 
     this.adCategoryService.getCategories(this, (self: any, data : AdCategory[]) => {
@@ -89,4 +99,24 @@ checkActive(name: string): boolean {
     this.lastName = (localStorage.getItem('first-name')) ? localStorage.getItem('last-name')!.toString() : '';
     this.id = JWTUtil.getID();
   }
+
+  
+  open(content:any) {
+    this.offcanvasService.open(content, {position:'end' ,ariaLabelledBy: 'offcanvas-basic-title'}).result.then((result) => {
+      this.closeResult = `Closed with: ${result}`;
+    }, (reason) => {
+      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+    });
+  }
+
+  private getDismissReason(reason: any): string {
+    if (reason === OffcanvasDismissReasons.ESC) {
+      return 'by pressing ESC';
+    } else if (reason === OffcanvasDismissReasons.BACKDROP_CLICK) {
+      return 'by clicking on the backdrop';
+    } else {
+      return `with: ${reason}`;
+    }
+  }
+
 }

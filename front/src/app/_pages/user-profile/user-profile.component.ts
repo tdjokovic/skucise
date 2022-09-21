@@ -1,5 +1,5 @@
 import { Component, Injectable, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Route, Router } from '@angular/router';
 import { UserRoles } from 'src/app/services_back/back/types/enums';
 import { Buyer, NewUserData, Seller } from 'src/app/services_back/back/types/interfaces';
 import { JWTUtil } from 'src/app/services_back/helpers/jwt_helper';
@@ -8,6 +8,7 @@ import { BuyerService } from 'src/app/services_back/services/buyer.service';
 import { SellerService } from 'src/app/services_back/services/seller.service';
 import { IndividualConfig } from 'ngx-toastr';
 import { ToastrService } from 'ngx-toastr';
+import { RedirectRoutes } from 'src/app/services_back/constants/routing.properties';
 
 
 @Component({
@@ -44,6 +45,7 @@ export class UserProfileComponent implements OnInit {
 
 
   constructor(private authorizationService : AuthorizeService,
+              private router : Router,
               private activatedRoute : ActivatedRoute,
               private sellerService : SellerService,
               private buyerService : BuyerService,
@@ -216,10 +218,34 @@ export class UserProfileComponent implements OnInit {
       }
   }
 
+  deleteProfile(){
+    //obrisi profil korisnika
+    //ako je to bio njegov profil da se izloguje prvo
+
+    
+
+    if(this.user){
+      if(this.userType == 'seller'){
+        alert('delete seller');
+        this.sellerService.deleteSeller(this.user.id, this, this.cbSuccessDeletedUser);
+      }
+      else if(this.userType == 'buyer'){
+        alert('delete buyer');
+        this.buyerService.deleteBuyer(this.user.id, this, this.cbSuccessDeletedUser);
+      }
+
+      if(this.isMe()){
+        //da se izloguje.
+        JWTUtil.delete();
+      }
+    }
+  }
+
   cbSuccessEditedData(self:any){
     console.log("SUCCESSFULLY EDITED DATA");
     self.toastr.success("You've successfully edited your profile data","User data editing!");
   }
+
 
   cbNotEditedData(self:any){
     console.error("ERROR EDITING DATA");
@@ -253,6 +279,14 @@ export class UserProfileComponent implements OnInit {
     self.userType = '';
   }
 
+  cbSuccessDeletedUser(self:any){
+    self.router.navigate(RedirectRoutes.HOME);
+    self.toastr.success("Uspešno ste obrisali profil!", "Brisanje korisnika");
+  }
 
+
+  isAdmin(){
+    return JWTUtil.getRole() == UserRoles.Admin;
+  }
 
 }

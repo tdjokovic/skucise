@@ -24,7 +24,7 @@ public class ReservationRepository implements IReservationRepository {
 
     private static final String APPROVE_RESERVATION_STORED_PROCEDURE = "{call approve_reservation(?,?,?)}";
 
-    @Value("jdbc:mariadb://localhost:3306/skucise")
+    @Value("jdbc:mariadb://localhost:3307/skucise")
     private String databaseSourceUrl;
 
     @Value("root")

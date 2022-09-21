@@ -17,9 +17,10 @@ import { SellerService } from './seller.service';
 })
 export class LoginService {
 
-  private _newLogin = new Subject<void>();
-  get newLogin() {
-    return this._newLogin;
+  _newLogin = new Subject<boolean>();
+
+  newLogin(bo:boolean) {
+    this._newLogin.next(bo);
   }
 
   constructor(private api : LoginApiService,
@@ -46,18 +47,21 @@ export class LoginService {
       (response: HttpResponse<null>) => {
         //alert("odgovor od apija za login uspesan");
         JWTUtil.store(response.headers.get(JWT_HEADER_NAME));
+
         if (this.authorizationService.isBuyer())
         {
+          //alert("buyer")
           this.buyerService.getBuyer(JWTUtil.getID(),this,this.cbSuccess,this.cbNotFound);
         }
         else if (this.authorizationService.isSeller())
         {
+          //alert("seller");
           this.sellerService.getSeller(JWTUtil.getID(),this,this.cbSuccess,this.cbNotFound);
         }
         else if (this.authorizationService.isAdmin()){
-          window.localStorage.setItem('first-name', 'Hello, ');
-          window.localStorage.setItem('last-name', 'admin');
-          self._newLogin.next();
+          window.localStorage.setItem('first-name', 'Admin');
+          window.localStorage.setItem('last-name', body.email);
+          this.newLogin(true);
         }
         
         if(self && callbackSuccess) 
@@ -98,9 +102,11 @@ export class LoginService {
   }
 
   cbSuccess(self: any, user: Buyer | Seller) {
+    //alert("success");
     window.localStorage.setItem('first-name', (user == null)? '' : user.firstName);
     window.localStorage.setItem('last-name', (user == null)? '' : user.lastName);
-    self._newLogin.next()
+    //alert("Storovali smo sve");
+    self.newLogin(true);
   }
   cbNotFound(self: any) {
     self.router.navigate(RedirectRoutes.HOME);
