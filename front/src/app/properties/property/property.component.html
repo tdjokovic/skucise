@@ -1,15 +1,15 @@
 <div class="property-item">
 
     <a [routerLink]="['/property/', property.id]" class="img">
-        <img *ngIf="property.picture != null" src="{{property.picture}}" alt="Image" class="img-fluid mx-auto d-block" style="width:80%">
-        <img *ngIf="property.picture == null" src="{{defPropertyPic}}" alt="defImage" class="img-fluid mx-auto d-block" style="width:80%">
+        <img *ngIf="property.picture != null" src="{{property.picture}}" alt="Image" class="img-fluid mx-auto d-block" style="width: 80%; height: 15vw;object-fit: cover;">
+        <img *ngIf="property.picture == null" src="{{defPropertyPic}}" alt="defImage" class="img-fluid mx-auto d-block" style="width: 80%; height: 15vw;object-fit: cover;">
     </a>
 
     <div class="property-content">
         <div class="row">
             <div class="col-sm-9">
                 <div class="price mb-2">
-                    <span>{{property.price+"$"}}</span>
+                    <span>{{property.price}}$</span>
                 </div>
             </div>
             <div class="col-sm">
@@ -18,8 +18,7 @@
         </div>
         <div>
             
-            <span class="city d-block mb-3">{{property.city.name}}</span>
-            
+            <span class="city d-block mb-3">{{property.city.name}}<span style="font-size:15px;font-weight: normal;"> / {{property.adCategory.name}}</span></span>
             
             <div class="specs d-flex mb-4">
                 <span class="d-block d-flex align-items-center me-3">

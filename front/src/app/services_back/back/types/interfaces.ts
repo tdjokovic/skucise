@@ -133,6 +133,13 @@ export interface NewBuyer{
     phoneNumber:string;
 }
 
+export interface NewUserData{
+    firstName:String;
+    lastName:string;
+    email:string;
+    phoneNumber: string;
+}
+
 export interface PagedProperty{
     totalProperties:number;
     properties:Property[];

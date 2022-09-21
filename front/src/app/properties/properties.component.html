@@ -1,13 +1,16 @@
+<app-header [active]="'properties'"></app-header>
+
 <app-propertybg [adCategory]="adCategory"></app-propertybg>
 
 <div class="container mt-4" id="beggining_container">
     <div class="row justify-content-center align-items-center">
         <div class="col-lg-12 text-center">
-            <form action="#" class="form-search d-flex align-items-stretch mb-3 home-search-form">
-                <div *ngIf="adCategory == null" class="home-form-group form-control">
+            <form id="searchForm" action="#" class="form-search d-flex align-items-stretch mb-3 home-search-form">
+
+                <div *ngIf="adCategory == null" class="home-form-group form-control no-border fit-search-bar">
                 
-                    <div class="form-check radio-form">
-                            <div *ngFor="let c of adCategories"  class="form-check form-check-inline">
+                    <div class="form-check radio-form form-check-inline fit-search" style="border-right: 1px solid rgba(0,0,0,.5);">
+                            <div *ngFor="let c of adCategories"  class="form-check gray-font">
                                 <!--ako je izdavanje ili prodaja selektovano na stranici, ovo treba da bude disabled-->
                                 <label class="form-check-label" for="{{c.name}}Radio">{{c.name}}</label>
                                 <input [disabled]="adCategory!=null && selectedAdCategoryId!=c.id"  class="form-check-input" type="radio" name="adCategory" value="{{c.id}}" id="{{c.name}}Radio" (change)="setAdCategory(c.id)">
@@ -15,45 +18,69 @@
                     </div>
 
                 </div>
-                
-                <div class="home-form-group form-control place-multi">
-                    Vrsta nekretnine
-                    <select [(ngModel)]="selectedAdTypeId" class="form-select" name="adTypeSelect">
+                <div class="home-form-group form-control no-border fit-search-bar fit-search gray-font">
+                    <span style="color:black">Vrsta nekretnine</span>
+                    <select [(ngModel)]="selectedAdTypeId" class="form-select no-border" name="adTypeSelect">
                         <option value="0" selected>Sve vrste</option>
                         <option  *ngFor="let c of adTypes" name="adType" [ngValue]="c.id">{{c.name}}</option>
                     </select>
                 </div>
 
-                <div class="home-form-group form-control place-multi">
-                    Grad
-                    <select [(ngModel)]="selectedCityId" id="selectedCity" class="form-select" name="citySelect">
+                <div class="home-form-group form-control no-border fit-search-bar fit-search gray-font">
+                    <span style="color:black;">Grad</span>
+                    <select [(ngModel)]="selectedCityId" id="selectedCity" class="form-select no-border" name="citySelect">
                         <option value="0" id="allCities" selected>Svi gradovi</option>
                         <option *ngFor="let c of cities" [ngValue]="c.id" name="city">{{c.name}}</option>
                     </select>
                 </div>
 
-                <div class="form-check">
-                    <input (click)="toggleNewConstruction()" class="form-check-input" type="checkbox" id="novogradnjaCheckbox">
-                    <label class="form-check-label" for="novogradnjaCheckbox">Samo novogradnja</label>
+                <div class="form-check no-border fit-search-bar fit-search gray-font" style="padding:1rem;">
+                    <div class="border-left border-right fit-search-bar" style="padding-left: 1rem;padding-right:1rem;">
+                        <input (click)="toggleNewConstruction()" class="" type="checkbox" id="novogradnjaCheckbox">
+                        <label class="form-check-label" for="novogradnjaCheckbox">Samo novogradnja</label>
+                    </div>
+
                 </div>
 
-                <div class="form-control">
-                    <button id="sortByPrice" name="sortByPrice" (click)="togglePriceSort()">{{sortByPriceText}}</button>
+                <div class="home-form-group form-control no-border fit-search-bar fit-search gray-font">
+                    <span style="color:black;">Sortiraj po ceni</span>
+                    <select (change)="togglePriceSort()" id="sortByPrice" class="form-select no-border" name="sortByPrice">
+                        <option value="0" selected>Rastuće</option>
+                        <option value="1">Opadajuće</option>
+                    </select>
                 </div>
 
-                <div class="form-control">
-                    <button (click)="resetFilters()">Resetuj filtere</button>
+                <div class="form-control no-border fit-search-bar home-form-group" style="width:fit-content;margin:auto;">
+                    <div class="border-left border-right fit-search-bar" style="padding-left: 1rem;padding-right:1rem;">
+                        <button (click)="resetFilters()" style="background:none;border:none">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-arrow-clockwise" viewBox="0 0 16 16">
+                                <path fill-rule="evenodd" d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2v1z"/>
+                                <path d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466z"/>
+                              </svg>
+                        </button>
+                    </div>
                 </div>
                 <!--<input type="text" class="form-control px-4" placeholder="Your ZIP code or City. e.g. New York">-->
-                <button type="submit" class="btn btn-primary" (click)="onSubmit()">Traži</button>
+                <button type="submit" style="border-radius:8px;" class="btn btn-primary" (click)="onSubmit()">Traži</button>
             </form>
         </div>
     </div>
 </div>
 
 <!--ovo su sve nekretnine-->
-<div class="section section-properties">
+<div class="section-properties" id="prikazSvihNekretnina">
     <div *ngIf="properties.length>0" class="container">
+        <div class="row align-items-center py-5">
+            <div class="col-lg-3">
+                Strana ({{currentPage}} od {{totalPagesNum}})
+            </div>
+            <div class="col-lg-6 text-center">
+                <div class="custom-pagination">
+                    <a *ngFor="let p of totalPagesArray" [class]="(currentPage == p) ? 'active' : ''" (click)="changePage(p)" style="margin:2px">{{p}}</a>
+                </div>
+            </div>
+        </div>
+        
         <div class="row">
 
             <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4" *ngFor="let p of properties">

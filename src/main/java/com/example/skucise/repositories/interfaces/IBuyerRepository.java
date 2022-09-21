@@ -1,6 +1,7 @@
 package com.example.skucise.repositories.interfaces;
 
 import com.example.skucise.models.BuyerUser;
+import com.example.skucise.models.NewUserData;
 import com.example.skucise.models.Property;
 import org.springframework.stereotype.Repository;
 
@@ -13,4 +14,5 @@ public interface IBuyerRepository extends CRUDRepository<BuyerUser, Integer>{
     List<Property> getAppliedProperties(int id);
 
     boolean changeToSeller(int id);
+    public boolean editData(int id, NewUserData data);
 }

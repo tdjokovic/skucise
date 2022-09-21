@@ -1,6 +1,9 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
+import { RedirectRoutes } from 'src/app/services_back/constants/routing.properties';
 import { LoginService } from 'src/app/services_back/services/login.service';
+
 
 @Component({
   selector: 'app-loginform',
@@ -9,7 +12,7 @@ import { LoginService } from 'src/app/services_back/services/login.service';
 })
 export class LoginformComponent implements OnInit {
 
-  constructor(public loginService : LoginService, public router : Router) { }
+  constructor(public loginService : LoginService, public router : Router, private toastr : ToastrService) { }
 
   @Input() public email: string = '';
   @Input() public password: string = '';
@@ -51,12 +54,15 @@ export class LoginformComponent implements OnInit {
     self.wrongCredentials=false;
     self.accessNotApproved = false;
     self.wrongMail = false;
-    self.passwordNotEntered = false;
-    self.router.navigate(['']);  
+    self.passwordNotEntered = false;  
+    self.toastr.success("Uspešno ste se prijavili!", "Prijava korisnika");
+    self.router.navigate(RedirectRoutes.HOME);
   }
 
   callbackWrongCredentials(self:any){
     self.wrongCredentials = true;
+    self.toastr.error("Neuspešna prijava! Uneli ste pogrešne podatke","Prijava korisnika");   
+    
   }
 
   callbackNotApproved(self:any){

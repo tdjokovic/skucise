@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UserRoles } from 'src/app/services_back/back/types/enums';
+//import { ToastrService } from 'ngx-toastr';
 import { AdCategory, AdType, City, Property, Seller } from 'src/app/services_back/back/types/interfaces';
 import { RedirectRoutes } from 'src/app/services_back/constants/routing.properties';
 import { AlertPageUtil } from 'src/app/services_back/helpers/alert_helper';
@@ -58,7 +59,9 @@ export class AddPropertyFormComponent implements OnInit {
     private cityService : CityService,
     private sellerService : SellerService,
     private buyerService : BuyerService,
-    private router : Router) { }
+    private router : Router
+    //,private toastr : ToastrService
+    ) { }
 
   ngOnInit(): void {
     this.checkIsUserAuthorized();
@@ -169,7 +172,7 @@ export class AddPropertyFormComponent implements OnInit {
       console.log(self.picture);
       let len = self.picture.length;
 
-      if(len < 5000 || len > 65000) // duzina tj velicina slike nije dobra
+      if(len < 5000 || len > 332000) // duzina tj velicina slike nije dobra
       {
         (<HTMLSelectElement>document.getElementById('propertyPicture')).focus();
         self.invalidPicture = true;
@@ -195,8 +198,14 @@ export class AddPropertyFormComponent implements OnInit {
   cbSuccess(self: any, seller: Seller | null) {
     self.this_seller = seller;
   }
+
   cbSuccessAddProperty(self: any) {
     window.location.reload();
+    //self.toastr.succes("Uspešno ste dodali oglas!","Dodavanje nove nekretnine");
+  }
+
+  cbErrorAddProperty(self: any) {
+    //self.toastr.error("Dodavanje oglasa nije uspešno! Pokušaj opet.","Dodavanje nove nekretnine");
   }
   cbConflictAddProperty(self:any)
   {

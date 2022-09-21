@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { UserRoles } from 'src/app/services_back/back/types/enums';
 import { Reservation } from 'src/app/services_back/back/types/interfaces';
 import { JWTUtil } from 'src/app/services_back/helpers/jwt_helper';
 import { AuthorizeService } from 'src/app/services_back/services/authorize.service';
@@ -140,6 +141,10 @@ export class ReservationsComponent implements OnInit {
     }
 
     this.viewportScroller.scrollToAnchor('top_container');
+  }
+
+  isSeller(){
+    return JWTUtil.getRole() == UserRoles.Reg_seller;
   }
 
 }

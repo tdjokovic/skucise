@@ -1,6 +1,7 @@
 package com.example.skucise.controllers;
 
 
+import com.example.skucise.models.NewUserData;
 import com.example.skucise.models.Property;
 import com.example.skucise.models.Rating;
 import com.example.skucise.models.SellerUser;
@@ -137,12 +138,21 @@ public class SellerController {
     public ResponseEntity<?> deleteSeller( @RequestHeader(JWT_CUSTOM_HTTP_HEADER) String jwt,
                                            @PathVariable("id") @Min( 1 ) @Max( Integer.MAX_VALUE ) int id ){
 
-        HttpStatus httpStatus = checkAccess(jwt, Role.ADMIN).getHttpStatus();
+        ResultPair resultPair = checkAccess(jwt, Role.VISITOR, Role.ADMIN, Role.REG_BUYER, Role.REG_SELLER);
+        HttpStatus httpStatus = resultPair.getHttpStatus();
+
         HttpHeaders responseHeaders = new HttpHeaders();
         responseHeaders.set(JWT_CUSTOM_HTTP_HEADER, jwt);
 
         if(httpStatus != HttpStatus.OK){
             return ResponseEntity.status(httpStatus).headers(responseHeaders).body(null);
+        }
+        int userId = (int) (double) resultPair.getClaims().get(USER_ID_CLAIM_NAME);
+        String role = (String) resultPair.getClaims().get(ROLE_CLAIM_NAME);
+
+        if(userId != id && Role.ADMIN.equalsTo(role)){
+            //samo svoj profil moze da brise, ili admin
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).headers(responseHeaders).body(null);
         }
 
         //dozvoljeno
@@ -227,6 +237,30 @@ public class SellerController {
         else httpStatus = HttpStatus.CONFLICT;
 
         return ResponseEntity.status(httpStatus).headers(responseHeaders).body(null);
+
+    }
+
+    @PostMapping("{id}/editData")
+    public ResponseEntity<?> editData(@RequestHeader(JWT_CUSTOM_HTTP_HEADER) String jwt,
+                                      @PathVariable("id") @Min( 1 ) @Max( Integer.MAX_VALUE ) int id ,
+                                      @Valid @RequestBody NewUserData newUserData ){
+
+        ResultPair resultPair = checkAccess(jwt, Role.REG_SELLER);
+        HttpStatus httpStatus = resultPair.getHttpStatus();
+        HttpHeaders responseHeaders = new HttpHeaders();
+        responseHeaders.set(JWT_CUSTOM_HTTP_HEADER, jwt);
+
+        if(httpStatus != HttpStatus.OK){
+            return ResponseEntity.status(httpStatus).headers(responseHeaders).body(null);
+        }
+
+        int userId = (int) (double) resultPair.getClaims().get(USER_ID_CLAIM_NAME);
+        if(userId != id){
+            //kupac pokusava nekom drugom da izmeni podatke
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).headers(responseHeaders).body(null);
+        }
+
+        return ResponseEntity.status(httpStatus).headers(responseHeaders).body(sellerService.editData(id, newUserData));
 
     }
 }

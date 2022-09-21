@@ -1,3 +1,5 @@
+<app-header [active]="'my-properties'"></app-header>
+
 <app-background-image [heading]="'Moji oglasi'" [page]="'Moji oglasi'"></app-background-image>
 
 <br>
@@ -26,7 +28,7 @@
         </div>
     </div>
 </div><br>
-<div class="container pb-5" id="my_property_begining">
+<div class="container pb-5" id="my_property_begining" *ngIf="!isBuyer()">
     <h2>Lista mojih oglasa</h2>
     <div class="card p-4">
         <div *ngIf="propertiesBySeller.length>0" class="container">

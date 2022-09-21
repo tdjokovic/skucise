@@ -1,16 +1,50 @@
-<div class="site-mobile-menu site-navbar-target">
-    <div class="site-mobile-menu-header">
-        <div class="site-mobile-menu-close">
-            <span class="icofont-close js-menu-toggle"></span>
-        </div>
-    </div>
-    <div class="site-mobile-menu-body"></div>
-</div>
+<ng-template #content let-offcanvas>
+  <div class="offcanvas-header">
+    <h4 class="offcanvas-title" id="offcanvas-basic-title"></h4>
+    <button type="button" class="btn-close" aria-label="Close" (click)="offcanvas.dismiss('Cross click')"></button>
+  </div>
+  <div class="site-mobile-menu-body" id="siteMenuBody">
+    <ul class="site-nav-wrap" id="siteMenuWrap">
+      <li><a class="{{(checkActive('home')?'site-menu-active':'')}}" [routerLink]="['/home']" (click)="offcanvas.close('Save click')">Home</a></li>
+      <li class="has-children">
+          <a class="{{(checkActive('properties')?'site-menu-active':'')}}" [routerLink]="['/properties']" (click)="offcanvas.close('Save click')">Nekretnine</a>
+          <!-- ISPRAVLJENO - nije vise hardcoded -->
+          <ul class="dropdown">
+              <li *ngFor="let c of adCategories" style="list-style: none;">
+                  <a [routerLink]="['/properties/' + c.name | lowercase ]" (click)="offcanvas.close('Save click')">{{c.name}}</a>
+              </li>
+          </ul>
+      </li>
+      
+      <li *ngIf="!isVisitor()"><a class="{{(checkActive('my-properties')?'site-menu-active':'')}}" [routerLink]="['/my-properties']" (click)="offcanvas.close('Save click')">Moji oglasi</a></li>
+      <li *ngIf="!isVisitor() && !isAdmin()"><a class="{{(checkActive('reservations')?'site-menu-active':'')}}" [routerLink]="['/reservations']" (click)="offcanvas.close('Save click')">Rezervacije razgledanja</a></li>
+      <li *ngIf="isAdmin()"><a class="{{(checkActive('dashboard')?'site-menu-active':'')}}" [routerLink]="['/dashboard']" (click)="offcanvas.close('Save click')">Registracije</a></li>
+
+      <li *ngIf="isVisitor()"><a class="{{(checkActive('aboutus')?'site-menu-active':'')}}" [routerLink]="['/about']" (click)="offcanvas.close('Save click')">O nama</a></li>
+      <!--<li [class.active]="isActive === '/contactus'"><a [routerLink]="['/contactus']">Kontakt</a></li>-->
+
+      <!-- deo za prijavu i odjavu korisnika! -->
+      <li><a *ngIf="isVisitor()" [routerLink] = "['/login']" class="{{(checkActive('login')?'site-menu-active':'')}}" (click)="offcanvas.close('Save click')">Prijava</a></li>
+      <li class="has-children" *ngIf="!isVisitor()">
+          <a class="{{(checkActive('user-profile')?'site-menu-active':'')}}" [routerLink]="['/home']" (click)="offcanvas.close('Save click')">{{ firstName + " " + lastName }}</a>
+
+          <ul class="dropdown">
+              <li style="list-style: none;">
+                  <a [routerLink]="['/profile/', id]" *ngIf="!isAdmin()" (click)="offcanvas.close('Save click')">Moj profil</a>
+              </li>
+              <li style="list-style: none;">
+                  <a [routerLink]="['/logout']" (click)="offcanvas.close('Save click')">Odjavi se</a>
+              </li>
+          </ul>
+      </li>
+    </ul>
+  </div>
+</ng-template>
 
 <nav class="site-nav">
     <div class="container">
         <div class="menu-bg-wrap">
-            <div class="site-navigation" (click)="routeChanged()">
+            <div class="site-navigation">
 
                 <a [routerLink]="['/']" class="logo m-0 float-start">
                     <img src="..\..\assets\images\icon.png" alt="" width="45">
@@ -18,9 +52,9 @@
                 </a>
 
                 <ul class="js-clone-nav d-none d-lg-inline-block text-start site-menu float-end">
-                    <li [class.active]="isActive === '/home' || isActive === '/'"><a [routerLink]="['/home']">Home</a></li>
-                    <li [class.active]="isActive === '/properties'" class="has-children">
-                        <a [routerLink]="['/properties']">Nekretnine</a>
+                    <li><a class="{{(checkActive('home')?'nav-active':'')}}" [routerLink]="['/home']">Home</a></li>
+                    <li class="has-children">
+                        <a class="{{(checkActive('properties')?'nav-active':'')}}" [routerLink]="['/properties']">Nekretnine</a>
                         <!-- ISPRAVLJENO - nije vise hardcoded -->
                         <ul class="dropdown">
                             <li *ngFor="let c of adCategories">
@@ -29,21 +63,21 @@
                         </ul>
                     </li>
                     
-                    <li *ngIf="!isVisitor()" [class.active]="isActive === '/my-properties'"><a [routerLink]="['/my-properties']">Moji oglasi</a></li>
-                    <li *ngIf="!isVisitor()"><a [routerLink]="['/reservations']">Rezervacije razgledanja</a></li>
-                    <li *ngIf="isAdmin()"><a [routerLink]="['/dashboard']">Dashboard</a></li>
+                    <li *ngIf="!isVisitor()"><a class="{{(checkActive('my-properties')?'nav-active':'')}}" [routerLink]="['/my-properties']">Moji oglasi</a></li>
+                    <li *ngIf="!isVisitor() && !isAdmin()"><a class="{{(checkActive('reservations')?'nav-active':'')}}" [routerLink]="['/reservations']">Rezervacije razgledanja</a></li>
+                    <li *ngIf="isAdmin()"><a class="{{(checkActive('dashboard')?'nav-active':'')}}" [routerLink]="['/dashboard']">Registracije</a></li>
 
-                    <li *ngIf="isVisitor()" [class.active]="isActive === '/about'"><a [routerLink]="['/about']">O nama</a></li>
+                    <li *ngIf="isVisitor()"><a class="{{(checkActive('aboutus')?'nav-active':'')}}" [routerLink]="['/about']">O nama</a></li>
                     <!--<li [class.active]="isActive === '/contactus'"><a [routerLink]="['/contactus']">Kontakt</a></li>-->
 
                     <!-- deo za prijavu i odjavu korisnika! -->
-                    <li [class.active]="isActive === '/login'"><a *ngIf="isVisitor()" [routerLink] = "['/login']">Prijava</a></li>
+                    <li><a *ngIf="isVisitor()" [routerLink] = "['/login']" class="{{(checkActive('login')?'nav-active':'')}}" >Prijava</a></li>
                     <li class="has-children" *ngIf="!isVisitor()">
-                        <a [routerLink]="['/home']">{{ firstName + " " + lastName }}</a>
+                        <a class="{{(checkActive('user-profile')?'nav-active':'')}}" [routerLink]="['/home']">{{ firstName + " " + lastName }}</a>
 
                         <ul class="dropdown">
                             <li>
-                                <a [routerLink]="['/profile/', id]">Moj profil</a>
+                                <a [routerLink]="['/profile/', id]" *ngIf="!isAdmin()">Moj profil</a>
                             </li>
                             <li>
                                 <a [routerLink]="['/logout']">Odjavi se</a>
@@ -52,10 +86,10 @@
                     </li>
                 </ul>
 
-                <a href="#" class="burger light me-auto float-end mt-1 site-menu-toggle js-menu-toggle d-inline-block d-lg-none" data-toggle="collapse" data-target="#main-navbar">
+                
+                <a class="burger light me-auto float-end mt-1 site-menu-toggle js-menu-toggle d-inline-block d-lg-none" (click)="open(content)">
                     <span></span>
                 </a>
-
             </div>
         </div>
     </div>

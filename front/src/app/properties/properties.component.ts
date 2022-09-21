@@ -69,13 +69,16 @@ export class PropertiesComponent implements OnInit {
   }
 
   togglePriceSort(){
-    if(!this.sortByPriceAsc){
-      this.sortByPriceAsc = true;
-      this.sortByPriceText = "Cena rastuce";
-    }
-    else{
-      this.sortByPriceAsc = false;
-      this.sortByPriceText = "Cena opadajuce";
+    const priceSelect = document.getElementById(
+      'sortByPrice'
+    ) as HTMLInputElement | null;
+    if(priceSelect != null){
+      if(priceSelect.value == "0"){
+        this.sortByPriceAsc = true;
+      }
+      else if (priceSelect.value == "1"){
+        this.sortByPriceAsc = false;
+      }
     }
   }
 
@@ -209,7 +212,14 @@ export class PropertiesComponent implements OnInit {
         this.previousPage();
       }
     }
-    this.viewportScroller.scrollToAnchor("beggining_container");
+    //this.viewportScroller.scrollToAnchor("beggining_container");
+
+    //zumiraj gore
+    document.getElementById('searchForm')?.scrollIntoView({
+      behavior: "smooth",
+      block: "start",
+      inline: "nearest"
+    })
   }
 
   nextPage(){
@@ -291,6 +301,7 @@ export class PropertiesComponent implements OnInit {
       if(radio2 != null){
         radio2.checked = false;
       }
+
     }
 
     this.selectedAdTypeId = 0
@@ -368,6 +379,13 @@ export class PropertiesComponent implements OnInit {
       console.log("Success fetching properties");
       self.properties = properties;
       console.log("properties set");
+      //fokus na pocetak nekretnina
+
+      document.getElementById('prikazSvihNekretnina')?.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+        inline: "nearest"
+      })
     }
 
     self.currentPage = 1;

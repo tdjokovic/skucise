@@ -3,7 +3,7 @@ import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import { apiProperties } from "../../constants/api.properities";
 import { HeaderUtil } from "../../helpers/http_helper";
-import { Buyer, NewBuyer, Property } from "../types/interfaces";
+import { Buyer, NewBuyer, NewUserData, Property } from "../types/interfaces";
 
 @Injectable({
     providedIn: 'root'
@@ -92,7 +92,17 @@ export class BuyerApiService{
             {
                 observe:'response',
                 headers: HeaderUtil.jwtOnlyHeaders()
-            }
-        )
+            })
+        }
+
+
+    editBuyerData(id: number, data : NewUserData): Observable<HttpResponse<null>>{
+        return this.http.post<null>(
+            this.url + `/${id}/editData`,
+            data,
+            {
+                observe:'response',
+                headers: HeaderUtil.jwtOnlyHeaders()
+            });
     }
 }

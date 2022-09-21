@@ -3,6 +3,7 @@ import { Property } from 'src/app/services_back/back/types/interfaces';
 import { JWTUtil } from 'src/app/services_back/helpers/jwt_helper';
 import { SellerService } from 'src/app/services_back/services/seller.service';
 import { ViewportScroller } from '@angular/common';
+import { UserRoles } from 'src/app/services_back/back/types/enums';
 
 @Component({
   selector: 'app-my-properties',
@@ -55,6 +56,9 @@ export class MyPropertiesComponent implements OnInit {
     this.propertiesToShow = this.propertiesBySeller.slice(startIndex, endIndex);
     this.currentPage = p;
     this.viewportScroller.scrollToAnchor('my_property_begining')
+  }
+  isBuyer():boolean{
+    return JWTUtil.getUserRole() == UserRoles.Reg_buyer;
   }
 
 }

@@ -35,7 +35,7 @@ public enum Role {
             }
         }
 
-        LOGGER.info("User is not authorized. Authorized roles are: ", Arrays.toString(authorizedRoles));
+        LOGGER.info("User is not authorized. His role is "+ this +" Authorized roles are: " + Arrays.toString(authorizedRoles));
 
         if(this.equalsTo(Role.VISITOR)){
             return HttpStatus.UNAUTHORIZED;

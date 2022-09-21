@@ -22,6 +22,8 @@ export class HomeComponent implements OnInit {
     this.authorizationService.checkAccess(this.activatedRoute, this, 
       (self: any) =>{
         self.pageLoaded = true;
+
+        
       }
     )
   }

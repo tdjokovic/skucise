@@ -1,11 +1,14 @@
 package com.example.skucise.controllers;
 
 import com.example.skucise.models.BuyerUser;
+import com.example.skucise.models.NewUserData;
 import com.example.skucise.models.Property;
 import com.example.skucise.security.ResultPair;
 import com.example.skucise.security.Role;
 import com.example.skucise.services.BuyerService;
 import com.example.skucise.services.UserService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -28,6 +31,7 @@ public class BuyerController {
 
     private final BuyerService buyerService;
     private final UserService userService;
+    private static final Logger LOGGER = LoggerFactory.getLogger(BuyerController.class);
 
     @Autowired
     public BuyerController(BuyerService buyerService, UserService userService){
@@ -171,7 +175,7 @@ public class BuyerController {
     public ResponseEntity<?> deleteBuyer(@RequestHeader(JWT_CUSTOM_HTTP_HEADER) String jwt,
                                      @PathVariable("id") @Min( 1 ) @Max( Integer.MAX_VALUE ) int id ){
 
-        ResultPair resultPair = checkAccess(jwt, Role.ADMIN);
+        ResultPair resultPair = checkAccess(jwt, Role.VISITOR, Role.ADMIN, Role.REG_BUYER, Role.REG_SELLER);
         HttpStatus httpStatus = resultPair.getHttpStatus();
 
         HttpHeaders responseHeaders = new HttpHeaders();
@@ -180,11 +184,18 @@ public class BuyerController {
         if(httpStatus != HttpStatus.OK){
             return ResponseEntity.status(httpStatus).headers(responseHeaders).body(null);
         }
+        int userId = (int) (double) resultPair.getClaims().get(USER_ID_CLAIM_NAME);
+        String role = (String) resultPair.getClaims().get(ROLE_CLAIM_NAME);
 
-        boolean deleteResponseSuccessfull = buyerService.delete(id);
+        if(userId != id && Role.ADMIN.equalsTo(role)){
+            //samo svoj profil moze da brise, ili admin
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).headers(responseHeaders).body(null);
+        }
 
+        //dozvoljeno
+        boolean successfullDelete = buyerService.delete(id);
 
-        if(deleteResponseSuccessfull) httpStatus = HttpStatus.NO_CONTENT;
+        if(successfullDelete) httpStatus = HttpStatus.NO_CONTENT;
         else httpStatus = HttpStatus.CONFLICT;
 
         return ResponseEntity.status(httpStatus).headers(responseHeaders).body(null);
@@ -220,6 +231,31 @@ public class BuyerController {
 
         //nema ni jedne nekretnine
         return ResponseEntity.status(HttpStatus.NOT_FOUND).headers(responseHeaders).body(null);
+    }
+
+    @PostMapping("{id}/editData")
+    public ResponseEntity<?> editData(@RequestHeader(JWT_CUSTOM_HTTP_HEADER) String jwt,
+                                      @PathVariable("id") @Min( 1 ) @Max( Integer.MAX_VALUE ) int id ,
+                                      @Valid @RequestBody NewUserData newUserData ){
+
+        ResultPair resultPair = checkAccess(jwt, Role.REG_BUYER);
+        HttpStatus httpStatus = resultPair.getHttpStatus();
+        HttpHeaders responseHeaders = new HttpHeaders();
+        responseHeaders.set(JWT_CUSTOM_HTTP_HEADER, jwt);
+
+        if(httpStatus != HttpStatus.OK){
+            return ResponseEntity.status(httpStatus).headers(responseHeaders).body(null);
+        }
+
+        int userId = (int) (double) resultPair.getClaims().get(USER_ID_CLAIM_NAME);
+        LOGGER.info("User id is {}, and id is {}", userId, id);
+        if(userId != id){
+            //kupac pokusava nekom drugom da izmeni podatke
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).headers(responseHeaders).body(null);
+        }
+
+        return ResponseEntity.status(httpStatus).headers(responseHeaders).body(buyerService.editData(id, newUserData));
+
     }
 
 }

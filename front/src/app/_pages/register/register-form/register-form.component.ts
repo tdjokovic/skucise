@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 import { NewBuyer, NewSeller } from 'src/app/services_back/back/types/interfaces';
 import { RedirectRoutes } from 'src/app/services_back/constants/routing.properties';
 import { AlertPageUtil } from 'src/app/services_back/helpers/alert_helper';
@@ -18,7 +19,8 @@ export class RegisterFormComponent implements OnInit {
   constructor(private sellerService : SellerService,
     private buyerService : BuyerService,
     private router : Router,
-    private authorizationService : AuthorizeService) { }
+    private authorizationService : AuthorizeService,
+    private toastr : ToastrService) { }
 
   showMeBuyerFormBool : boolean = true;
   showMeSellerFormBool : boolean = false;
@@ -213,8 +215,7 @@ export class RegisterFormComponent implements OnInit {
       self.sPicture = reader.result as string;
       let len = self.sPicture.length;
       console.log(self.sPicture);
-
-      if(len < 5000 || len > 65000) // duzina tj velicina slike nije dobra
+      if(len < 5000 || len > 332000) // duzina tj velicina slike nije dobra
       {
         (<HTMLSelectElement>document.getElementById('sellerPicture')).focus();
         self.sWrongPicture = true;
@@ -342,7 +343,7 @@ export class RegisterFormComponent implements OnInit {
     reader.onload = function(){
       self.bPicture = reader.result as string;
       let len = self.bPicture.length;
-      if(len < 5000 || len > 65000) // duzina tj velicina slike nije dobra
+      if(len < 5000 || len > 332000) // duzina tj velicina slike nije dobra
       {
         console.log("picture error");
         (<HTMLSelectElement>document.getElementById('buyerPicture')).focus();
@@ -391,10 +392,11 @@ export class RegisterFormComponent implements OnInit {
   cbSuccess(self: any) {
     AlertPageUtil.allowAccess();
     self.router.navigate(RedirectRoutes.ON_REGISTER_SUCCESSFUL);
+    self.toastr.success("Uspešno ste se registrovali!", "Registracija korisnika");
   }
 
   cbConflict(self: any) {
-    alert('Nalog sa unetim email-om već postoji!');
+    self.toastr.error("Neuspešna prijava! Nalog sa unetim mejlom već postoji","Registracija korisnika");   
   }
 
 
