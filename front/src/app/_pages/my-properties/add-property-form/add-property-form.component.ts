@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UserRoles } from 'src/app/services_back/back/types/enums';
-//import { ToastrService } from 'ngx-toastr';
+import { ToastrService } from 'ngx-toastr';
 import { AdCategory, AdType, City, Property, Seller } from 'src/app/services_back/back/types/interfaces';
 import { RedirectRoutes } from 'src/app/services_back/constants/routing.properties';
 import { AlertPageUtil } from 'src/app/services_back/helpers/alert_helper';
@@ -59,8 +59,8 @@ export class AddPropertyFormComponent implements OnInit {
     private cityService : CityService,
     private sellerService : SellerService,
     private buyerService : BuyerService,
-    private router : Router
-    //,private toastr : ToastrService
+    private router : Router,
+    private toastr : ToastrService
     ) { }
 
   ngOnInit(): void {
@@ -201,11 +201,11 @@ export class AddPropertyFormComponent implements OnInit {
 
   cbSuccessAddProperty(self: any) {
     window.location.reload();
-    //self.toastr.succes("Uspešno ste dodali oglas!","Dodavanje nove nekretnine");
+    self.toastr.succes("Uspešno ste dodali oglas!","Dodavanje nove nekretnine");
   }
 
   cbErrorAddProperty(self: any) {
-    //self.toastr.error("Dodavanje oglasa nije uspešno! Pokušaj opet.","Dodavanje nove nekretnine");
+    self.toastr.error("Dodavanje oglasa nije uspešno! Pokušaj opet.","Dodavanje nove nekretnine");
   }
   cbConflictAddProperty(self:any)
   {
