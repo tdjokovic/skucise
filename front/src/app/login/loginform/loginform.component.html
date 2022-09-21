@@ -6,10 +6,10 @@
                 <form>
                     <div class="row">
                         <div class="col-12 mb-3">
-                            <input [(ngModel)]="email" name="email" type="email" id="formEmail" class="form-control" placeholder="Unesite mejl">
+                            <input (keydown.enter)="onSumbit()" [(ngModel)]="email" name="email" type="email" id="formEmail" class="form-control" placeholder="Unesite mejl">
                             <p *ngIf="wrongMail" class="small fw-bold mt-2 pt-1 mb-0 text-danger">Mejl koji ste uneli nije ispravan!!</p>
                             <br>
-                            <input [(ngModel)]="password" name="password" type="password" id="formPassword" class="form-control" placeholder="Unesite lozinku">
+                            <input (keydown.enter)="onSumbit()" [(ngModel)]="password" name="password" type="password" id="formPassword" class="form-control" placeholder="Unesite lozinku">
                             <p *ngIf="passwordNotEntered" class="small fw-bold mt-2 pt-1 mb-0 text-danger">Morate uneti lozinku!</p>
                             <p *ngIf="wrongCredentials" class="small fw-bold mt-2 pt-1 mb-0 text-danger">Email ili lozinka nisu ispravni.</p>
                             <p *ngIf="accessNotApproved" class="small fw-bold mt-2 pt-1 mb-0 text-danger">Vasa registracija jos uvek nije odobrena.</p>
