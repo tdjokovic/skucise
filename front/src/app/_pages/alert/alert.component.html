@@ -60,6 +60,20 @@
                     <a class="btn btn-success" routerLink ="/">Moji oglasi</a> <!--MOJI OGLASI-->
                 </div>
 
+                <div *ngIf="checkChangedToSellerSuccessfully()">
+                    <h1 class="heading">Uspešno okačen prvi oglas!</h1>
+
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb text-center justify-content-center">
+                            <li class="breadcrumb-item "><a href="index.html">Home</a></li>
+                            <li class="breadcrumb-item active text-white-50" aria-current="page">Obaveštenje</li>
+                        </ol>
+                    </nav>
+
+                    <h3 class="text-light">Čestitam! Okačili ste svoj prvi oglas! Od sada dobijate pristup opcijama za prodavce. Molim vas prijavite se ponovo.</h3>
+                    <a class="btn btn-success" routerLink ="/login">Prijava</a>
+                </div>
+                
             </div>
         </div>
     </div>

@@ -113,7 +113,7 @@ public class PropertyController {
     public ResponseEntity<?> postProperty(@RequestHeader(JWT_CUSTOM_HTTP_HEADER) String jwt,
                                           @Valid @RequestBody Property property) {
 
-        ResultPair resultPair = checkAccess(jwt, Role.REG_SELLER);
+        ResultPair resultPair = checkAccess(jwt, Role.REG_SELLER, Role.REG_BUYER);
         HttpStatus httpStatus = resultPair.getHttpStatus();
         HttpHeaders responseHeaders = new HttpHeaders();
         responseHeaders.set(JWT_CUSTOM_HTTP_HEADER, jwt);

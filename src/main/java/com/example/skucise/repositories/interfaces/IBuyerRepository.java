@@ -11,4 +11,6 @@ public interface IBuyerRepository extends CRUDRepository<BuyerUser, Integer>{
     List<BuyerUser> getAll(boolean approved);
     boolean approve(int id);
     List<Property> getAppliedProperties(int id);
+
+    boolean changeToSeller(int id);
 }

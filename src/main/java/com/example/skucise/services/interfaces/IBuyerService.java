@@ -19,4 +19,5 @@ public interface IBuyerService {
     public boolean delete(int id);
 
     public List<Property> getAppliedProperties(int id);
+    public boolean changeToSeller(int id);
 }

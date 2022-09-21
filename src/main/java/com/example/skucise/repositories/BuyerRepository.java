@@ -27,6 +27,7 @@ public class BuyerRepository implements IBuyerRepository {
     private static final String DELETE_STORED_PROCEDURE = "{call delete_user(?,?)}";
     private static final String PROPERTIES_BUYER_APPLIED_STORED_PROCEDURE = "{call get_properties_buyer_applied_on(?)}";
     private static final String TAG_STORED_PROCEDURE = "{call get_tags_for_a_property(?)}";
+    private static final String CHANGE_TO_SELLER_STORED_PROCEDURE = "{call change_to_seller(?,?,?,?,?,?)}";
 
     @Value("jdbc:mariadb://localhost:3306/skucise")
     private String databaseSourceUrl;
@@ -245,6 +246,44 @@ public class BuyerRepository implements IBuyerRepository {
         }
 
         return properties;
+    }
+
+    @Override
+    public boolean changeToSeller(int id) {
+        boolean isChanged = false;
+        BuyerUser buyerUser;
+
+        try(Connection conn = DriverManager.getConnection(databaseSourceUrl, databaseUsername, databasePassword);
+            CallableStatement stmtBuyer = conn.prepareCall(GET_BUYER_STORED_PROCEDURE);
+            CallableStatement stmt = conn.prepareCall(CHANGE_TO_SELLER_STORED_PROCEDURE)){
+
+            stmtBuyer.setInt("p_id", id);
+
+            ResultSet resultSet = stmtBuyer.executeQuery();
+
+            if(resultSet.first())
+            {
+                buyerUser = createNewBuyer(resultSet);
+
+                stmt.setInt("buyer_id",id);
+                stmt.setString("b_first_name", buyerUser.getFirstName());
+                stmt.setString("b_last_name", buyerUser.getLastName());
+                stmt.setString("b_picture", buyerUser.getPicture());
+                stmt.setString("b_phone_number", buyerUser.getPhoneNumber());
+                stmt.registerOutParameter("s_successful",Types.BOOLEAN);
+
+                stmt.executeUpdate();
+
+                isChanged = stmt.getBoolean("s_successful");
+            }
+
+
+        }catch(SQLException e){
+            LOGGER.error("Error while trying to communicate with the database - changeToSeller");
+            e.printStackTrace();
+        }
+
+        return isChanged;
     }
 
     public boolean isApplied(int sellerId, int buyerId){

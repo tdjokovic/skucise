@@ -1,7 +1,7 @@
 import { HttpErrorResponse, HttpStatusCode } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { BuyerApiService } from "../back/apis/buyer-api.service";
-import { NewBuyer } from "../back/types/interfaces";
+import { NewBuyer, Property } from "../back/types/interfaces";
 import { AuthorizeService } from "./authorize.service";
 
 @Injectable({
@@ -115,5 +115,19 @@ export class BuyerService{
             this.authorizationService.redirectIfSessionExpired(error.status);
           }
         );
-      }
+    }
+
+    changeToSeller(newProperty : Property, self? : any, successCallback? : Function, failCallback? : Function)
+    {
+        this.api.changeToSeller().subscribe(
+            (response) => {
+                console.log("Buyer changed to seller! " + response.status);
+                if(self && successCallback) successCallback(self, newProperty);
+            },
+            (error : HttpErrorResponse) => {
+                this.authorizationService.redirectIfSessionExpired(error.status);
+                if (self && failCallback) failCallback(self);
+            }
+        );
+    }
 }

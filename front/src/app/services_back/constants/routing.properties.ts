@@ -11,5 +11,7 @@ export const RedirectRoutes = {
     
     ON_REGISTER_SUCCESSFUL: ['alert','register-successful'],
     ON_CREATE_JOB_SUCCESSFUL: ['alert','create-job-successful'],
-    ON_APPLY_TO_JOB_SUCCESSFUL: ['alert', 'apply-to-job-successful']
+    ON_APPLY_TO_JOB_SUCCESSFUL: ['alert', 'apply-to-job-successful'],
+
+    ON_CHANGE_TO_SELLER: ['alert','seller-successful']
 }

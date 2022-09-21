@@ -58,4 +58,9 @@ public class BuyerService implements IBuyerService {
     public List<Property> getAppliedProperties(int id) {
         return buyerRepository.getAppliedProperties(id);
     }
+
+    @Override
+    public boolean changeToSeller(int id) {
+        return buyerRepository.changeToSeller(id);
+    }
 }

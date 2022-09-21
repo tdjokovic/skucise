@@ -1,11 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { UserRoles } from 'src/app/services_back/back/types/enums';
 import { AdCategory, AdType, City, Property, Seller } from 'src/app/services_back/back/types/interfaces';
 import { RedirectRoutes } from 'src/app/services_back/constants/routing.properties';
+import { AlertPageUtil } from 'src/app/services_back/helpers/alert_helper';
 import { JWTUtil } from 'src/app/services_back/helpers/jwt_helper';
 import { AdCategoryService } from 'src/app/services_back/services/adcategory.service';
 import { AdTypesService } from 'src/app/services_back/services/adtype.service';
 import { AuthorizeService } from 'src/app/services_back/services/authorize.service';
+import { BuyerService } from 'src/app/services_back/services/buyer.service';
 import { CityService } from 'src/app/services_back/services/city.service';
 import { PropertyService } from 'src/app/services_back/services/property.service';
 import { SellerService } from 'src/app/services_back/services/seller.service';
@@ -53,7 +56,9 @@ export class AddPropertyFormComponent implements OnInit {
     private adCategoryService : AdCategoryService,
     private adTypeService : AdTypesService,
     private cityService : CityService,
-    private sellerService : SellerService) { }
+    private sellerService : SellerService,
+    private buyerService : BuyerService,
+    private router : Router) { }
 
   ngOnInit(): void {
     this.checkIsUserAuthorized();
@@ -115,7 +120,13 @@ export class AddPropertyFormComponent implements OnInit {
               picture:(this.picture == '')? null : this.picture, //slika u Base64
             }
 
-            this.propertyService.createProperty(newProperty,this, this.cbSuccessAddProperty, this.cbConflictAddProperty);
+            
+            if (this.isBuyer())
+            {
+                this.buyerService.changeToSeller(newProperty, this, this.cbSuccessChangeToSeller,this.cbConflictAddProperty);
+            }
+            else
+              this.propertyService.createProperty(newProperty, this, this.cbSuccessAddProperty, this.cbConflictAddProperty);
           }
     
   }
@@ -175,6 +186,11 @@ export class AddPropertyFormComponent implements OnInit {
     if (this.newConstruction == '0' || this.newConstruction == '1') return true;
     return false;
   }
+  
+  isBuyer():boolean{
+    return JWTUtil.getUserRole() == UserRoles.Reg_buyer;
+  }
+
    //callbacks
   cbSuccess(self: any, seller: Seller | null) {
     self.this_seller = seller;
@@ -189,5 +205,17 @@ export class AddPropertyFormComponent implements OnInit {
 
   cbNotFound(self: any) {
     self.router.navigate(RedirectRoutes.HOME);
+  }
+  cbSuccessChangeToSeller(self: any, newProperty : Property)
+  {
+    self.propertyService.createProperty(newProperty, self, self.cbSuccessAddPropertyFirstSeller, self.cbConflictAddProperty);
+  }
+
+  cbSuccessAddPropertyFirstSeller(self: any)
+  {
+    AlertPageUtil.allowAccess();
+    JWTUtil.delete();
+    console.log("USLO JE");
+    self.router.navigate(RedirectRoutes.ON_CHANGE_TO_SELLER);
   }
 }

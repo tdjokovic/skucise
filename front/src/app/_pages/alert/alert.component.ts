@@ -52,7 +52,7 @@ export class AlertComponent implements OnInit {
 
     //ostatak
 
-    if(JWTUtil.getUserRole() == UserRoles.Reg_buyer){
+    if(JWTUtil.getUserRole() == UserRoles.Reg_buyer && this.cause == 'apply-to-property-successfull'){
       this.buyerService.getBuyersProperties(JWTUtil.getID(), this, (self:any, properties: Property[]) => {
         self.appliedToProperty = properties.find(p => p.id == self.param.id) != undefined;
       });
@@ -86,6 +86,11 @@ export class AlertComponent implements OnInit {
 
   checkCreatePropertySuccessfull() {
     return this.checkCause('create-property-successfull') && this.createdProperty;
+  }
+
+  checkChangedToSellerSuccessfully()
+  {
+    return this.checkCause('seller-successful');
   }
 
 }

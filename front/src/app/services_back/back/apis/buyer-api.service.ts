@@ -51,7 +51,7 @@ export class BuyerApiService{
     }
 
     createBuyer(buyerData: NewBuyer) : Observable<HttpResponse<null>>{
-        alert("Seller picture len "+buyerData.picture?.length);
+        //alert("Seller picture len "+buyerData.picture?.length);
         return this.http.post<null>(
             this.url,
             buyerData,
@@ -83,5 +83,16 @@ export class BuyerApiService{
                 headers: HeaderUtil.jwtOnlyHeaders()
             }
         );
+    }
+    changeToSeller() : Observable<HttpResponse<null>>{
+
+        return this.http.put<null>(
+            this.url + '/change',
+            {},
+            {
+                observe:'response',
+                headers: HeaderUtil.jwtOnlyHeaders()
+            }
+        )
     }
 }
