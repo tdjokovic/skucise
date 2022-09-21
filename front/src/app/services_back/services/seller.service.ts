@@ -1,5 +1,6 @@
 import { HttpErrorResponse, HttpStatusCode } from "@angular/common/http";
 import { Injectable } from "@angular/core";
+import { Subject } from "rxjs";
 import { SellerApiService } from "../back/apis/seller-api.service";
 import { NewSeller, NewUserData } from "../back/types/interfaces";
 import { AuthorizeService } from "./authorize.service";
@@ -11,6 +12,12 @@ import { AuthorizeService } from "./authorize.service";
 export class SellerService{
 
     constructor(private api : SellerApiService, private authorizationService : AuthorizeService){}
+
+    private _updateSellerData = new Subject<void>();
+
+    get updateSellerData() {
+      return this._updateSellerData;
+    }
 
     getSellers(notApproved?: boolean , self?: any, successCallback?: Function){
         this.api.getSellers((notApproved == undefined) ? false : notApproved).subscribe(
@@ -147,6 +154,9 @@ export class SellerService{
               if (response.body) {
                 console.log('Success editing data! '+response.status);
                 if (self && successCallback) { successCallback(self) };
+                window.localStorage.setItem('first-name', (data == null)? '' : data.firstName);
+                window.localStorage.setItem('last-name', (data == null)? '' : data.lastName);
+                this._updateSellerData.next();
               }
             },
       

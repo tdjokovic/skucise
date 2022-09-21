@@ -1,9 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Router, NavigationEnd, ActivatedRoute } from '@angular/router'
+import { Router } from '@angular/router'
 import { BuyerService } from 'src/app/services_back/services/buyer.service';
 import { UserRoles } from '../services_back/back/types/enums';
-import { AdCategory, Buyer, Seller } from '../services_back/back/types/interfaces';
-import { RedirectRoutes } from '../services_back/constants/routing.properties';
+import { AdCategory } from '../services_back/back/types/interfaces';
 import { JWTUtil } from '../services_back/helpers/jwt_helper';
 import { AdCategoryService } from '../services_back/services/adcategory.service';
 import { LoginService } from '../services_back/services/login.service';
@@ -45,6 +44,16 @@ export class HeaderComponent implements OnInit {
         this.updateName();
       }
     });
+    this.buyerService.updateBuyerData.subscribe({
+      next: data =>{
+        this.updateName();
+      }
+    })
+    this.sellerService.updateSellerData.subscribe({
+      next: data =>{
+        this.updateName();
+      }
+    })
 
     this.adCategoryService.getCategories(this, (self: any, data : AdCategory[]) => {
       this.adCategories = data;
@@ -98,6 +107,8 @@ checkActive(name: string): boolean {
     this.firstName = (localStorage.getItem('first-name')) ? localStorage.getItem('first-name')!.toString() : '';
     this.lastName = (localStorage.getItem('first-name')) ? localStorage.getItem('last-name')!.toString() : '';
     this.id = JWTUtil.getID();
+    console.log(this.firstName);
+    console.log(this.lastName);
   }
 
   

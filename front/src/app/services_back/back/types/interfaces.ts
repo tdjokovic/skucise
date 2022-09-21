@@ -134,7 +134,7 @@ export interface NewBuyer{
 }
 
 export interface NewUserData{
-    firstName:String;
+    firstName:string;
     lastName:string;
     email:string;
     phoneNumber: string;
