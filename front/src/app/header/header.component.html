@@ -1,11 +1,23 @@
-<div class="site-mobile-menu site-navbar-target">
-    <div class="site-mobile-menu-header">
-        <div class="site-mobile-menu-close">
-            <span class="icofont-close js-menu-toggle"></span>
+<!--<ng-template #content let-offcanvas>
+  <div class="offcanvas-header">
+    <h4 class="offcanvas-title" id="offcanvas-basic-title">Profile update</h4>
+    <button type="button" class="btn-close" aria-label="Close" (click)="offcanvas.dismiss('Cross click')"></button>
+  </div>
+  <div class="offcanvas-body">
+    <form>
+      <div class="mb-3">
+        <label for="dateOfBirth">Date of birth</label>
+        <div class="input-group">
+          <input id="dateOfBirth" class="form-control" placeholder="yyyy-mm-dd" name="dp" ngbDatepicker #dp="ngbDatepicker">
+          <button class="btn btn-outline-secondary calendar" (click)="dp.toggle()" type="button"></button>
         </div>
+      </div>
+    </form>
+    <div class="text-end">
+      <button type="button" class="btn btn-outline-dark" (click)="offcanvas.close('Save click')">Save</button>
     </div>
-    <div class="site-mobile-menu-body"></div>
-</div>
+  </div>
+</ng-template>-->
 
 <nav class="site-nav">
     <div class="container">
@@ -52,10 +64,10 @@
                     </li>
                 </ul>
 
-                <a href="#" class="burger light me-auto float-end mt-1 site-menu-toggle js-menu-toggle d-inline-block d-lg-none" data-toggle="collapse" data-target="#main-navbar">
+                <!--
+                <a class="burger light me-auto float-end mt-1 site-menu-toggle js-menu-toggle d-inline-block d-lg-none" (click)="open(content)">
                     <span></span>
-                </a>
-
+                </a>-->
             </div>
         </div>
     </div>
