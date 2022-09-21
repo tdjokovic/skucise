@@ -150,7 +150,7 @@ public class SellerController {
         int userId = (int) (double) resultPair.getClaims().get(USER_ID_CLAIM_NAME);
         String role = (String) resultPair.getClaims().get(ROLE_CLAIM_NAME);
 
-        if(userId != id && Role.ADMIN.equalsTo(role)){
+        if(userId != id && !Role.ADMIN.equalsTo(role)){
             //samo svoj profil moze da brise, ili admin
             return ResponseEntity.status(HttpStatus.FORBIDDEN).headers(responseHeaders).body(null);
         }
