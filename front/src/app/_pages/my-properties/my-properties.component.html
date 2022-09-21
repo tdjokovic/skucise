@@ -4,7 +4,7 @@
 
 <div class="row justify-content-center align-items-center">
     <div class="col-3" style="text-align: center;">
-        <button type="button" class="btn btn-primary" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample"
+        <button type="button" class="btn btn-primary" data-bs-toggle="collapse" data-bs-target="#collapseAddProperty" aria-expanded="false" aria-controls="collapseAddProperty"
         (click)="toggleNewProp()">
             Dodaj novi oglas 
             <svg *ngIf="!newPropModal" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16">
@@ -19,7 +19,7 @@
 </div>
 <div class="row justify-content-center align-items-center">
     <div class="col-10" style="text-align: center;">
-        <div class="collapse" id="collapseExample">
+        <div class="collapse" id="collapseAddProperty">
             <div class="card card-body">
                 <app-add-property-form></app-add-property-form>
             </div>

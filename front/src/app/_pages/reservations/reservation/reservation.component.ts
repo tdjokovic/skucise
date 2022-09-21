@@ -3,6 +3,8 @@ import { Reservation } from 'src/app/services_back/back/types/interfaces';
 import { DEFAULT_PROPERTY_PICTURE } from 'src/app/services_back/constants/raw-data';
 import { DatePipe } from '@angular/common';
 import { ReservationService } from 'src/app/services_back/services/reservation.service';
+import { Modal } from 'bootstrap';
+import * as bootstrap from 'bootstrap';
 
 @Component({
   selector: 'app-reservation',
@@ -16,6 +18,7 @@ export class ReservationComponent implements OnInit {
   @Input() older! : boolean;
   @Input() accepted! : boolean;
   
+  testModal : Modal | undefined;
   reservationChange! : Reservation;
   public defaultPicture: string = DEFAULT_PROPERTY_PICTURE;
   acceptFlag : boolean = false;
@@ -33,6 +36,12 @@ export class ReservationComponent implements OnInit {
   openModal(flag : boolean)
   {
     this.acceptFlag = flag;
+    this.testModal = new bootstrap.Modal(document.getElementById('confirmModal'+ this.reservation.id)!, {
+      keyboard:false
+    });
+    this.testModal.show();
+    
+    //console.log(this.acceptFlag);
   }
 
   acceptReservation()

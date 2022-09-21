@@ -38,8 +38,8 @@
                     </div>
                 </div>
                 <div *ngIf="!byUser && !older && !accepted" class="col-sm-3">
-                    <button type="button" class="btn btn-outline-danger m-1" (click)="openModal(false)" data-bs-toggle="modal" data-bs-target="#confirmModal">Odbij</button>
-                    <button type="button" class="btn btn-primary m-1" (click)="openModal(true)" data-bs-toggle="modal" data-bs-target="#confirmModal">Prihvati</button>
+                    <button id="{{reservation.id}}RejectButtton" type="button" class="btn btn-outline-danger m-1" (click)="openModal(false)">Odbij</button>
+                    <button id="{{reservation.id}}AcceptButtton" type="button" class="btn btn-primary m-1" (click)="openModal(true)">Prihvati</button>
                 </div>
                 <div *ngIf="(!byUser && older) || (!byUser && accepted)" class="col-sm-3">
                     <div *ngIf="reservation.isApproved == 0">
@@ -85,15 +85,15 @@
     </div>
 
 </div>
-<div class="modal fade" id="confirmModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+<div #confirmModal class="modal fade" id="{{'confirmModal' + reservation.id}}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title" id="staticBackdropLabel">Potvrdite akciju</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          <button #modalButton type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-          Da li ste sigurni da želite da {{(acceptFlag)? "prihvatite" : "odbijete" }} termin za rezervaciju?
+          Da li ste sigurni da želite da {{(acceptFlag)? "prihvatite" : "odbijete" }} termin za rezervaciju broj {{reservation.id}}? 
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Ne</button>
@@ -102,4 +102,4 @@
         </div>
       </div>
     </div>
-  </div>
+</div>

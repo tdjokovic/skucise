@@ -45,6 +45,7 @@ export class AddPropertyFormComponent implements OnInit {
   invalidType : boolean = false;
   invalidPicture : boolean = false;
   invalidNewConstruction : boolean = false;
+  failedAddedProperty : boolean = false;
 
   constructor(private authorizationService : AuthorizeService, 
     private activatedRoute : ActivatedRoute,
@@ -114,7 +115,7 @@ export class AddPropertyFormComponent implements OnInit {
               picture:(this.picture == '')? null : this.picture, //slika u Base64
             }
 
-            this.propertyService.createProperty(newProperty,this, this.cbSuccessAddProperty);
+            this.propertyService.createProperty(newProperty,this, this.cbSuccessAddProperty, this.cbConflictAddProperty);
           }
     
   }
@@ -180,6 +181,10 @@ export class AddPropertyFormComponent implements OnInit {
   }
   cbSuccessAddProperty(self: any) {
     window.location.reload();
+  }
+  cbConflictAddProperty(self:any)
+  {
+    self.failedAddedProperty = true;
   }
 
   cbNotFound(self: any) {

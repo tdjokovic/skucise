@@ -4,6 +4,8 @@ import { Property } from 'src/app/services_back/back/types/interfaces';
 import { DEFAULT_PROPERTY_PICTURE } from 'src/app/services_back/constants/raw-data';
 import { JWTUtil } from 'src/app/services_back/helpers/jwt_helper';
 import { PropertyService } from 'src/app/services_back/services/property.service';
+import { Modal } from 'bootstrap';
+import * as bootstrap from 'bootstrap';
 
 @Component({
   selector: 'app-property',
@@ -17,6 +19,7 @@ export class PropertyComponent implements OnInit {
   defPropertyPic : string = DEFAULT_PROPERTY_PICTURE;
   postingDate : Date | null = null;
   failedDeletion : boolean = false;
+  deleteModal : Modal | undefined;
 
   constructor(private propertyService : PropertyService) { }
 
@@ -25,6 +28,13 @@ export class PropertyComponent implements OnInit {
       this.postingDate = new Date(this.property.postingDate);
   }
 
+  openDeleteModal()
+  {
+    this.deleteModal = new bootstrap.Modal(document.getElementById('deleteModal' + this.property.id)!,{
+      keyboard:false
+    });
+    this.deleteModal.show();
+  }
   deleteProperty()
   {
     if (this.additionalOptions)
@@ -46,5 +56,10 @@ export class PropertyComponent implements OnInit {
   cbFail(self :any)
   {
     self.failedDeletion = true;
+  }
+
+  ispisiInfo()
+  {
+    console.log(this.property.id + " " + this.property.city.name + " " + this.property.price);
   }
 }
