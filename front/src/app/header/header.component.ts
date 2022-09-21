@@ -8,7 +8,8 @@ import { JWTUtil } from '../services_back/helpers/jwt_helper';
 import { AdCategoryService } from '../services_back/services/adcategory.service';
 import { LoginService } from '../services_back/services/login.service';
 import { SellerService } from '../services_back/services/seller.service';
-//import { NgbOffcanvas, OffcanvasDismissReasons } from '@ng-bootstrap/ng-bootstrap'
+import { NgbOffcanvas, OffcanvasDismissReasons } from '@ng-bootstrap/ng-bootstrap'
+
 
 @Component({
   selector: 'app-header',
@@ -24,7 +25,7 @@ export class HeaderComponent implements OnInit {
               private buyerService : BuyerService,
               private sellerService : SellerService,
               private loginService : LoginService,
-              //private offcanvasService : NgbOffcanvas
+              private offcanvasService : NgbOffcanvas
               ) { }
 
   
@@ -95,9 +96,9 @@ checkActive(name: string): boolean {
     this.id = JWTUtil.getID();
   }
 
-  /*
+  
   open(content:any) {
-    this.offcanvasService.open(content, {ariaLabelledBy: 'offcanvas-basic-title'}).result.then((result) => {
+    this.offcanvasService.open(content, {position:'end' ,ariaLabelledBy: 'offcanvas-basic-title'}).result.then((result) => {
       this.closeResult = `Closed with: ${result}`;
     }, (reason) => {
       this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
@@ -112,6 +113,6 @@ checkActive(name: string): boolean {
     } else {
       return `with: ${reason}`;
     }
-  }*/
+  }
 
 }
