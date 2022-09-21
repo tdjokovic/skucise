@@ -216,6 +216,10 @@ export class UserProfileComponent implements OnInit {
       }
   }
 
+  deleteProfile(){
+    //obrisi profil korisnika
+  }
+
   cbSuccessEditedData(self:any){
     console.log("SUCCESSFULLY EDITED DATA");
     self.toastr.success("You've successfully edited your profile data","User data editing!");
@@ -254,5 +258,8 @@ export class UserProfileComponent implements OnInit {
   }
 
 
+  isAdmin(){
+    return JWTUtil.getRole() == UserRoles.Admin;
+  }
 
 }

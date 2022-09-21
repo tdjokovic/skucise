@@ -377,6 +377,13 @@ export class PropertiesComponent implements OnInit {
       console.log("Success fetching properties");
       self.properties = properties;
       console.log("properties set");
+      //fokus na pocetak nekretnina
+
+      document.getElementById('prikazSvihNekretnina')?.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+        inline: "nearest"
+      })
     }
 
     self.currentPage = 1;

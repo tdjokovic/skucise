@@ -166,13 +166,16 @@
                     <div class="d-block agent-box p-5">
                         <h3>Podaci o prodavcu</h3>
                         <div class="img mb-4">
-                            <img src="{{property.sellerUser.picture}}" alt="Image" class="img-thumbnail">
+                            <a *ngIf="!isVisitor()" [routerLink]="['/profile',property.sellerUser.id]">
+                                <img src="{{property.sellerUser.picture}}" alt="Image" class="img-thumbnail">
+                            </a>
+                            <img *ngIf="isVisitor()" src="{{property.sellerUser.picture}}" alt="Image" class="img-thumbnail">
                         </div>
                         <div class="text">
                             <h3 class="mb-3">{{property.sellerUser.firstName}}  {{[property.sellerUser.lastName]}}</h3>
+                            <div *ngIf="!isVisitor()" class="meta mb-2"><a [routerLink]="['/profile',property.sellerUser.id]">Poseti profil korisnika</a></div>
                             <div class="meta mb-2">Email adresa: {{property.sellerUser.email}}</div>
                             <div class="meta mb-2">Kontakt telefon: {{property.sellerUser.phoneNumber}}</div>
-                                                    
                         </div>
                     </div>
                 </div>
