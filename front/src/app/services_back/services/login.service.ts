@@ -55,9 +55,9 @@ export class LoginService {
           this.sellerService.getSeller(JWTUtil.getID(),this,this.cbSuccess,this.cbNotFound);
         }
         else if (this.authorizationService.isAdmin()){
-          window.localStorage.setItem('first-name', 'Hello, ');
-          window.localStorage.setItem('last-name', 'admin');
-          self._newLogin.next();
+          window.localStorage.setItem('first-name', 'Admin');
+          window.localStorage.setItem('last-name', body.email);
+          this._newLogin.next();
         }
         
         if(self && callbackSuccess) 

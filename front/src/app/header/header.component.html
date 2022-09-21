@@ -17,7 +17,7 @@
       </li>
       
       <li *ngIf="isSeller()"><a class="{{(checkActive('my-properties')?'site-menu-active':'')}}" [routerLink]="['/my-properties']" (click)="offcanvas.close('Save click')">Moji oglasi</a></li>
-      <li *ngIf="!isVisitor()"><a class="{{(checkActive('reservations')?'site-menu-active':'')}}" [routerLink]="['/reservations']" (click)="offcanvas.close('Save click')">Rezervacije razgledanja</a></li>
+      <li *ngIf="!isVisitor() && !isAdmin()"><a class="{{(checkActive('reservations')?'site-menu-active':'')}}" [routerLink]="['/reservations']" (click)="offcanvas.close('Save click')">Rezervacije razgledanja</a></li>
       <li *ngIf="isAdmin()"><a class="{{(checkActive('dashboard')?'site-menu-active':'')}}" [routerLink]="['/dashboard']" (click)="offcanvas.close('Save click')">Registracije</a></li>
 
       <li *ngIf="isVisitor()"><a class="{{(checkActive('aboutus')?'site-menu-active':'')}}" [routerLink]="['/about']" (click)="offcanvas.close('Save click')">O nama</a></li>
@@ -64,7 +64,7 @@
                     </li>
                     
                     <li *ngIf="isSeller()"><a class="{{(checkActive('my-properties')?'nav-active':'')}}" [routerLink]="['/my-properties']">Moji oglasi</a></li>
-                    <li *ngIf="!isVisitor()"><a class="{{(checkActive('reservations')?'nav-active':'')}}" [routerLink]="['/reservations']">Rezervacije razgledanja</a></li>
+                    <li *ngIf="!isVisitor() && !isAdmin()"><a class="{{(checkActive('reservations')?'nav-active':'')}}" [routerLink]="['/reservations']">Rezervacije razgledanja</a></li>
                     <li *ngIf="isAdmin()"><a class="{{(checkActive('dashboard')?'nav-active':'')}}" [routerLink]="['/dashboard']">Registracije</a></li>
 
                     <li *ngIf="isVisitor()"><a class="{{(checkActive('aboutus')?'nav-active':'')}}" [routerLink]="['/about']">O nama</a></li>
