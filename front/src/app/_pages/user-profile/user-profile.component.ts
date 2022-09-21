@@ -288,13 +288,13 @@ export class UserProfileComponent implements OnInit {
 
   cbSuccessEditedData(self:any){
     console.log("SUCCESSFULLY EDITED DATA");
-    self.toastr.success("You've successfully edited your profile data","User data editing!");
+    self.toastr.success("Uspešno ste izmenili Vaše podatke","Izmena podataka profila!");
   }
 
 
   cbNotEditedData(self:any){
     console.error("ERROR EDITING DATA");
-    self.toastr.error("Profile data is not edited! There has been an error","User data editing!");
+    self.toastr.error("Podaci nisu izmenjeni! Došlo je do greške, pokušajte ponovo.","Izmena podataka profila!");
   }
   
 

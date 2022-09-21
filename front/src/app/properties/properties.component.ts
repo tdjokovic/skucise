@@ -332,6 +332,14 @@ export class PropertiesComponent implements OnInit {
 
     this.totalPagesNum = 0
     this.sortByPriceAsc = true;
+
+    //izmeni ascending
+    const price = document.getElementById(
+      'sortByPrice',
+    ) as HTMLInputElement | null;
+    if (price != null) {
+      price.value = "0";
+    }
   }
 
   showMore(){
