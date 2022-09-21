@@ -9,7 +9,7 @@ import { SellerService } from 'src/app/services_back/services/seller.service';
 import { IndividualConfig } from 'ngx-toastr';
 import { ToastrService } from 'ngx-toastr';
 import { RedirectRoutes } from 'src/app/services_back/constants/routing.properties';
-
+import { DEFAULT_PROFILE_PICTURE } from 'src/app/services_back/constants/raw-data';
 
 @Component({
   selector: 'app-user-profile',
@@ -26,6 +26,8 @@ export class UserProfileComponent implements OnInit {
   public email : string = '';
   public phoneNumber : string = '';
   public picture : string = '';
+
+  defPicture : string = DEFAULT_PROFILE_PICTURE;
 
   //patterns
   pattName: RegExp = /^[a-zA-ZšŠđĐčČćĆžŽ]+([ \-][a-zA-ZšŠđĐčČćĆžŽ]+)*$/;
@@ -159,6 +161,7 @@ export class UserProfileComponent implements OnInit {
     this.checkAccess();
     this.id = this.activatedRoute.snapshot.paramMap.get("id") as unknown as number;
     this.fetchUserData();
+
   
   }
 

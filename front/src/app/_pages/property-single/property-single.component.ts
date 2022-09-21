@@ -4,7 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { UserRoles } from 'src/app/services_back/back/types/enums';
 import { Likes, Property, Reservation } from 'src/app/services_back/back/types/interfaces';
 import { MONTHS } from 'src/app/services_back/constants/date';
-import { DEFAULT_PROPERTY_PICTURE } from 'src/app/services_back/constants/raw-data';
+import { DEFAULT_PROFILE_PICTURE, DEFAULT_PROPERTY_PICTURE } from 'src/app/services_back/constants/raw-data';
 import { JWTUtil } from 'src/app/services_back/helpers/jwt_helper';
 import { AuthorizeService } from 'src/app/services_back/services/authorize.service';
 import { PropertyService } from 'src/app/services_back/services/property.service';
@@ -21,6 +21,7 @@ export class PropertySingleComponent implements OnInit {
   public propertyId : number = 0;
   propertyLikes : Likes = {alreadyLiked : false, totalLikes: 0}
   defPropertyPic : string = DEFAULT_PROPERTY_PICTURE;
+  defProfilePic : string = DEFAULT_PROFILE_PICTURE;
   months : any = MONTHS;
   days : Array<number> = [];
   years: Array<number> = [];

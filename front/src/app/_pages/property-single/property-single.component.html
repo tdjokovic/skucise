@@ -186,7 +186,8 @@
                         <h3>Podaci o prodavcu</h3>
                         <div class="img mb-4">
                             <a *ngIf="!isVisitor()" [routerLink]="['/profile',property.sellerUser.id]">
-                                <img src="{{property.sellerUser.picture}}" alt="Image" class="img-thumbnail">
+                                <img *ngIf="property.sellerUser.picture != null" src="{{property.sellerUser.picture}}" alt="ProfileImage" class="img-thumbnail">
+                                <img *ngIf="property.sellerUser.picture == null" src="{{defProfilePic}}" alt="ProfileImage" class="img-thumbnail">
                             </a>
                             <img *ngIf="isVisitor()" src="{{property.sellerUser.picture}}" alt="Image" class="img-thumbnail">
                         </div>
