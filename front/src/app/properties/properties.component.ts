@@ -198,18 +198,18 @@ export class PropertiesComponent implements OnInit {
   //paginacija
 
   changePage(p:number){
-    
+    //alert("current page is " + this.currentPage+" target page is "+p)
     let res : number;
     if(p>this.currentPage){
       res = p-this.currentPage;
       for(let i = 0; i< res; i++){
-        this.nextPage();
+        this.nextPage(p);
       }
     }
     else if(p<this.currentPage){
       res = this.currentPage - p;
       for(let i = 0; i< res; i++){
-        this.previousPage();
+        this.previousPage(p);
       }
     }
     //this.viewportScroller.scrollToAnchor("beggining_container");
@@ -222,25 +222,41 @@ export class PropertiesComponent implements OnInit {
     })
   }
 
-  nextPage(){
+  nextPage(targetPage:number){
+    //alert("next page");
     if(this.currentPage >= this.totalPagesNum){
+      
       this.currentPage = this.totalPagesNum;
       return;
     }
 
-    this.packFilters(this.currentPage + 1);
-    this.propertyService.getFilteredProperties(this.filtersFromPage, this, this.cbSuccessNextPage);
+    if(this.currentPage + 1 == targetPage){
+      //alert('stigli smo na stranu')
+      this.packFilters(this.currentPage + 1);
+      this.propertyService.getFilteredProperties(this.filtersFromPage, this, this.cbSuccessNextPage);
+    }
+    else{
+      //alert('jos strana');
+      this.currentPage ++ ;
+    }
     
   }
 
-  previousPage(){
+  previousPage(targetPage:number){
     if(this.currentPage <= 1){
       this.currentPage = 1;
       return;
     }
+    if(this.currentPage - 1  == targetPage){
+      //alert('stigli smo na stranu')
+      this.packFilters(this.currentPage - 1);
+      this.propertyService.getFilteredProperties(this.filtersFromPage, this, this.cbSuccessPreviousPage);
+    }
+    else{
+      //alert('jos strana');
+      this.currentPage --;
+    }
 
-    this.packFilters(this.currentPage - 1);
-    this.propertyService.getFilteredProperties(this.filtersFromPage, this, this.cbSuccessPreviousPage);
   }
 
   //filteri
